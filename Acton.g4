@@ -1,50 +1,147 @@
 grammar Acton;
 @members{
     void print(String str){
-        System.out.println(str);
+        System.out.print(str);
+    }
+    void printLine(){
+        System.out.println("");
     }
 }
 
-acton: (actorDeclaration);//+ (main);
+acton: (actorDeclaration)+ (main);
 
-actorDeclaration:
-    ACTOR ID (inherite)? LPAR INTEGER_LITERAL RPAR LEFT_CURLY_BRACKET (actorBody) RIGHT_CURLY_BRACKET;
+main: actorInstantiation*;
 
-inherite:
-    EXTENDS ID;
+actorInstantiation: ID ID '(' (idList)? ')'':''('(expressionList)?')'';';
+idList: ID (',' ID)*;
+
+actorDeclaration
+    :   ACTOR name=ID (EXTENDS parent=ID)? '(' INTEGER_LITERAL ')'
+    {
+        print("ActorDec:"+$name.text);
+        if($parent!=null)
+            print(","+$parent.text);
+        printLine();
+    }
+    '{' (actorBody) '}';
 
 actorBody:
     (knownActors) (actorVars) (initializer)? (messageHandler)*;
 
 initializer:
-    MSG_HANDLER 'initial' LPAR (argDeclrations)? RPAR  handlerBlock;
+    MSG_HANDLER 'initial' '(' (argDeclrations)? ')'  handlerBlock;
 knownActors:
-     KNOWN_ACTOR LEFT_CURLY_BRACKET (knownActorDeclarationStatment)* RIGHT_CURLY_BRACKET;
+     KNOWN_ACTOR '{' (knownActorDeclarationStatment)* '}';
 
-knownActorDeclarationStatment: ID ID END_OF_STATEMENT;
-actorVars: ACTOR_VARIABLE LEFT_CURLY_BRACKET (varDeclaration)* RIGHT_CURLY_BRACKET;
-varDeclaration: ((type ID) | (intArrayDeclration)) END_OF_STATEMENT;
+knownActorDeclarationStatment: ID ID ';';
+actorVars: ACTOR_VARIABLE '{' (varDeclarationStatement)* '}';
+varDeclarationStatement: varDeclaration ';';
+varDeclaration
+    :   ((type name=ID) | (intArrayDeclration));
 type: (INT | BOOL | STR);
-intArrayDeclration: INT ID LEFT_SQUARE_BRACKET INTEGER_LITERAL RIGHT_SQUARE_BRACKET;
+intArrayDeclration: INT name=ID '[' INTEGER_LITERAL ']';
 
-messageHandler: MSG_HANDLER ID LPAR (argDeclrations)? RPAR  handlerBlock;
-argDeclrations: (varDeclaration) (',' (type ID) | (intArrayDeclration))*;
-handlerBlock: LEFT_CURLY_BRACKET(varDeclaration)*(bss)? RIGHT_CURLY_BRACKET;
-//BSS: Bare Scope & Statement (Bare both means without curly brace and without var declration)
-bss:
-    (innerScope) (bss) | (statement) (bss) | (innerScope) | (statement) |;
-innerScope: LEFT_CURLY_BRACKET (bss) RIGHT_CURLY_BRACKET;
-statement: ';';
+messageHandler: MSG_HANDLER name=ID '(' (argDeclrations)? ')'  handlerBlock;
+argDeclrations: (varDeclaration) (',' varDeclaration)*;
+
+handlerBlock: '{'(varDeclarationStatement)*(blockStatements)? '}';
+
+block
+	:	'{' blockStatements? '}'
+	;
+
+blockStatements
+	:	statementWithoutDeclration+
+	;
+
+statementWithoutDeclration
+	:	statementWithoutTrailingSubstatement
+	|	ifThenStatement
+	|	ifThenElseStatement
+	|	forStatement
+	;
+
+statementNoShortIf
+	:	statementWithoutTrailingSubstatement
+	|	ifThenElseStatementNoShortIf
+	|	forStatementNoShortIf
+	;
+
+statementWithoutTrailingSubstatement
+	:	block
+	|	emptyStatement
+	|	expressionStatement
+	|	breakStatement
+	|	continueStatement
+	|   methodCall
+	;
+
+emptyStatement
+	:	';'
+	;
+
+expressionStatement
+	:	statementExpression ';'
+	;
+
+statementExpression
+	:	assignment
+	|	preIncrementExpression
+	|	preDecrementExpression
+	|	postIncrementExpression
+	|	postDecrementExpression
+	;
+
+ifThenStatement
+	:	'if' '(' expression ')' statementWithoutDeclration
+	;
+
+ifThenElseStatement
+	:	'if' '(' expression ')' statementNoShortIf 'else' statementWithoutDeclration
+	;
+
+ifThenElseStatementNoShortIf
+	:	'if' '(' expression ')' statementNoShortIf 'else' statementNoShortIf
+	;
+
+forStatement
+	:	basicForStatement
+	;
+
+forStatementNoShortIf
+	:	basicForStatementNoShortIf
+	;
+
+basicForStatement
+	:	'for' '(' assignment? ';' expression? ';' assignment? ')' statementWithoutDeclration
+	;
+
+basicForStatementNoShortIf
+	:	'for' '(' assignment? ';' expression? ';' assignment? ')' statementNoShortIf
+	;
+
+breakStatement
+	:	'break' ';'
+	;
+
+continueStatement
+	:	'continue' ';'
+	;
+
 expressionList: expression (',' expression)*;
 
-methodCall:
-    ID '.' LPAR expressionList? RPAR |
-    THIS '.' LPAR expressionList? RPAR |
-    SENDER '.' LPAR expressionList? RPAR;
+methodCall
+    :   builtInMethodCall
+    |   ID '.' '(' expressionList? ')'
+    |   SELF '.' '(' expressionList? ')'
+    |   SENDER '.' '(' expressionList? ')';
+
+builtInMethodCall
+    :   PRINT '(' expression ')' ';';
 
 //varAccessor is used for both lhs and rhs
 varAccessor:
-    ('self' '.')? ID;
+    (SELF '.')? ID;
 
 assignment:
     (varAccessor) '=' (expression);
@@ -80,6 +177,7 @@ relationalExpression
 	|	additiveExpression '<' relationalExpression
 	|	additiveExpression '>' relationalExpression
 	;
+
 additiveExpression
 	:	multiplicativeExpression
 	|	multiplicativeExpression '+' additiveExpression
@@ -94,37 +192,46 @@ multiplicativeExpression
 	;
 
 unaryExpression
-	:	'--' unaryExpression
-	|	'++' unaryExpression
+    :	preIncrementExpression
+    |	preDecrementExpression
 	|	'+' unaryExpression
 	|	'-' unaryExpression
     |	'!' unaryExpression
     |		postfixExpression
 	;
 
+preIncrementExpression
+    :	'++' unaryExpression
+    ;
+
+preDecrementExpression
+    :	'--' unaryExpression
+    ;
 
 postfixExpression
 	:	(squared)('++'|'--')*
     ;
+
+postIncrementExpression
+    :	postfixExpression '++'
+    ;
+
+postDecrementExpression
+    :	postfixExpression '--'
+    ;
+
 squared: parantesed'['expression']' | parantesed;
 parantesed: '('expression')' | atomic;
 atomic: varAccessor | BOOL_LITERAL | INTEGER_LITERAL | STRING_LITERAL;
 
 // Parser
 ACTOR: 'actor';
-THIS: 'this';
+SELF: 'self';
 SENDER: 'sender';
 KNOWN_ACTOR: 'knownactors';
 ACTOR_VARIABLE: 'actorvars';
 EXTENDS: 'extends';
 
-LPAR: '(';
-RPAR: ')';
-LEFT_CURLY_BRACKET: '{';
-RIGHT_CURLY_BRACKET: '}';
-LEFT_SQUARE_BRACKET: '[';
-RIGHT_SQUARE_BRACKET: ']';
-END_OF_STATEMENT: ';';
 INT: 'int';
 STR: 'string';
 MSG_HANDLER: 'msghandler';
@@ -136,6 +243,6 @@ STRING_LITERAL: '"' ~('"')* '"';
 INTEGER_LITERAL: [0-9]+;
 WS: [\t\r\n ]+ -> skip;
 LINE_COMMENT: '//' ~[\r\n]* -> skip;
-
+PRINT: 'print';
 
 ID: [a-zA-Z_][a-zA-Z_0-9]*;

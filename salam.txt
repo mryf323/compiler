@@ -1,3 +1,7 @@
-{
-aa:true
+actor A extends Parent(5){
+    knownactors{}
+    actorvars{}
+
+    msghandler foo(int a, int b){
+    }
 }

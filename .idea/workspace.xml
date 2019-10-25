@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62b2f9e5-dca5-4830-ad8f-634d4fe2ceee" name="Default Changelist" comment="" />
+    <list default="true" id="62b2f9e5-dca5-4830-ad8f-634d4fe2ceee" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Acton.g4" beforeDir="false" afterPath="$PROJECT_DIR$/Acton.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/salam.txt" beforeDir="false" afterPath="$PROJECT_DIR$/salam.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Json.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Json.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/JsonBaseListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/JsonBaseVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/JsonLexer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/JsonLexer.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/JsonLexer.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/JsonListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/JsonParser$BoolContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/JsonParser$JsonContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/JsonParser$JsonObjectContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/JsonParser$KeyValuePairContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/JsonParser$PrimitiveContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/JsonParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/JsonVisitor.class" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1SPfUUbFwZXqk0DkdZgrFRopFjZ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="ANTLRv4" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/antlr-4.7.2-complete.jar!/" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -20,8 +47,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/main/java" />
     </key>
   </component>
@@ -38,10 +65,10 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+    <configuration name="TestRig" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.antlr.v4.gui.TestRig" />
       <module name="phase1" />
-      <option name="PROGRAM_PARAMETERS" value="Json json -gui salam.txt" />
+      <option name="PROGRAM_PARAMETERS" value="Acton acton -gui salam.txt" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -62,11 +89,42 @@
       <workItem from="1571476246703" duration="3122000" />
       <workItem from="1571483476298" duration="10710000" />
       <workItem from="1571564530312" duration="528000" />
-      <workItem from="1571582391683" duration="239000" />
+      <workItem from="1571582391683" duration="12041000" />
+      <workItem from="1571723624172" duration="21684000" />
+      <workItem from="1571849499681" duration="7024000" />
+      <workItem from="1571857360741" duration="3362000" />
+      <workItem from="1571939829879" duration="866000" />
+      <workItem from="1571980037109" duration="3380000" />
+      <workItem from="1571989190252" duration="4499000" />
     </task>
+    <task id="LOCAL-00001" summary="7/30 late at night">
+      <created>1571764312408</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1571764312408</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="7/30 late at night" />
+    <option name="LAST_COMMIT_MESSAGE" value="7/30 late at night" />
   </component>
 </project>
