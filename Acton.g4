@@ -3,51 +3,84 @@ grammar Acton;
     void print(String str){
         System.out.print(str);
     }
+
+    void println(String str){
+        System.out.println(str);
+    }
+
     void printLine(){
         System.out.println("");
     }
 }
 
-acton: (actorDeclaration)+ (main);
+acton
+    :   (actorDeclaration)+ (main);
 
-main: actorInstantiation*;
+main
+    : MAIN LCURLYBR actorInstantiation* RCURLYBR;
 
-actorInstantiation: ID ID '(' (idList)? ')'':''('(expressionList)?')'';';
-idList: ID (',' ID)*;
+actorInstantiation
+    :   {print("ActorInstantiation:");}
+        actorType=ID{print($actorType.text);}
+        actorName=ID {print(","+$actorName.text);}
+        LPAR (idList)? RPAR
+        {printLine();}
+        COLLON LPAR(expressionList)? RPAR EOS;
+
+idList
+    :   knownactor1=ID {print(","+$knownactor1.text);} (COMMA knownactor2=ID {print(","+$knownactor2.text);})*;
 
 actorDeclaration
-    :   ACTOR name=ID (EXTENDS parent=ID)? '(' INTEGER_LITERAL ')'
-    {
-        print("ActorDec:"+$name.text);
-        if($parent!=null)
-            print(","+$parent.text);
-        printLine();
-    }
-    '{' (actorBody) '}';
+    :   ACTOR name=ID (EXTENDS parent=ID)? LPAR INTEGER_LITERAL RPAR
+        {
+            print("ActorDec:"+$name.text);
+            if($parent!=null)
+                print(","+$parent.text);
+            printLine();
+        }
+    LCURLYBR (actorBody) RCURLYBR;
 
-actorBody:
-    (knownActors) (actorVars) (initializer)? (messageHandler)*;
+actorBody
+    :   (knownActors) (actorVars) (initializer)? (messageHandler)*;
 
-initializer:
-    MSG_HANDLER 'initial' '(' (argDeclrations)? ')'  handlerBlock;
-knownActors:
-     KNOWN_ACTOR '{' (knownActorDeclarationStatment)* '}';
+initializer
+    :    MSG_HANDLER INITIAL {println("MsgHandlerDec:initial");} LPAR (argDeclrations)? RPAR handlerBlock;
 
-knownActorDeclarationStatment: ID ID ';';
-actorVars: ACTOR_VARIABLE '{' (varDeclarationStatement)* '}';
-varDeclarationStatement: varDeclaration ';';
-varDeclaration
-    :   ((type name=ID) | (intArrayDeclration));
-type: (INT | BOOL | STR);
-intArrayDeclration: INT name=ID '[' INTEGER_LITERAL ']';
+knownActors
+    :     KNOWN_ACTOR LCURLYBR (knownActorDeclarationStatment)* RCURLYBR;
 
-messageHandler: MSG_HANDLER name=ID '(' (argDeclrations)? ')'  handlerBlock;
-argDeclrations: (varDeclaration) (',' varDeclaration)*;
+knownActorDeclarationStatment
+    :   actorType=ID name=ID EOS {println("KnownActor:"+$actorType.text+","+$name.text);};
 
-handlerBlock: '{'(varDeclarationStatement)*(blockStatements)? '}';
+actorVars
+    :   ACTOR_VARIABLE LCURLYBR (varDeclarationStatement)* RCURLYBR;
+
+varDeclarationStatement
+    :   varDeclaration EOS ;
+
+varDeclaration returns [String name, String varType]
+    :   (type {print("VarDec:"+$type.text);} ID {println(","+$ID.text);})
+    |   (intArrayDeclration {println("VarDec:int["+$intArrayDeclration.size+"],"+$intArrayDeclration.name);});
+
+type
+    :   INT
+    |   BOOL
+    |   STR;
+
+intArrayDeclration returns [String name, String size]
+    :   INT ID  LSQRB  INTEGER_LITERAL  RSQRB {$name=$ID.text;$size=$INTEGER_LITERAL.text;};
+
+messageHandler
+    :   MSG_HANDLER name=ID {println("MsgHandlerDec:"+$name.text);} LPAR (argDeclrations)? RPAR  handlerBlock;
+
+argDeclrations
+    :   (varDeclaration) (COMMA varDeclaration)*;
+
+handlerBlock
+    :   LCURLYBR(varDeclarationStatement)*(blockStatements)? RCURLYBR;
 
 block
-	:	'{' blockStatements? '}'
+	:	LCURLYBR blockStatements? RCURLYBR
 	;
 
 blockStatements
@@ -77,11 +110,11 @@ statementWithoutTrailingSubstatement
 	;
 
 emptyStatement
-	:	';'
+	:	EOS
 	;
 
 expressionStatement
-	:	statementExpression ';'
+	:	statementExpression EOS
 	;
 
 statementExpression
@@ -93,15 +126,18 @@ statementExpression
 	;
 
 ifThenStatement
-	:	'if' '(' expression ')' statementWithoutDeclration
+	:	{println("Conditional:if");}
+	    IF LPAR expression RPAR statementWithoutDeclration
 	;
 
 ifThenElseStatement
-	:	'if' '(' expression ')' statementNoShortIf 'else' statementWithoutDeclration
+	:	{println("Conditional:if");}
+	    IF LPAR expression RPAR statementNoShortIf {println("Conditional:else");}  ELSE statementWithoutDeclration
 	;
 
 ifThenElseStatementNoShortIf
-	:	'if' '(' expression ')' statementNoShortIf 'else' statementNoShortIf
+	:	{println("Conditional:if");}
+	    IF LPAR expression RPAR statementNoShortIf {println("Conditional:else");} ELSE statementNoShortIf
 	;
 
 forStatement
@@ -113,38 +149,40 @@ forStatementNoShortIf
 	;
 
 basicForStatement
-	:	'for' '(' assignment? ';' expression? ';' assignment? ')' statementWithoutDeclration
+	:	{println("Loop:for");}
+	    FOR LPAR assignment? EOS expression? EOS assignment? RPAR statementWithoutDeclration
 	;
 
 basicForStatementNoShortIf
-	:	'for' '(' assignment? ';' expression? ';' assignment? ')' statementNoShortIf
+	:	{println("Loop:for");}
+	    FOR LPAR assignment? EOS expression? EOS assignment? RPAR statementNoShortIf
 	;
 
 breakStatement
-	:	'break' ';'
+	:	 BREAK  EOS
 	;
 
 continueStatement
-	:	'continue' ';'
+	:	CONTINUE EOS
 	;
 
-expressionList: expression (',' expression)*;
+expressionList: expression (COMMA expression)*;
 
 methodCall
     :   builtInMethodCall
-    |   ID '.' '(' expressionList? ')'
-    |   SELF '.' '(' expressionList? ')'
-    |   SENDER '.' '(' expressionList? ')';
+    |   {print("MsgHandlerCall:");} instance=ID {print($instance.text);} DOT name=ID {println(","+$name.text);} LPAR expressionList? RPAR EOS
+    |   {print("MsgHandlerCall:self");} SELF DOT name=ID {println(","+$name.text);} LPAR expressionList? RPAR EOS
+    |   {print("MsgHandlerCall:sender");}SENDER DOT name=ID {println(","+$name.text);} LPAR expressionList? RPAR EOS;
 
 builtInMethodCall
-    :   PRINT '(' expression ')' ';';
+    :   {println("Built-in:Print");} PRINT LPAR expression RPAR EOS;
 
 //varAccessor is used for both lhs and rhs
 varAccessor:
-    (SELF '.')? ID;
+    (SELF DOT)? ID;
 
 assignment:
-    (varAccessor) '=' (expression);
+    {println("Operator:=");} (squared) '=' (expression);
 
 
 expression
@@ -154,75 +192,88 @@ expression
 
 conditionalExpression
     :	(conditionalOrExpression)
-    |	(conditionalOrExpression '?' expression ':' (conditionalExpression))
+    |	 {println("Operator:?:");} (conditionalOrExpression '?' expression COLLON (conditionalExpression))
     ;
 
 conditionalOrExpression
 	:	conditionalAndExpression
-	|	conditionalAndExpression '||' conditionalOrExpression
+	|	{println("Operator:||");} conditionalAndExpression '||' conditionalOrExpression
 	;
 
 conditionalAndExpression
 	:	equalityExpression
-	|	conditionalAndExpression '&&' equalityExpression
+	|	{println("Operator:&&");} equalityExpression '&&' conditionalAndExpression
 	;
 equalityExpression
 	:	relationalExpression
-	|	relationalExpression '==' equalityExpression
-	|	 relationalExpression '!=' equalityExpression
+	|	{println("Operator:==");} relationalExpression '==' equalityExpression
+	|	{println("Operator:!=");} relationalExpression '!=' equalityExpression
 	;
 
 relationalExpression
 	:	additiveExpression
-	|	additiveExpression '<' relationalExpression
-	|	additiveExpression '>' relationalExpression
+	|	{println("Operator:<");}additiveExpression '<' relationalExpression
+	|	{println("Operator:>");}additiveExpression '>' relationalExpression
 	;
 
 additiveExpression
 	:	multiplicativeExpression
-	|	multiplicativeExpression '+' additiveExpression
-	|	multiplicativeExpression '-' additiveExpression
+	|	{println("Operator:+");}multiplicativeExpression '+' additiveExpression
+	|	{println("Operator:-");}multiplicativeExpression '-' additiveExpression
 	;
 
 multiplicativeExpression
 	:	unaryExpression
-	|	unaryExpression '*' multiplicativeExpression
-	|	unaryExpression '/' multiplicativeExpression
-	|	unaryExpression '%' multiplicativeExpression
+	|	{println("Operator:*");}unaryExpression '*' multiplicativeExpression
+	|	{println("Operator:/");}unaryExpression '/' multiplicativeExpression
+	|	{println("Operator:%");}unaryExpression '%' multiplicativeExpression
 	;
 
 unaryExpression
     :	preIncrementExpression
     |	preDecrementExpression
-	|	'+' unaryExpression
-	|	'-' unaryExpression
-    |	'!' unaryExpression
-    |		postfixExpression
+	|	{println("Operator:&&");} '-' unaryExpression
+    |	{println("Operator:!"); } '!' unaryExpression
+    |	postfixExpression
 	;
 
 preIncrementExpression
-    :	'++' unaryExpression
+    :	{println("Operator:++");}'++' unaryExpression
     ;
 
 preDecrementExpression
-    :	'--' unaryExpression
+    :	{println("Operator:--");}'--' unaryExpression
     ;
 
 postfixExpression
-	:	(squared)('++'|'--')*
+	:	(squared)('++' {println("Operator:++");})*
+	|   (squared)('--' {println("Operator:--");})*
     ;
 
 postIncrementExpression
-    :	postfixExpression '++'
+    :	{println("Operator:++");} postfixExpression '++'
     ;
 
 postDecrementExpression
-    :	postfixExpression '--'
+    :	{println("Operator:--");} postfixExpression '--'
     ;
 
-squared: parantesed'['expression']' | parantesed;
-parantesed: '('expression')' | atomic;
-atomic: varAccessor | BOOL_LITERAL | INTEGER_LITERAL | STRING_LITERAL;
+squared
+    :   parantesed LSQRB expression RSQRB 
+    |   parantesed;
+
+parantesed
+    :   LPAR expression RPAR
+    |   atomic;
+
+atomic
+    :   varAccessor
+    |   SELF
+    |   SENDER
+    |   BOOL_LITERAL
+    |   INTEGER_LITERAL
+    |   STRING_LITERAL
+    ;
 
 // Parser
 ACTOR: 'actor';
@@ -231,18 +282,34 @@ SENDER: 'sender';
 KNOWN_ACTOR: 'knownactors';
 ACTOR_VARIABLE: 'actorvars';
 EXTENDS: 'extends';
-
+MAIN: 'main';
+IF: 'if';
+ELSE: 'else';
+FOR: 'for';
 INT: 'int';
 STR: 'string';
+BREAK: 'break';
+CONTINUE: 'continue';
+LCURLYBR: '{';
+RCURLYBR: '}';
+LPAR: '(';
+RPAR: ')';
+LSQRB: '[';
+RSQRB: ']';
+DOT: '.';
+COMMA: ',';
+COLLON: ':';
+EOS: ';';
 MSG_HANDLER: 'msghandler';
-INIT: 'initial';
+INITIAL: 'initial';
 BOOL: 'boolean';
-
-BOOL_LITERAL: 'true'|'false';
-STRING_LITERAL: '"' ~('"')* '"';
-INTEGER_LITERAL: [0-9]+;
+BOOL_LITERAL
+    :   'true'
+    |   'false'
+    ;
 WS: [\t\r\n ]+ -> skip;
 LINE_COMMENT: '//' ~[\r\n]* -> skip;
 PRINT: 'print';
-
+INTEGER_LITERAL: [0-9]+;
+STRING_LITERAL: '"' ~('"')* '"';
 ID: [a-zA-Z_][a-zA-Z_0-9]*;
