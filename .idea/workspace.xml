@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62b2f9e5-dca5-4830-ad8f-634d4fe2ceee" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/4.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/5.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Acton.g4" beforeDir="false" afterPath="$PROJECT_DIR$/Acton.g4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salam.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/phase1-1.0-SNAPSHOT.jar" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,6 +13,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1SPfUUbFwZXqk0DkdZgrFRopFjZ" />
@@ -94,6 +90,7 @@
       <workItem from="1571989190252" duration="17385000" />
       <workItem from="1572114226549" duration="8709000" />
       <workItem from="1572153232104" duration="13376000" />
+      <workItem from="1572186814372" duration="1493000" />
     </task>
     <task id="LOCAL-00001" summary="7/30 late at night">
       <created>1571764312408</created>

@@ -60,7 +60,7 @@ varDeclarationStatement
 
 varDeclaration returns [String name, String varType]
     :   (type {print("VarDec:"+$type.text);} ID {println(","+$ID.text);})
-    |   (intArrayDeclration {println("VarDec:int["+$intArrayDeclration.size+"],"+$intArrayDeclration.name);});
+    |   (intArrayDeclration {println("VarDec:int[],"+$intArrayDeclration.name);});
 
 type
     :   INT
