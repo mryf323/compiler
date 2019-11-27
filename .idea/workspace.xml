@@ -2,69 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62b2f9e5-dca5-4830-ad8f-634d4fe2ceee" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Acton.g4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Acton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Acton.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/acton.g4" beforeDir="false" afterPath="$PROJECT_DIR$/acton.g4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/Acton.java" beforeDir="false" afterPath="$PROJECT_DIR$/Acton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/Program.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/declaration/ActorDeclaration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/declaration/ActorDeclaration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/declaration/ActorInstantiation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/declaration/ActorInstantiation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/declaration/Declaration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/declaration/Declaration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/declaration/VarDeclaration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/declaration/VarDeclaration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/declaration/handler/HandlerDeclaration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/declaration/handler/HandlerDeclaration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/declaration/handler/InitHandlerDeclaration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/declaration/handler/InitHandlerDeclaration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/declaration/handler/MsgHandlerDeclaration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/declaration/handler/MsgHandlerDeclaration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/expression/ActorVarAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/expression/ActorVarAccess.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/expression/ArrayCall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/expression/ArrayCall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/expression/BinaryExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/expression/BinaryExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/expression/Expression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/expression/Expression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/expression/Identifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/expression/Identifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/expression/Self.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/expression/Self.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/expression/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/expression/Sender.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/expression/UnaryExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/expression/UnaryExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/expression/operators/BinaryOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/expression/operators/BinaryOperator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/expression/operators/UnaryOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/expression/operators/UnaryOperator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/expression/values/BooleanValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/expression/values/BooleanValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/expression/values/IntValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/expression/values/IntValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/expression/values/StringValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/expression/values/StringValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/expression/values/Value.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/expression/values/Value.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/statement/Assign.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/statement/Assign.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/statement/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/statement/Block.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/statement/Break.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/statement/Break.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/statement/Conditional.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/statement/Conditional.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/statement/Continue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/statement/Continue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/statement/For.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/statement/For.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/statement/MsgHandlerCall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/statement/MsgHandlerCall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/statement/Print.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/statement/Print.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/node/statement/Statement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/node/statement/Statement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/type/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/type/Type.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/type/actorType/ActorType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/type/actorType/ActorType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/type/arrayType/ArrayType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/type/arrayType/ArrayType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/type/primitiveType/BooleanType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/type/primitiveType/BooleanType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/type/primitiveType/IntType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/type/primitiveType/IntType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/ast/type/primitiveType/StringType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ast/type/primitiveType/StringType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/compileError/CompileErrorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/compileError/CompileErrorException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/symbolTable/Stack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/symbolTable/Stack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/symbolTable/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/symbolTable/SymbolTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/symbolTable/SymbolTableActorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/symbolTable/SymbolTableActorItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/symbolTable/SymbolTableHandlerItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/symbolTable/SymbolTableHandlerItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/symbolTable/SymbolTableItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/symbolTable/SymbolTableItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/symbolTable/SymbolTableMainItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/symbolTable/SymbolTableMainItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/symbolTable/itemException/ItemAlreadyExistsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/symbolTable/itemException/ItemAlreadyExistsException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/symbolTable/itemException/ItemNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/symbolTable/itemException/ItemNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/symbolTable/symbolTableVariableItem/SymbolTableActorVariableItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/symbolTable/symbolTableVariableItem/SymbolTableActorVariableItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/symbolTable/symbolTableVariableItem/SymbolTableHandlerArgumentItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/symbolTable/symbolTableVariableItem/SymbolTableHandlerArgumentItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/symbolTable/symbolTableVariableItem/SymbolTableKnownActorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/symbolTable/symbolTableVariableItem/SymbolTableKnownActorItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/symbolTable/symbolTableVariableItem/SymbolTableLocalVariableItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/symbolTable/symbolTableVariableItem/SymbolTableLocalVariableItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/symbolTable/symbolTableVariableItem/SymbolTableVariableItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/symbolTable/symbolTableVariableItem/SymbolTableVariableItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/visitor/Visitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/visitor/Visitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/visitor/VisitorImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/visitor/VisitorImpl.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -83,17 +23,19 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="g4" value="3" />
-          <entry key="java" value="25" />
+          <entry key="g4" value="4" />
+          <entry key="interp" value="4" />
+          <entry key="java" value="38" />
+          <entry key="tokens" value="3" />
           <entry key="txt" value="1" />
           <entry key="xml" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="ANTLR v4 grammar file" value="3" />
-          <entry key="JAVA" value="25" />
-          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="ANTLR v4 grammar file" value="4" />
+          <entry key="JAVA" value="38" />
+          <entry key="PLAIN_TEXT" value="8" />
           <entry key="XML" value="5" />
         </counts>
       </usages-collector>
@@ -104,16 +46,16 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="g4" value="383" />
-          <entry key="java" value="82" />
+          <entry key="g4" value="420" />
+          <entry key="java" value="149" />
           <entry key="txt" value="21" />
           <entry key="xml" value="28" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="ANTLR v4 grammar file" value="383" />
-          <entry key="JAVA" value="82" />
+          <entry key="ANTLR v4 grammar file" value="420" />
+          <entry key="JAVA" value="149" />
           <entry key="PLAIN_TEXT" value="21" />
           <entry key="XML" value="28" />
         </counts>
@@ -122,63 +64,64 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Acton.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="242">
+              <caret line="11" column="13" lean-forward="true" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/parsers/actonBaseListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-3014">
+              <caret line="23" column="3" lean-forward="true" selection-start-line="23" selection-start-column="3" selection-end-line="23" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/parsers/actonLexer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-3718">
+              <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/parsers/actonLexer.interp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-3274" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/parsers/actonLexer.tokens">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1706" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/parsers/actonListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-7509">
+              <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Acton.java">
+        <entry file="file://$PROJECT_DIR$/src/parsers/actonParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/acton.g4">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="25" column="7" selection-start-line="25" selection-start-column="7" selection-end-line="25" selection-end-column="7" />
-              <folding>
-                <element signature="e#16#508#1" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/ast/node/expression/BinaryExpression.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/ast/node/expression/operators/BinaryOperator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="8" selection-start-column="8" selection-end-column="42" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/ast/node/expression/values/Value.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="14" lean-forward="true" selection-start-column="14" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/ast/node/declaration/ActorDeclaration.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="17" column="33" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
-              <folding>
-                <element signature="e#721#722#0" expanded="true" />
-                <element signature="e#753#754#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-38918">
+              <caret line="293" column="54" selection-start-line="293" selection-start-column="43" selection-end-line="293" selection-end-column="54" />
             </state>
           </provider>
         </entry>
@@ -187,20 +130,25 @@
         <entry file="file://$PROJECT_DIR$/src/main/ast/node/expression/Identifier.java">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="7" selection-start-column="7" selection-end-column="7" />
+              <caret column="32" selection-start-column="8" selection-end-column="32" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/ast/node/Program.java">
+        <entry file="file://$PROJECT_DIR$/acton.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="26" column="27" lean-forward="true" selection-start-line="26" selection-start-column="27" selection-end-line="26" selection-end-column="27" />
-              <folding>
-                <element signature="e#569#570#0" expanded="true" />
-                <element signature="e#614#615#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="154">
+              <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/ast/type/arrayType/ArrayType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
             </state>
           </provider>
         </entry>
@@ -214,10 +162,12 @@
       <find>Type</find>
       <find>set</find>
       <find>INTVAL</find>
+      <find>main.antlr4</find>
     </findStrings>
     <replaceStrings>
       <replace />
       <replace>type</replace>
+      <replace>antlr4</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -236,9 +186,13 @@
         <option value="$PROJECT_DIR$/src/main/ast/node/Main.java" />
         <option value="$PROJECT_DIR$/src/main/ast/node/Program.java" />
         <option value="$PROJECT_DIR$/gen/parsers/actonParser.java" />
+        <option value="$PROJECT_DIR$/Acton.java" />
         <option value="$PROJECT_DIR$/src/main/Acton.java" />
         <option value="$PROJECT_DIR$/src/Acton.java" />
-        <option value="$PROJECT_DIR$/Acton.java" />
+        <option value="$PROJECT_DIR$/src/parsers/actonBaseListener.java" />
+        <option value="$PROJECT_DIR$/src/parsers/actonLexer.java" />
+        <option value="$PROJECT_DIR$/src/parsers/actonListener.java" />
+        <option value="$PROJECT_DIR$/src/parsers/actonParser.java" />
         <option value="$PROJECT_DIR$/acton.g4" />
       </list>
     </option>
@@ -261,6 +215,7 @@
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
+      <hideEmptyPackages ProjectPane="false" />
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -275,12 +230,12 @@
             <path>
               <item name="compiler" type="b2602c69:ProjectViewProjectNode" />
               <item name="compiler" type="462c0819:PsiDirectoryNode" />
-              <item name="gen" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="compiler" type="b2602c69:ProjectViewProjectNode" />
               <item name="compiler" type="462c0819:PsiDirectoryNode" />
-              <item name="gen" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="parsers" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -294,14 +249,14 @@
     <property name="$PROJECT_DIR$/acton.g4::/auto-gen" value="true" />
     <property name="$PROJECT_DIR$/acton.g4::/gen-listener" value="true" />
     <property name="$PROJECT_DIR$/acton.g4::/gen-visitor" value="false" />
-    <property name="$PROJECT_DIR$/acton.g4::/output-dir" value="$PROJECT_DIR$/gen/parsers" />
+    <property name="$PROJECT_DIR$/acton.g4::/output-dir" value="$PROJECT_DIR$/src/parsers" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="SearchEverywhereHistoryKey" value="ActorDeclaration&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/ActorDeclaration.java&#10;ActorD&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/ActorDeclaration.java&#10;actonLexer&#9;PSI&#9;JAVA://actonLexer&#10;main.ast.node.expression.Value&#9;PSI&#9;JAVA://main.ast.node.expression.values.Value&#10;MainDe&#9;PSI&#9;JAVA://parsers.actonParser.MainDeclarationContext&#10;ActorDe&#9;PSI&#9;JAVA://main.ast.node.declaration.ActorDeclaration&#10;[قخلق&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/Program.java&#10;Program&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/Program.java&#10;project str&#9;ACTION&#9;ShowProjectStructureSettings" />
+    <property name="SearchEverywhereHistoryKey" value="Identifier&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/expression/Identifier.java&#10;ActorDeclaration&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/ActorDeclaration.java&#10;ActorD&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/ActorDeclaration.java&#10;actonLexer&#9;PSI&#9;JAVA://actonLexer&#10;main.ast.node.expression.Value&#9;PSI&#9;JAVA://main.ast.node.expression.values.Value&#10;MainDe&#9;PSI&#9;JAVA://parsers.actonParser.MainDeclarationContext&#10;ActorDe&#9;PSI&#9;JAVA://main.ast.node.declaration.ActorDeclaration&#10;[قخلق&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/Program.java&#10;Program&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/Program.java&#10;project str&#9;ACTION&#9;ShowProjectStructureSettings" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574856400987" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574865487794" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Redshift&#10;ANTLRv4" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/gen/parsers" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/parsers" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -309,18 +264,18 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/gen/parsers" />
-      <recent name="$PROJECT_DIR$/.idea" />
-      <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/src/main/java" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/gen/parsers" />
+      <recent name="$PROJECT_DIR$/.idea" />
+      <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -396,26 +351,19 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8687000" />
+    <option name="totallyTimeSpent" value="10479000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Designer" />
-      <window_info id="Image Layers" />
-      <window_info id="UI Designer" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info id="Capture Tool" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24958494" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24903154" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" weight="0.32972974" />
-      <window_info anchor="bottom" id="Tool Output" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" weight="0.32972974" />
-      <window_info anchor="bottom" id="ANTLR Preview" />
-      <window_info anchor="bottom" id="Messages" weight="0.32972974" />
+      <window_info id="Designer" order="2" />
+      <window_info id="UI Designer" order="3" />
+      <window_info id="Favorites" order="4" side_tool="true" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32972974" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -423,15 +371,22 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Database" />
-      <window_info anchor="right" id="Maven Projects" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32972974" />
+      <window_info anchor="bottom" id="Tool Output" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="11" weight="0.32972974" />
+      <window_info anchor="bottom" id="ANTLR Preview" order="12" />
+      <window_info anchor="bottom" id="Messages" order="13" visible="true" weight="0.32972974" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Database" order="5" />
+      <window_info anchor="right" id="Maven Projects" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
     </layout>
     <layout-to-restore>
       <window_info id="Designer" order="0" />
@@ -469,6 +424,16 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -498,32 +463,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="phase2 init commit" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Acton.g4">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-198">
-          <caret line="30" column="19" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/generated-sources/antlr4/actonParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2398">
-          <caret line="122" column="43" selection-start-line="122" selection-start-column="43" selection-end-line="122" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Acton.g4" />
+    <entry file="file://$PROJECT_DIR$/target/generated-sources/antlr4/actonParser.java" />
     <entry file="file://$PROJECT_DIR$/1.txt">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="21" column="26" lean-forward="true" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/ast/node/Main.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -557,47 +500,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gen/parsers/actonVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen/parsers/actonListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen/actonLexer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen/actonParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="269" column="49" selection-start-line="269" selection-start-column="41" selection-end-line="269" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/ast/node/expression/Identifier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="7" selection-start-column="7" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/parsers/actonVisitor.java" />
+    <entry file="file://$PROJECT_DIR$/gen/parsers/actonListener.java" />
+    <entry file="file://$PROJECT_DIR$/gen/actonLexer.java" />
+    <entry file="file://$PROJECT_DIR$/gen/actonParser.java" />
     <entry file="file://$PROJECT_DIR$/src/main/ast/node/declaration/ActorDeclaration.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="257">
@@ -609,23 +515,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gen/parsers/actonParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="292" column="25" selection-start-line="292" selection-start-column="25" selection-end-line="292" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/acton.g4">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="25" column="7" selection-start-line="25" selection-start-column="7" selection-end-line="25" selection-end-column="7" />
-          <folding>
-            <element signature="e#16#508#1" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/parsers/actonParser.java" />
     <entry file="file://$PROJECT_DIR$/src/main/ast/node/expression/BinaryExpression.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -633,10 +523,87 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Acton.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+        <state relative-caret-position="169">
+          <caret line="16" column="17" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/ast/type/arrayType/ArrayType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parsers/acton.tokens">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-56" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/ast/node/expression/Identifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="32" selection-start-column="8" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/acton.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parsers/acton.interp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Acton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="11" column="13" lean-forward="true" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parsers/actonBaseListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3014">
+          <caret line="23" column="3" lean-forward="true" selection-start-line="23" selection-start-column="3" selection-end-line="23" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parsers/actonLexer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3718">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parsers/actonLexer.interp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3274" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parsers/actonLexer.tokens">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1706" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parsers/actonListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7509">
+          <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parsers/actonParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-38918">
+          <caret line="293" column="54" selection-start-line="293" selection-start-column="43" selection-end-line="293" selection-end-column="54" />
         </state>
       </provider>
     </entry>

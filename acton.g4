@@ -1,6 +1,7 @@
 grammar acton;
 
 @header {
+package parsers;
 import main.ast.node.*;
 import main.ast.*;
 import main.ast.node.expression.*;
@@ -12,6 +13,7 @@ import main.ast.type.arrayType.*;
 import main.ast.type.primitiveType.*;
 import main.ast.node.expression.operators.BinaryOperator;
 import main.ast.node.expression.operators.UnaryOperator;
+import main.ast.node.expression.Identifier;
 }
 
 program returns [Program p]
@@ -23,7 +25,7 @@ actorDeclaration returns [ActorDeclaration ast]
      :
         ACTOR name = identifier (EXTENDS parent = identifier)? LPAREN queue = INTVAL RPAREN
         {ActorDeclaration actor = new ActorDeclaration(new Identifier($name.text));
-       actor.setParentName(new Indentifier($parent.text)); actor.setQueueSize($queue.int);}
+       actor.setParentName(new Identifier($parent.text)); actor.setQueueSize($queue.int);}
         LBRACE
 
         (KNOWNACTORS

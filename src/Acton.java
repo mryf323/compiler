@@ -1,8 +1,7 @@
 import main.ast.node.Program;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
-import gen.parsers.actonLexer; // import from the package your parser & lexer is generated in
-import gen.parsers.actonParser;
+import parsers.*;
 
 import java.io.IOException;
 
