@@ -3,7 +3,6 @@ package main.symbolTable;
 import main.ast.type.Type;
 import main.ast.node.declaration.handler.*;
 import main.ast.node.declaration.VarDeclaration;
-import main.ast.node.expression.Identifier;
 
 // import java.lang.reflect.Method;
 import java.util.ArrayList;

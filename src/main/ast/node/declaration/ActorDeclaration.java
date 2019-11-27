@@ -2,10 +2,7 @@ package main.ast.node.declaration;
 
 import main.ast.node.declaration.handler.InitHandlerDeclaration;
 import main.ast.node.declaration.handler.MsgHandlerDeclaration;
-import main.ast.node.expression.Expression;
 import main.ast.node.expression.Identifier;
-import main.ast.node.expression.values.IntValue;
-import main.ast.type.Type;
 import main.visitor.Visitor;
 import java.util.ArrayList;
 

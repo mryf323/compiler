@@ -1,11 +1,29 @@
 grammar acton;
 
-program
-    : (actorDeclaration)+ mainDeclaration
+@header {
+import main.ast.node.*;
+import main.ast.*;
+import main.ast.node.expression.*;
+import main.ast.node.expression.values.*;
+import main.ast.node.statement.*;
+import main.ast.node.declaration.*;
+import main.ast.type.*;
+import main.ast.type.arrayType.*;
+import main.ast.type.primitiveType.*;
+import main.ast.node.expression.operators.BinaryOperator;
+import main.ast.node.expression.operators.UnaryOperator;
+}
+
+program returns [Program p]
+    : {Program p = new Program();} (dec = actorDeclaration { p.addActor($dec.ast); })+ main = mainDeclaration {p.setMain($main.ast);}
+
     ;
 
-actorDeclaration
-    :   ACTOR identifier (EXTENDS identifier)? LPAREN INTVAL RPAREN
+actorDeclaration returns [ActorDeclaration ast]
+     :
+        ACTOR name = identifier (EXTENDS parent = identifier)? LPAREN queue = INTVAL RPAREN
+        {ActorDeclaration actor = new ActorDeclaration(new Identifier($name.text));
+       actor.setParentName(new Indentifier($parent.text)); actor.setQueueSize($queue.int);}
         LBRACE
 
         (KNOWNACTORS
@@ -24,7 +42,7 @@ actorDeclaration
         RBRACE
     ;
 
-mainDeclaration
+mainDeclaration returns [Main ast]
     :   MAIN
     	LBRACE
         actorInstantiation*

@@ -1,9 +1,7 @@
 package main.ast.node.declaration;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import main.ast.node.Node;
 import main.ast.node.expression.Expression;
 import main.ast.node.expression.Identifier;
 import main.ast.type.Type;

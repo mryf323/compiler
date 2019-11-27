@@ -1,8 +1,6 @@
 package main.symbolTable;
 
 import main.ast.node.Main;
-import main.ast.node.declaration.ActorDeclaration;
-import main.ast.node.expression.Identifier;
 
 public class SymbolTableMainItem extends SymbolTableItem {
         
@@ -12,7 +10,7 @@ public class SymbolTableMainItem extends SymbolTableItem {
 
     public SymbolTableMainItem(Main programMain)
     {
-        this.name = "main";
+        this.name = "src/main";
         this.programMain = programMain;
     }
     

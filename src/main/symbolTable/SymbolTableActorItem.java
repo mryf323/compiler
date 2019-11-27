@@ -1,7 +1,6 @@
 package main.symbolTable;
 
 import main.ast.node.declaration.ActorDeclaration;
-import main.ast.node.expression.Identifier;
 
 public class SymbolTableActorItem extends SymbolTableItem {
         

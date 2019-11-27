@@ -1,13 +1,10 @@
 package main.visitor;
 
 import main.ast.node.*;
-import main.ast.node.Node;
 import main.ast.node.Program;
 import main.ast.node.declaration.*;
 import main.ast.node.declaration.handler.HandlerDeclaration;
-import main.ast.node.declaration.handler.MsgHandlerDeclaration;
 import main.ast.node.declaration.VarDeclaration;
-import main.ast.node.declaration.handler.InitHandlerDeclaration;
 import main.ast.node.expression.*;
 import main.ast.node.expression.values.BooleanValue;
 import main.ast.node.expression.values.IntValue;
