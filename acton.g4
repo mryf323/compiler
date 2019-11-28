@@ -20,16 +20,17 @@ import java.util.*;
 }
 
 program returns [Program p]
-    : {$p = new Program();} (dec = actorDeclaration { $p.addActor($dec.ast); })+ main = mainDeclaration {$p.setMain($main.ast);}
+    : {$p = new Program();} (dec = actorDeclaration { $p.addActor($dec.synAst); })+ main = mainDeclaration {$p.setMain($main.synAst);}
     ;
 
-actorDeclaration returns [ActorDeclaration ast]
+actorDeclaration returns [ActorDeclaration synAst]
      :
         ACTOR name = identifier (EXTENDS parent = identifier)? LPAREN queue = INTVAL RPAREN
         {
-            $ast = new ActorDeclaration($name.ast);
-            $ast.setParentName($parent.ast);
-            $ast.setQueueSize($queue.int);
+            $synAst = new ActorDeclaration($name.synAst);
+            $synAst.setParentName($parent.synAst);
+            $synAst.setQueueSize($queue.int);
+            $synAst.setLine($ACTOR.getLine());
         }
         LBRACE
 
@@ -38,89 +39,100 @@ actorDeclaration returns [ActorDeclaration ast]
             (
                 actorType = identifier actorName = identifier SEMICOLON
                 {
-                    $ast.addKnownActor(new VarDeclaration($actorName.ast, new ActorType($actorType.ast)));
+                    $synAst.addKnownActor(new VarDeclaration($actorName.synAst, new ActorType($actorType.synAst)));
                 }
             )*
         RBRACE)
 
         (ACTORVARS
         LBRACE
-            varDeclarations {$ast.setActorVars($varDeclarations.ast);}
+            varDeclarations {$synAst.setActorVars($varDeclarations.synAst);}
         RBRACE)
 
-        (initHandlerDeclaration {$ast.setInitHandler($initHandlerDeclaration.ast);})?
-        (msgHandlerDeclaration {$ast.addMsgHandler($msgHandlerDeclaration.ast);})*
+        (initHandlerDeclaration {$synAst.setInitHandler($initHandlerDeclaration.synAst);})?
+        (msgHandlerDeclaration {$synAst.addMsgHandler($msgHandlerDeclaration.synAst);})*
 
         RBRACE
     ;
 
-mainDeclaration returns [Main ast]
+mainDeclaration returns [Main synAst]
     :   MAIN
     	LBRACE
         actorInstantiation*
     	RBRACE
+    	{
+    	$synAst = new Main();
+    	$synAst.addActorInstantiation($actorInstantiation.synAst);
+    	$synAst.setLine($MAIN.getLine());
+    	}
     ;
 
-actorInstantiation
-    :	identifier identifier
-     	LPAREN (identifier(COMMA identifier)* | ) RPAREN
+actorInstantiation returns [ActorInstantiation synAst]
+    :	type = identifier name = identifier
+     	LPAREN (identifier{$synAst.addKnownActor($identifier.synAst);}(COMMA identifier{$synAst.addKnownActor($identifier.synAst);})* | ) RPAREN
      	COLON LPAREN expressionList RPAREN SEMICOLON
+     	{
+     	$synAst = new ActorInstantiation(new ActorType($type.synAst), $name.synAst);
+        $synAst.setInitArgs($expressionList.synAst);
+        $synAst.setLine($LPAREN.getLine());
+     	}
     ;
 
-initHandlerDeclaration returns [InitHandlerDeclaration ast]
-    :	MSGHANDLER INITIAL LPAREN argDeclarations RPAREN
+initHandlerDeclaration returns [InitHandlerDeclaration synAst]
+    :	MSGHANDLER INITIAL LPAREN args = argDeclarations {$synAst.setArgs($args.synAst);} RPAREN
         {
-        $ast=new InitHandlerDeclaration(new Identifier($INITIAL.text));
-        $ast.setLine($MSGHANDLER.getLine());
+        $synAst=new InitHandlerDeclaration(new Identifier($INITIAL.text));
+        $synAst.setLine($MSGHANDLER.getLine());
         }
      	LBRACE
-     	args = varDeclarations {$ast.setArgs($args.ast);}
-
-     	(statement)*
+     	varDeclarations {$synAst.setLocalVars($varDeclarations.synAst);}
+        (statement {$synAst.addStatement($statement.synAst);})*
      	RBRACE
     ;
 
-msgHandlerDeclaration returns [MsgHandlerDeclaration ast]
-    :	MSGHANDLER identifier LPAREN argDeclarations RPAREN
-        {$ast = new MsgHandlerDeclaration($identifier.ast);
-         $ast.setLine($MSGHANDLER.getLine());
+msgHandlerDeclaration returns [MsgHandlerDeclaration synAst]
+    :	MSGHANDLER identifier LPAREN args = argDeclarations {$synAst.setArgs($args.synAst);} RPAREN
+        {$synAst = new MsgHandlerDeclaration($identifier.synAst);
+         $synAst.setLine($MSGHANDLER.getLine());
         }
        	LBRACE
-       	args = varDeclarations {$ast.setArgs($args.ast);}
-       	(statement)*
+       	 varDeclarations {$synAst.setLocalVars($varDeclarations.synAst);}
+       	(statement {$synAst.addStatement($statement.synAst);})*
        	RBRACE
     ;
 
-argDeclarations
-    :	varDeclaration(COMMA varDeclaration)* |
+argDeclarations returns [ArrayList<VarDeclaration> synAst]
+    :	{$synAst = new ArrayList<>();} varDeclaration{$synAst.add($varDeclaration.synAst);}
+        (COMMA varDeclaration{$synAst.add($varDeclaration.synAst);})* |
+         {$synAst = new ArrayList<>();}
     ;
 
-varDeclarations returns [ArrayList<VarDeclaration> ast]
-    : {$ast = new ArrayList<>();}
-    (varDeclaration SEMICOLON { $ast.add($varDeclaration.ast);})*
+varDeclarations returns [ArrayList<VarDeclaration> synAst]
+    : {$synAst = new ArrayList<>();}
+    (varDeclaration SEMICOLON { $synAst.add($varDeclaration.synAst);})*
     ;
 
-varDeclaration returns [VarDeclaration ast]
+varDeclaration returns [VarDeclaration synAst]
     :	INT identifier
         {
-            $ast = new VarDeclaration($identifier.ast, new IntType());
+            $synAst = new VarDeclaration($identifier.synAst, new IntType());
         }
     |   STRING identifier
             {
-                $ast = new VarDeclaration($identifier.ast, new StringType());
+                $synAst = new VarDeclaration($identifier.synAst, new StringType());
             }
     |   BOOLEAN identifier
                 {
-                    $ast = new VarDeclaration($identifier.ast, new BooleanType());
+                    $synAst = new VarDeclaration($identifier.synAst, new BooleanType());
                 }
     |   INT identifier LBRACKET INTVAL RBRACKET
                     {
                         ArrayType type = new ArrayType($INTVAL.int);
-                        $ast = new VarDeclaration($identifier.ast, type);
+                        $synAst = new VarDeclaration($identifier.synAst, type);
                     }
     ;
 
-statement returns [Statement ast]
+statement returns [Statement synAst]
     :	blockStmt
     | 	printStmt
     |  	assignStmt
@@ -131,91 +143,91 @@ statement returns [Statement ast]
     |  	msgHandlerCall
     ;
 
-blockStmt returns [Block ast]
+blockStmt returns [Block synAst]
     : 	LBRACE (statement)* RBRACE
         {
-        $ast = new Block();
-        $ast.addStatement($statement.ast);
-        $ast.setLine($LBRACE.getLine());
+        $synAst = new Block();
+        $synAst.addStatement($statement.synAst);
+        $synAst.setLine($LBRACE.getLine());
         }
     ;
 
-printStmt returns [Statement ast]
+printStmt returns [Statement synAst]
     : 	PRINT LPAREN expression RPAREN SEMICOLON
         {
-        $ast = new Print($expression.ast);
-        $ast.setLine($PRINT.getLine());
+        $synAst = new Print($expression.synAst);
+        $synAst.setLine($PRINT.getLine());
         }
     ;
 
-assignStmt returns [Assign ast]
-    :    assignment SEMICOLON {$ast = $assignment.ast;}
+assignStmt returns [Assign synAst]
+    :    assignment SEMICOLON {$synAst = $assignment.synAst;}
     ;
 
-assignment returns [Assign ast]
-    :   orExpression ASSIGN expression {$ast = new Assign($orExpression.ast, $expression.ast); $ast.setLine($orExpression.ast.getLine());}
+assignment returns [Assign synAst]
+    :   orExpression ASSIGN expression {$synAst = new Assign($orExpression.synAst, $expression.synAst); $synAst.setLine($orExpression.synAst.getLine());}
     ;
 
-forStmt returns [For ast]
+forStmt returns [For synAst]
     : 	FOR LPAREN (Initialize = assignment)? SEMICOLON (Condition = expression)? SEMICOLON (Update = assignment)? RPAREN body= statement
         {
-        $ast = new For();
-        $ast.setInitialize($Initialize.ast);
-        $ast.setCondition($Condition.ast);
-        $ast.setUpdate($Update.ast);
-        $ast.setBody($body.ast);
-        $ast.setLine($FOR.getLine());
+        $synAst = new For();
+        $synAst.setInitialize($Initialize.synAst);
+        $synAst.setCondition($Condition.synAst);
+        $synAst.setUpdate($Update.synAst);
+        $synAst.setBody($body.synAst);
+        $synAst.setLine($FOR.getLine());
         }
     ;
 
-ifStmt returns [Conditional ast]
+ifStmt returns [Conditional synAst]
     :   IF LPAREN expression RPAREN statement elseStmt
         {
-            $ast = new Conditional($expression.ast, $statement.ast);
-            $ast.setElseBody($elseStmt.ast);
+            $synAst = new Conditional($expression.synAst, $statement.synAst);
+            $synAst.setElseBody($elseStmt.synAst);
         }
     ;
 
-elseStmt returns [Statement ast]
-    : ELSE statement {$ast = $statement.ast;} | {$ast = null;}
+elseStmt returns [Statement synAst]
+    : ELSE statement {$synAst = $statement.synAst;} | {$synAst = null;}
     ;
 
-continueStmt returns [Continue ast]
+continueStmt returns [Continue synAst]
     : 	CONTINUE SEMICOLON
         {
-        $ast = new Continue();
-        $ast.setLine($CONTINUE.getLine());
+        $synAst = new Continue();
+        $synAst.setLine($CONTINUE.getLine());
         }
     ;
 
-breakStmt returns [Break ast]
+breakStmt returns [Break synAst]
     : 	BREAK SEMICOLON
         {
-        $ast = new Break();
-        $ast.setLine($BREAK.getLine());
+        $synAst = new Break();
+        $synAst.setLine($BREAK.getLine());
         }
     ;
 
-msgHandlerCall returns [MsgHandlerCall ast]
+msgHandlerCall returns [MsgHandlerCall synAst]
     :   {Expression ins = null;}
     (
-    identifier {ins = $identifier.ast; ins.setLine($identifier.ast.getLine());} |
+    identifier {ins = $identifier.synAst; ins.setLine($identifier.synAst.getLine());} |
         SELF {ins = new Self(); ins.setLine($SELF.getLine());} |
         SENDER {ins = new Sender(); ins.setLine($SENDER.getLine());}
      ) DOT
         name = identifier LPAREN expressionList RPAREN SEMICOLON
         {
-            $ast = new MsgHandlerCall(ins, $name.ast);
-            $ast.setArgs($expressionList.ast);
-            $ast.setLine(ins.getLine());
+            $synAst = new MsgHandlerCall(ins, $name.synAst);
+            $synAst.setArgs($expressionList.synAst);
+            $synAst.setLine(ins.getLine());
         }
     ;
 
-expression returns [Expression ast]
+expression returns [Expression synAst]
     :	orExpression (ASSIGN expression)?
     ;
 
-orExpression returns [BinaryExpression ast]
+orExpression returns [BinaryExpression synAst]
     :	andExpression (OR andExpression)*
     ;
 
@@ -272,12 +284,12 @@ actorVarAccess
     :   SELF DOT identifier
     ;
 
-expressionList returns [ArrayList<Expression> ast]
-    :	{$ast = new ArrayList();}(expression {$ast.add($expression.ast);}(COMMA expression{$ast.add($expression.ast);})* | )
+expressionList returns [ArrayList<Expression> synAst]
+    :	{$synAst = new ArrayList();}(expression {$synAst.add($expression.synAst);}(COMMA expression{$synAst.add($expression.synAst);})* | )
     ;
 
-identifier returns [Identifier ast]
-    :   IDENTIFIER {$ast = new Identifier($IDENTIFIER.text);}
+identifier returns [Identifier synAst]
+    :   IDENTIFIER {$synAst = new Identifier($IDENTIFIER.text);}
     ;
 
 value
