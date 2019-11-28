@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62b2f9e5-dca5-4830-ad8f-634d4fe2ceee" name="Default Changelist" comment="hichchi">
-      <change afterPath="$PROJECT_DIR$/src/parsers/actonBaseVisitor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/parsers/actonVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/acton.g4" beforeDir="false" afterPath="$PROJECT_DIR$/acton.g4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parsers/acton.interp" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/acton.interp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parsers/actonParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/actonParser.java" afterDir="false" />
+    <list default="true" id="62b2f9e5-dca5-4830-ad8f-634d4fe2ceee" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -51,7 +46,7 @@
         <counts>
           <entry key="g4" value="777" />
           <entry key="java" value="150" />
-          <entry key="txt" value="42" />
+          <entry key="txt" value="68" />
           <entry key="xml" value="28" />
         </counts>
       </usages-collector>
@@ -59,7 +54,7 @@
         <counts>
           <entry key="ANTLR v4 grammar file" value="777" />
           <entry key="JAVA" value="150" />
-          <entry key="PLAIN_TEXT" value="42" />
+          <entry key="PLAIN_TEXT" value="68" />
           <entry key="XML" value="28" />
         </counts>
       </usages-collector>
@@ -106,8 +101,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/acton.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
+            <state relative-caret-position="385">
+              <caret line="183" column="27" lean-forward="true" selection-start-line="183" selection-start-column="27" selection-end-line="183" selection-end-column="27" />
               <folding>
                 <element signature="e#16#428#1" expanded="true" />
               </folding>
@@ -248,7 +243,7 @@
     <property name="SearchEverywhereHistoryKey" value="Type&#9;PSI&#9;JAVA://main.ast.type.Type&#10;V&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/VarDeclaration.java&#10;VarDe&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/VarDeclaration.java&#10;ActorDeclaration&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/ActorDeclaration.java&#10;Var&#9;PSI&#9;JAVA://main.ast.node.declaration.VarDeclaration&#10;Symbol&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/symbolTable/SymbolTableItem.java&#10;VarD&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/VarDeclaration.java&#10;ActorDe&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/ActorDeclaration.java&#10;Identifier&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/expression/Identifier.java&#10;ActorD&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/ActorDeclaration.java&#10;actonLexer&#9;PSI&#9;JAVA://actonLexer&#10;main.ast.node.expression.Value&#9;PSI&#9;JAVA://main.ast.node.expression.values.Value&#10;MainDe&#9;PSI&#9;JAVA://parsers.actonParser.MainDeclarationContext&#10;[قخلق&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/Program.java&#10;Program&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/Program.java&#10;project str&#9;ACTION&#9;ShowProjectStructureSettings" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574928347501" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574928757420" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Redshift&#10;ANTLRv4" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/parsers" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -355,17 +350,31 @@
       <option name="project" value="LOCAL" />
       <updated>1574927251597</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="hichchi bug fix">
+      <created>1574928202024</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1574928202024</updated>
+    </task>
+    <task id="LOCAL-00007" summary="gitignore added">
+      <created>1574928413003</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1574928413003</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19697000" />
+    <option name="totallyTimeSpent" value="20269000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24903154" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24903154" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -379,8 +388,8 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32972974" />
-      <window_info anchor="bottom" id="Tool Output" order="8" visible="true" weight="0.32972974" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32972974" />
+      <window_info anchor="bottom" id="Tool Output" order="8" weight="0.32972974" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.32972974" />
@@ -465,12 +474,16 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="7/30 late at night" />
     <MESSAGE value="آخرین استیت خوب" />
     <MESSAGE value="phase2 init commit" />
     <MESSAGE value="start grammar" />
     <MESSAGE value="hichchi" />
-    <option name="LAST_COMMIT_MESSAGE" value="hichchi" />
+    <MESSAGE value="hichchi bug fix" />
+    <MESSAGE value="gitignore added" />
+    <option name="LAST_COMMIT_MESSAGE" value="gitignore added" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Acton.g4" />
@@ -674,8 +687,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/acton.g4">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
+        <state relative-caret-position="385">
+          <caret line="183" column="27" lean-forward="true" selection-start-line="183" selection-start-column="27" selection-end-line="183" selection-end-column="27" />
           <folding>
             <element signature="e#16#428#1" expanded="true" />
           </folding>
