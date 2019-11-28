@@ -3,9 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="62b2f9e5-dca5-4830-ad8f-634d4fe2ceee" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/acton.g4" beforeDir="false" afterPath="$PROJECT_DIR$/acton.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parsers/acton.interp" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/acton.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parsers/actonBaseListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/actonBaseListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parsers/actonBaseVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/actonBaseVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parsers/actonLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/actonLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parsers/actonListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/actonListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parsers/actonParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/actonParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parsers/actonVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/actonVisitor.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,32 +19,19 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>src.</find>
-      <find>Program</find>
-      <find>Type</find>
-      <find>set</find>
-      <find>INTVAL</find>
-      <find>main.antlr4</find>
-      <find>Indentifier</find>
-      <find>knownActors</find>
-      <find>addKnownActors</find>
-      <find>actorType</find>
-      <find>ActorType</find>
-      <find>varDeclarations</find>
-      <find>actor</find>
-      <find>ast</find>
-      <find>actorName</find>
-      <find>actorVars</find>
-      <find>$actorType</find>
-    </findStrings>
-    <replaceStrings>
-      <replace />
-      <replace>type</replace>
-      <replace>antlr4</replace>
-      <replace>ast</replace>
-    </replaceStrings>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -47,12 +40,6 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="67" />
-    <option name="y" value="27" />
-    <option name="width" value="917" />
-    <option name="height" value="1053" />
   </component>
   <component name="ProjectId" id="1SPfUUbFwZXqk0DkdZgrFRopFjZ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -63,6 +50,7 @@
     <property name="$PROJECT_DIR$/acton.g4::/gen-listener" value="true" />
     <property name="$PROJECT_DIR$/acton.g4::/gen-visitor" value="true" />
     <property name="$PROJECT_DIR$/acton.g4::/output-dir" value="$PROJECT_DIR$/src/parsers" />
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SearchEverywhereHistoryKey" value="Type&#9;PSI&#9;JAVA://main.ast.type.Type&#10;V&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/VarDeclaration.java&#10;VarDe&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/VarDeclaration.java&#10;ActorDeclaration&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/ActorDeclaration.java&#10;Var&#9;PSI&#9;JAVA://main.ast.node.declaration.VarDeclaration&#10;Symbol&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/symbolTable/SymbolTableItem.java&#10;VarD&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/VarDeclaration.java&#10;ActorDe&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/ActorDeclaration.java&#10;Identifier&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/expression/Identifier.java&#10;ActorD&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/declaration/ActorDeclaration.java&#10;actonLexer&#9;PSI&#9;JAVA://actonLexer&#10;main.ast.node.expression.Value&#9;PSI&#9;JAVA://main.ast.node.expression.values.Value&#10;MainDe&#9;PSI&#9;JAVA://parsers.actonParser.MainDeclarationContext&#10;[قخلق&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/Program.java&#10;Program&#9;FILE&#9;file:///home/mryf/IdeaProjects/compiler/src/main/ast/node/Program.java&#10;project str&#9;ACTION&#9;ShowProjectStructureSettings" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -77,7 +65,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
@@ -145,6 +133,7 @@
       <workItem from="1572153232104" duration="13376000" />
       <workItem from="1574847285034" duration="8687000" />
       <workItem from="1574931695409" duration="4466000" />
+      <workItem from="1574937128691" duration="10848000" />
     </task>
     <task id="LOCAL-00001" summary="7/30 late at night">
       <created>1571764312408</created>
@@ -227,6 +216,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="7/30 late at night" />
     <MESSAGE value="آخرین استیت خوب" />
     <MESSAGE value="phase2 init commit" />
@@ -235,81 +225,5 @@
     <MESSAGE value="hichchi bug fix" />
     <MESSAGE value="gitignore added" />
     <option name="LAST_COMMIT_MESSAGE" value="gitignore added" />
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <last-edited>No facets are configured</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>1.8</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>compiler</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-                <option value="0.6" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <last-edited>antlr-4.7.2-complete</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
 </project>

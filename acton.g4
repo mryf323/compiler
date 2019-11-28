@@ -2,6 +2,7 @@ grammar acton;
 
 @header {
 package parsers;
+import main.ast.node.declaration.handler.*;
 import main.ast.node.*;
 import main.ast.*;
 import main.ast.node.expression.*;
@@ -14,6 +15,8 @@ import main.ast.type.primitiveType.*;
 import main.ast.node.expression.operators.BinaryOperator;
 import main.ast.node.expression.operators.UnaryOperator;
 import main.ast.node.expression.Identifier;
+import main.ast.type.actorType.*;
+import java.util.*;
 }
 
 program returns [Program p]
@@ -45,8 +48,8 @@ actorDeclaration returns [ActorDeclaration ast]
             varDeclarations {$ast.setActorVars($varDeclarations.ast);}
         RBRACE)
 
-        (initHandlerDeclaration {$ast.setInitHandler($InitHandlerDeclaration.ast);})?
-        (msgHandlerDeclaration {$ast.addMsgHandler($MsgHandlerDeclaration.ast);})*
+        (initHandlerDeclaration {$ast.setInitHandler($initHandlerDeclaration.ast);})?
+        (msgHandlerDeclaration {$ast.addMsgHandler($msgHandlerDeclaration.ast);})*
 
         RBRACE
     ;
@@ -66,18 +69,24 @@ actorInstantiation
 
 initHandlerDeclaration returns [InitHandlerDeclaration ast]
     :	MSGHANDLER INITIAL LPAREN argDeclarations RPAREN
-        {$ast=new InitHandlerDeclaration(new Identifier($INITIAL.text));}
+        {
+        $ast=new InitHandlerDeclaration(new Identifier($INITIAL.text));
+        $ast.setLine($MSGHANDLER.getLine());
+        }
      	LBRACE
-     	varDeclarations
+     	args = varDeclarations {$ast.setArgs($args.ast);}
+
      	(statement)*
      	RBRACE
     ;
 
 msgHandlerDeclaration returns [MsgHandlerDeclaration ast]
     :	MSGHANDLER identifier LPAREN argDeclarations RPAREN
-        {$ast = new MsgHandlerDeclaration(identifier.ast);}
+        {$ast = new MsgHandlerDeclaration($identifier.ast);
+         $ast.setLine($MSGHANDLER.getLine());
+        }
        	LBRACE
-       	varDeclarations
+       	args = varDeclarations {$ast.setArgs($args.ast);}
        	(statement)*
        	RBRACE
     ;
@@ -86,7 +95,7 @@ argDeclarations
     :	varDeclaration(COMMA varDeclaration)* |
     ;
 
-varDeclarations returns [List<VarDeclaration> ast]
+varDeclarations returns [ArrayList<VarDeclaration> ast]
     : {$ast = new ArrayList<>();}
     (varDeclaration SEMICOLON { $ast.add($varDeclaration.ast);})*
     ;
@@ -94,25 +103,24 @@ varDeclarations returns [List<VarDeclaration> ast]
 varDeclaration returns [VarDeclaration ast]
     :	INT identifier
         {
-            $ast = new VarDeclaration($identifier.ast, new IntType())
+            $ast = new VarDeclaration($identifier.ast, new IntType());
         }
     |   STRING identifier
             {
-                $ast = new VarDeclaration($identifier.ast, new StringType())
+                $ast = new VarDeclaration($identifier.ast, new StringType());
             }
     |   BOOLEAN identifier
                 {
-                    $ast = new VarDeclaration($identifier.ast, new BooleanType())
+                    $ast = new VarDeclaration($identifier.ast, new BooleanType());
                 }
     |   INT identifier LBRACKET INTVAL RBRACKET
                     {
-                        ArrayType type = new ArrayType();
-                        type.setSize($INTVAL.int);
+                        ArrayType type = new ArrayType($INTVAL.int);
                         $ast = new VarDeclaration($identifier.ast, type);
                     }
     ;
 
-statement
+statement returns [Statement ast]
     :	blockStmt
     | 	printStmt
     |  	assignStmt
@@ -123,52 +131,91 @@ statement
     |  	msgHandlerCall
     ;
 
-blockStmt
+blockStmt returns [Block ast]
     : 	LBRACE (statement)* RBRACE
+        {
+        $ast = new Block();
+        $ast.addStatement($statement.ast);
+        $ast.setLine($LBRACE.getLine());
+        }
     ;
 
-printStmt
+printStmt returns [Statement ast]
     : 	PRINT LPAREN expression RPAREN SEMICOLON
+        {
+        $ast = new Print($expression.ast);
+        $ast.setLine($PRINT.getLine());
+        }
     ;
 
-assignStmt
-    :    assignment SEMICOLON
+assignStmt returns [Assign ast]
+    :    assignment SEMICOLON {$ast = $assignment.ast;}
     ;
 
-assignment
-    :   orExpression ASSIGN expression
+assignment returns [Assign ast]
+    :   orExpression ASSIGN expression {$ast = new Assign($orExpression.ast, $expression.ast); $ast.setLine($orExpression.ast.getLine());}
     ;
 
-forStmt
-    : 	FOR LPAREN (assignment)? SEMICOLON (expression)? SEMICOLON (assignment)? RPAREN statement
+forStmt returns [For ast]
+    : 	FOR LPAREN (Initialize = assignment)? SEMICOLON (Condition = expression)? SEMICOLON (Update = assignment)? RPAREN body= statement
+        {
+        $ast = new For();
+        $ast.setInitialize($Initialize.ast);
+        $ast.setCondition($Condition.ast);
+        $ast.setUpdate($Update.ast);
+        $ast.setBody($body.ast);
+        $ast.setLine($FOR.getLine());
+        }
     ;
 
-ifStmt
+ifStmt returns [Conditional ast]
     :   IF LPAREN expression RPAREN statement elseStmt
+        {
+            $ast = new Conditional($expression.ast, $statement.ast);
+            $ast.setElseBody($elseStmt.ast);
+        }
     ;
 
-elseStmt
-    : ELSE statement |
+elseStmt returns [Statement ast]
+    : ELSE statement {$ast = $statement.ast;} | {$ast = null;}
     ;
 
-continueStmt
+continueStmt returns [Continue ast]
     : 	CONTINUE SEMICOLON
+        {
+        $ast = new Continue();
+        $ast.setLine($CONTINUE.getLine());
+        }
     ;
 
-breakStmt
+breakStmt returns [Break ast]
     : 	BREAK SEMICOLON
+        {
+        $ast = new Break();
+        $ast.setLine($BREAK.getLine());
+        }
     ;
 
-msgHandlerCall
-    :   (identifier | SELF | SENDER) DOT
-        identifier LPAREN expressionList RPAREN SEMICOLON
+msgHandlerCall returns [MsgHandlerCall ast]
+    :   {Expression ins = null;}
+    (
+    identifier {ins = $identifier.ast; ins.setLine($identifier.ast.getLine());} |
+        SELF {ins = new Self(); ins.setLine($SELF.getLine());} |
+        SENDER {ins = new Sender(); ins.setLine($SENDER.getLine());}
+     ) DOT
+        name = identifier LPAREN expressionList RPAREN SEMICOLON
+        {
+            $ast = new MsgHandlerCall(ins, $name.ast);
+            $ast.setArgs($expressionList.ast);
+            $ast.setLine(ins.getLine());
+        }
     ;
 
-expression
+expression returns [Expression ast]
     :	orExpression (ASSIGN expression)?
     ;
 
-orExpression
+orExpression returns [BinaryExpression ast]
     :	andExpression (OR andExpression)*
     ;
 
@@ -225,12 +272,12 @@ actorVarAccess
     :   SELF DOT identifier
     ;
 
-expressionList
-    :	(expression(COMMA expression)* | )
+expressionList returns [ArrayList<Expression> ast]
+    :	{$ast = new ArrayList();}(expression {$ast.add($expression.ast);}(COMMA expression{$ast.add($expression.ast);})* | )
     ;
 
 identifier returns [Identifier ast]
-    :   IDENTIFIER {ast = new Identifier($IDENTIFIER.text);}
+    :   IDENTIFIER {$ast = new Identifier($IDENTIFIER.text);}
     ;
 
 value
