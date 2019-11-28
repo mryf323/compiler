@@ -24,8 +24,8 @@ actorDeclaration returns [ActorDeclaration ast]
      :
         ACTOR name = identifier (EXTENDS parent = identifier)? LPAREN queue = INTVAL RPAREN
         {
-            $ast = new ActorDeclaration(new Identifier($name.text));
-            $ast.setParentName(new Identifier($parent.text));
+            $ast = new ActorDeclaration($name.ast);
+            $ast.setParentName($parent.ast);
             $ast.setQueueSize($queue.int);
         }
         LBRACE
@@ -45,8 +45,8 @@ actorDeclaration returns [ActorDeclaration ast]
             varDeclarations {$ast.setActorVars($varDeclarations.ast);}
         RBRACE)
 
-        (initHandlerDeclaration)?
-        (msgHandlerDeclaration)*
+        (initHandlerDeclaration {$ast.setInitHandler($InitHandlerDeclaration.ast);})?
+        (msgHandlerDeclaration {$ast.addMsgHandler($MsgHandlerDeclaration.ast);})*
 
         RBRACE
     ;
@@ -64,16 +64,18 @@ actorInstantiation
      	COLON LPAREN expressionList RPAREN SEMICOLON
     ;
 
-initHandlerDeclaration
+initHandlerDeclaration returns [InitHandlerDeclaration ast]
     :	MSGHANDLER INITIAL LPAREN argDeclarations RPAREN
+        {$ast=new InitHandlerDeclaration(new Identifier($INITIAL.text));}
      	LBRACE
      	varDeclarations
      	(statement)*
      	RBRACE
     ;
 
-msgHandlerDeclaration
+msgHandlerDeclaration returns [MsgHandlerDeclaration ast]
     :	MSGHANDLER identifier LPAREN argDeclarations RPAREN
+        {$ast = new MsgHandlerDeclaration(identifier.ast);}
        	LBRACE
        	varDeclarations
        	(statement)*
@@ -91,9 +93,23 @@ varDeclarations returns [List<VarDeclaration> ast]
 
 varDeclaration returns [VarDeclaration ast]
     :	INT identifier
+        {
+            $ast = new VarDeclaration($identifier.ast, new IntType())
+        }
     |   STRING identifier
+            {
+                $ast = new VarDeclaration($identifier.ast, new StringType())
+            }
     |   BOOLEAN identifier
+                {
+                    $ast = new VarDeclaration($identifier.ast, new BooleanType())
+                }
     |   INT identifier LBRACKET INTVAL RBRACKET
+                    {
+                        ArrayType type = new ArrayType();
+                        type.setSize($INTVAL.int);
+                        $ast = new VarDeclaration($identifier.ast, type);
+                    }
     ;
 
 statement
