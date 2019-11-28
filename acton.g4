@@ -17,25 +17,32 @@ import main.ast.node.expression.Identifier;
 }
 
 program returns [Program p]
-    : {Program p = new Program();} (dec = actorDeclaration { p.addActor($dec.ast); })+ main = mainDeclaration {p.setMain($main.ast);}
-
+    : {$p = new Program();} (dec = actorDeclaration { $p.addActor($dec.ast); })+ main = mainDeclaration {$p.setMain($main.ast);}
     ;
 
 actorDeclaration returns [ActorDeclaration ast]
      :
         ACTOR name = identifier (EXTENDS parent = identifier)? LPAREN queue = INTVAL RPAREN
-        {ActorDeclaration actor = new ActorDeclaration(new Identifier($name.text));
-       actor.setParentName(new Identifier($parent.text)); actor.setQueueSize($queue.int);}
+        {
+            $ast = new ActorDeclaration(new Identifier($name.text));
+            $ast.setParentName(new Identifier($parent.text));
+            $ast.setQueueSize($queue.int);
+        }
         LBRACE
 
         (KNOWNACTORS
         LBRACE
-            (identifier identifier SEMICOLON)*
+            (
+                actorType = identifier actorName = identifier SEMICOLON
+                {
+                    $ast.addKnownActor(new VarDeclaration(new Identifier(actorName), new ActorType(new Identifier(actorType))));
+                }
+            )*
         RBRACE)
 
         (ACTORVARS
         LBRACE
-            varDeclarations
+            varDeclarations {$ast.setActorVars($varDeclarations.ast);}
         RBRACE)
 
         (initHandlerDeclaration)?
@@ -77,11 +84,12 @@ argDeclarations
     :	varDeclaration(COMMA varDeclaration)* |
     ;
 
-varDeclarations
-    :	(varDeclaration SEMICOLON)*
+varDeclarations returns [List<VarDeclaration> ast]
+    : {$ast = new ArrayList<>();}
+    (varDeclaration SEMICOLON { $ast.add($varDeclaration.ast);})*
     ;
 
-varDeclaration
+varDeclaration returns [VarDeclaration ast]
     :	INT identifier
     |   STRING identifier
     |   BOOLEAN identifier
