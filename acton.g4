@@ -35,7 +35,7 @@ actorDeclaration returns [ActorDeclaration ast]
             (
                 actorType = identifier actorName = identifier SEMICOLON
                 {
-                    $ast.addKnownActor(new VarDeclaration(new Identifier(actorName), new ActorType(new Identifier(actorType))));
+                    $ast.addKnownActor(new VarDeclaration($actorName.ast, new ActorType($actorType.ast)));
                 }
             )*
         RBRACE)
@@ -213,8 +213,8 @@ expressionList
     :	(expression(COMMA expression)* | )
     ;
 
-identifier
-    :   IDENTIFIER
+identifier returns [Identifier ast]
+    :   IDENTIFIER {ast = new Identifier($IDENTIFIER.text);}
     ;
 
 value
