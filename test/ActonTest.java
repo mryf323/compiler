@@ -1,4 +1,4 @@
-import main.ast.node.Program;
+import ast.node.Program;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import parsers.*;
