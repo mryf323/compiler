@@ -16,6 +16,8 @@ import main.ast.node.expression.operators.UnaryOperator;
 import main.ast.node.expression.Identifier;
 import main.ast.type.actorType.*;
 import java.util.*;
+import parsers.actonLexer;
+import parsers.actonParser;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -119,11 +121,6 @@ public class actonLexer extends Lexer {
 	public Vocabulary getVocabulary() {
 		return VOCABULARY;
 	}
-
-
-	 boolean plusplus;
-	 int binaryone;
-	 int binarytwo;
 
 
 	public actonLexer(CharStream input) {

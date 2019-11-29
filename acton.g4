@@ -17,11 +17,8 @@ import main.ast.node.expression.operators.UnaryOperator;
 import main.ast.node.expression.Identifier;
 import main.ast.type.actorType.*;
 import java.util.*;
-}
-@members {
- boolean plusplus;
- int binaryone;
- int binarytwo;
+import parsers.actonLexer;
+import parsers.actonParser;
 }
 program returns [Program p]
     : {$p = new Program();} (dec = actorDeclaration { $p.addActor($dec.synAst); })+ main = mainDeclaration {$p.setMain($main.synAst);}
@@ -29,10 +26,10 @@ program returns [Program p]
 
 actorDeclaration returns [ActorDeclaration synAst]
      :
-        ACTOR name = identifier (EXTENDS parent = identifier)? LPAREN queue = INTVAL RPAREN
+
+        ACTOR name = identifier {$synAst = new ActorDeclaration($name.synAst);}
+        (EXTENDS parent = identifier {$synAst.setParentName($parent.synAst);})? LPAREN queue = INTVAL RPAREN
         {
-            $synAst = new ActorDeclaration($name.synAst);
-            $synAst.setParentName($parent.synAst);
             $synAst.setQueueSize($queue.int);
             $synAst.setLine($ACTOR.getLine());
         }
@@ -61,31 +58,31 @@ actorDeclaration returns [ActorDeclaration synAst]
 
 mainDeclaration returns [Main synAst]
     :   MAIN
+        {$synAst = new Main(); $synAst.setLine($MAIN.getLine());}
     	LBRACE
-        actorInstantiation*
+        (actorInstantiation{$synAst.addActorInstantiation($actorInstantiation.synAst);})*
     	RBRACE
-    	{
-    	$synAst = new Main();
-    	$synAst.addActorInstantiation($actorInstantiation.synAst);
-    	$synAst.setLine($MAIN.getLine());
-    	}
     ;
 
 actorInstantiation returns [ActorInstantiation synAst]
-    :	type = identifier name = identifier
+    :
+
+        type = identifier name = identifier
+        {$synAst = new ActorInstantiation(new ActorType($type.synAst), $name.synAst);}
      	LPAREN (identifier{$synAst.addKnownActor($identifier.synAst);}(COMMA identifier{$synAst.addKnownActor($identifier.synAst);})* | ) RPAREN
      	COLON LPAREN expressionList RPAREN SEMICOLON
      	{
-     	$synAst = new ActorInstantiation(new ActorType($type.synAst), $name.synAst);
+
         $synAst.setInitArgs($expressionList.synAst);
         $synAst.setLine($LPAREN.getLine());
      	}
     ;
 
 initHandlerDeclaration returns [InitHandlerDeclaration synAst]
-    :	MSGHANDLER INITIAL LPAREN args = argDeclarations {$synAst.setArgs($args.synAst);} RPAREN
+    :	MSGHANDLER INITIAL LPAREN args = argDeclarations RPAREN
         {
         $synAst=new InitHandlerDeclaration(new Identifier($INITIAL.text));
+        $synAst.setArgs($args.synAst);
         $synAst.setLine($MSGHANDLER.getLine());
         }
      	LBRACE
@@ -95,9 +92,11 @@ initHandlerDeclaration returns [InitHandlerDeclaration synAst]
     ;
 
 msgHandlerDeclaration returns [MsgHandlerDeclaration synAst]
-    :	MSGHANDLER identifier LPAREN args = argDeclarations {$synAst.setArgs($args.synAst);} RPAREN
-        {$synAst = new MsgHandlerDeclaration($identifier.synAst);
-         $synAst.setLine($MSGHANDLER.getLine());
+    :	MSGHANDLER identifier LPAREN args = argDeclarations  RPAREN
+        {
+            $synAst = new MsgHandlerDeclaration($identifier.synAst);
+            $synAst.setArgs($args.synAst);
+            $synAst.setLine($MSGHANDLER.getLine());
         }
        	LBRACE
        	varDeclarations {$synAst.setLocalVars($varDeclarations.synAst);}
@@ -174,12 +173,13 @@ assignment returns [Assign synAst]
     ;
 
 forStmt returns [For synAst]
-    : 	FOR LPAREN (Initialize = assignment)? SEMICOLON (Condition = expression)? SEMICOLON (Update = assignment)? RPAREN body= statement
+    :
+        {$synAst = new For();}
+        FOR LPAREN (Initialize = assignment {$synAst.setInitialize($Initialize.synAst);})?
+        SEMICOLON (Condition = expression{$synAst.setCondition($Condition.synAst);})?
+        SEMICOLON (Update = assignment{$synAst.setUpdate($Update.synAst);})?
+        RPAREN body= statement
         {
-        $synAst = new For();
-        $synAst.setInitialize($Initialize.synAst);
-        $synAst.setCondition($Condition.synAst);
-        $synAst.setUpdate($Update.synAst);
         $synAst.setBody($body.synAst);
         $synAst.setLine($FOR.getLine());
         }
