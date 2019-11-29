@@ -121,6 +121,11 @@ public class actonLexer extends Lexer {
 	}
 
 
+	 boolean plusplus;
+	 int binaryone;
+	 int binarytwo;
+
+
 	public actonLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);

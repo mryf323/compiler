@@ -2,16 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62b2f9e5-dca5-4830-ad8f-634d4fe2ceee" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/acton.g4" beforeDir="false" afterPath="$PROJECT_DIR$/acton.g4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parsers/acton.interp" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/acton.interp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parsers/actonBaseListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/actonBaseListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parsers/actonBaseVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/actonBaseVisitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parsers/actonLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/actonLexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parsers/actonListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/actonListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parsers/actonParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/actonParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parsers/actonVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parsers/actonVisitor.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,18 +66,18 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/gen/parsers" />
       <recent name="$PROJECT_DIR$/.idea" />
       <recent name="$PROJECT_DIR$/src" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunDashboard">
