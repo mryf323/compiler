@@ -3,39 +3,47 @@ package ast.node.expression;
 import visitor.Visitor;
 import ast.node.expression.operators.BinaryOperator;
 
+import javax.annotation.Nonnull;
+
 public class BinaryExpression extends Expression {
 
+    @Nonnull
     private Expression left;
+    @Nonnull
     private Expression right;
+    @Nonnull
     private BinaryOperator binaryOperator;
 
-    public BinaryExpression(Expression left, Expression right, BinaryOperator binaryOperator) {
+    public BinaryExpression(@Nonnull Expression left, @Nonnull Expression right, @Nonnull BinaryOperator binaryOperator) {
         this.left = left;
         this.right = right;
         this.binaryOperator = binaryOperator;
     }
 
+    @Nonnull
     public Expression getLeft() {
         return left;
     }
 
-    public void setLeft(Expression left) {
+    public void setLeft(@Nonnull Expression left) {
         this.left = left;
     }
 
+    @Nonnull
     public Expression getRight() {
         return right;
     }
 
-    public void setRight(Expression right) {
+    public void setRight(@Nonnull Expression right) {
         this.right = right;
     }
 
+    @Nonnull
     public BinaryOperator getBinaryOperator() {
         return binaryOperator;
     }
 
-    public void setBinaryOperator(BinaryOperator binaryOperator) {
+    public void setBinaryOperator(@Nonnull BinaryOperator binaryOperator) {
         this.binaryOperator = binaryOperator;
     }
 

@@ -3,6 +3,8 @@ package ast.node.expression.values;
 import ast.type.Type;
 import visitor.Visitor;
 
+import javax.annotation.Nonnull;
+
 public class BooleanValue extends Value {
     private boolean constant;
 

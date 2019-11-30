@@ -3,11 +3,13 @@ package ast.node;
 import visitor.Visitor;
 import ast.node.declaration.ActorDeclaration;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Program {
     private ArrayList<ActorDeclaration> actors = new ArrayList<>();
+    @Nonnull
     private Main programMain;
 
 

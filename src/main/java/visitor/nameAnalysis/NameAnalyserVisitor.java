@@ -12,7 +12,6 @@ import ast.node.expression.values.IntValue;
 import ast.node.expression.values.StringValue;
 import ast.node.statement.*;
 import symbolTable.SymbolTable;
-import symbolTable.symbolTableVariableItem.SymbolTableVariableItem;
 import visitor.ForceSymbolTablePusher;
 import visitor.Visitor;
 
@@ -32,7 +31,7 @@ public class NameAnalyserVisitor implements Visitor<Boolean> {
         String name = actorDec.getName().getName();
         if (ForceSymbolTablePusher.isUnified(name)) {
             name = ForceSymbolTablePusher.strip(name);
-            System.out.printf("%d:ErrorItemMessage: Redifinition of actor %s%n", actorDec.getName().getLine(), name);
+            System.out.printf("%d:ErrorItemMessage: Redefinition of actor %s%n", actorDec.getName().getLine(), name);
             correct = false;
         }
 
@@ -111,13 +110,15 @@ public class NameAnalyserVisitor implements Visitor<Boolean> {
 
     @Override
     public Boolean visit(BinaryExpression binaryExpression) {
-        return binaryExpression.getLeft().accept(this) && binaryExpression.getRight().accept(this);
+        return binaryExpression.getLeft().accept(this) &&
+                binaryExpression.getRight().accept(this);
     }
 
     @Override
     public Boolean visit(ArrayCall arrayCall) {
-        arrayCall.getArrayInstance().accept(this);
-        return !(arrayCall.getIndex() instanceof IntValue) || ((IntValue) arrayCall.getIndex()).getConstant() > 0;
+        return arrayCall.getArrayInstance().accept(this) &&
+                arrayCall.getIndex().accept(this) &&
+                (!(arrayCall.getIndex() instanceof IntValue) || ((IntValue) arrayCall.getIndex()).getConstant() > 0);
     }
 
     @Override
@@ -171,16 +172,22 @@ public class NameAnalyserVisitor implements Visitor<Boolean> {
 
         return conditional.getExpression().accept(this) &&
                 conditional.getThenBody().accept(this) &&
-                conditional.getElseBody() == null ? true : conditional.getElseBody().accept(this);
+                conditional.getElseBody() != null ? conditional.getElseBody().accept(this) : true;
     }
 
     @Override
     public Boolean visit(For loop) {
-
-        return loop.getInitialize().accept(this) &&
-                loop.getCondition().accept(this) &&
-                loop.getUpdate().accept(this) &&
-                loop.getBody().accept(this);
+        boolean correct = true;
+        if (loop.getInitialize() != null) {
+            correct = loop.getInitialize().accept(this);
+        }
+        if (loop.getCondition() != null) {
+            correct&= loop.getCondition().accept(this);
+        }
+        assert loop.getUpdate() != null;
+        correct &= loop.getUpdate().accept(this);
+        correct &= loop.getBody().accept(this);
+        return correct;
     }
 
     @Override
@@ -198,7 +205,8 @@ public class NameAnalyserVisitor implements Visitor<Boolean> {
 
         return msgHandlerCall.getInstance().accept(this) &&
                 msgHandlerCall.getArgs().stream()
-                        .map(i -> i.accept(this)).reduce(true, (i, j) -> i && j);
+                        .map(i -> i.accept(this))
+                        .reduce(true, (i, j) -> i && j);
     }
 
     @Override

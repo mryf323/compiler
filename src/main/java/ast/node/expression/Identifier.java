@@ -2,20 +2,23 @@ package ast.node.expression;
 
 import visitor.Visitor;
 
+import javax.annotation.Nonnull;
 import java.util.Objects;
 
 public class Identifier extends Expression {
+    @Nonnull
     private String name;
 
-    public Identifier(String name) {
+    public Identifier(@Nonnull String name) {
         this.name = name;
     }
 
+    @Nonnull
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@Nonnull String name) {
         this.name = name;
     }
 

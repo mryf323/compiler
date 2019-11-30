@@ -3,18 +3,22 @@ package ast.node.statement;
 import visitor.Visitor;
 import ast.node.expression.Expression;
 
+import javax.annotation.Nonnull;
+
 public class Print extends Statement {
+    @Nonnull
     private Expression arg;
 
-    public Print(Expression arg) {
+    public Print(@Nonnull Expression arg) {
         this.arg = arg;
     }
 
+    @Nonnull
     public Expression getArg() {
         return arg;
     }
 
-    public void setArg(Expression arg) {
+    public void setArg(@Nonnull Expression arg) {
         this.arg = arg;
     }
 

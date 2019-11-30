@@ -4,14 +4,20 @@ import ast.node.declaration.handler.InitHandlerDeclaration;
 import ast.node.declaration.handler.MsgHandlerDeclaration;
 import ast.node.expression.Identifier;
 import visitor.Visitor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 
 public class ActorDeclaration extends Declaration {
     private ArrayList<VarDeclaration> knownActors = new ArrayList<>();
     private ArrayList<VarDeclaration> actorVars = new ArrayList<>();
     private ArrayList<MsgHandlerDeclaration> msgHandlers = new ArrayList<>();
+
+    @Nullable
     private InitHandlerDeclaration initHandler;
     private Identifier name;
+    @Nullable
     private Identifier parentName;
     private int queueSize;
 
@@ -51,11 +57,12 @@ public class ActorDeclaration extends Declaration {
         this.msgHandlers.add(msgHandler);
     }
 
+    @Nullable
     public InitHandlerDeclaration getInitHandler() {
         return initHandler;
     }
 
-    public void setInitHandler(InitHandlerDeclaration initHandler) {
+    public void setInitHandler(@Nullable InitHandlerDeclaration initHandler) {
         this.initHandler = initHandler;
     }
 
@@ -63,11 +70,12 @@ public class ActorDeclaration extends Declaration {
         return name;
     }
 
+    @Nullable
     public Identifier getParentName() {
         return parentName;
     }
 
-    public void setParentName(Identifier name) {
+    public void setParentName(@Nonnull Identifier name) {
         this.parentName = name;
     }
 

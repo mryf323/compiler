@@ -4,31 +4,36 @@ import ast.node.expression.Expression;
 import ast.node.expression.Identifier;
 import visitor.Visitor;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
 public class MsgHandlerCall extends Statement {
+    @Nonnull
     private Expression instance;
+    @Nonnull
     private Identifier msgHandlerName;
     private ArrayList<Expression> args = new ArrayList<>();
 
-    public MsgHandlerCall(Expression instance, Identifier msgHandlerName) {
+    public MsgHandlerCall(@Nonnull Expression instance, @Nonnull Identifier msgHandlerName) {
         this.instance = instance;
         this.msgHandlerName = msgHandlerName;
     }
 
+    @Nonnull
     public Expression getInstance() {
         return instance;
     }
 
-    public void setInstance(Expression instance) {
+    public void setInstance(@Nonnull Expression instance) {
         this.instance = instance;
     }
 
+    @Nonnull
     public Identifier getMsgHandlerName() {
         return msgHandlerName;
     }
 
-    public void setMsgHandlerName(Identifier msgHandlerName) {
+    public void setMsgHandlerName(@Nonnull Identifier msgHandlerName) {
         this.msgHandlerName = msgHandlerName;
     }
 

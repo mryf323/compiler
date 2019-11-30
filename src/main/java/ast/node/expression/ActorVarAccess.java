@@ -2,11 +2,14 @@ package ast.node.expression;
 
 import visitor.Visitor;
 
+import javax.annotation.Nonnull;
+
 public class ActorVarAccess extends Expression {
+    @Nonnull
     private Identifier variableName;
     private Self self;
 
-    public ActorVarAccess(Identifier variableName) {
+    public ActorVarAccess(@Nonnull Identifier variableName) {
         this.variableName = variableName;
         this.self = new Self();
     }

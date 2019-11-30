@@ -46,7 +46,7 @@ public class NameAnalyserSymbolTableItemVisitor implements SymbolTableItemVisito
         }
         boolean transitiveRedefinition = inheritanceService.transitiveParents(actor.getActorDeclaration())
                 .stream().anyMatch(p -> p.getActorSymbolTable().containsKey(item.getKey()));
-        if (transitiveRedefinition)
+        if (transitiveRedefinition && !name.equals("initial"))
             correct = false;
         if (!correct)
             System.out.printf(

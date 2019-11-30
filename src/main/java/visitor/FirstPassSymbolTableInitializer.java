@@ -61,7 +61,9 @@ public class FirstPassSymbolTableInitializer implements Visitor<Object> {
         variableDeclarationZone = VariableDeclarationZone.ACTOR_VAR;
         actorDeclaration.getActorVars().forEach(i -> i.accept(this));
 
-        actorDeclaration.getInitHandler().accept(this);
+        if (actorDeclaration.getInitHandler() != null) {
+            actorDeclaration.getInitHandler().accept(this);
+        }
         actorDeclaration.getMsgHandlers().forEach(i -> i.accept(this));
         SymbolTable.pop();
         return null;
