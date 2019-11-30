@@ -11,6 +11,11 @@ import ast.node.expression.values.BooleanValue;
 import ast.node.expression.values.IntValue;
 import ast.node.expression.values.StringValue;
 import ast.node.statement.*;
+import ast.type.actorType.ActorType;
+import ast.type.arrayType.ArrayType;
+import ast.type.primitiveType.BooleanType;
+import ast.type.primitiveType.IntType;
+import ast.type.primitiveType.StringType;
 import symbolTable.SymbolTable;
 import visitor.ForceSymbolTablePusher;
 import visitor.Visitor;
@@ -31,33 +36,23 @@ public class NameAnalyserVisitor implements Visitor<Boolean> {
         String name = actorDec.getName().getName();
         if (ForceSymbolTablePusher.isUnified(name)) {
             name = ForceSymbolTablePusher.strip(name);
-            System.out.printf("%d:ErrorItemMessage: Redefinition of actor %s%n", actorDec.getName().getLine(), name);
+            System.out.printf("Line:%d:Redefinition of actor %s%n", actorDec.getLine(), name);
             correct = false;
         }
 
-        if (actorDec.getParentName() != null) {
-            if (inheritanceService.transitiveParents(actorDec).size() == 0) {
-                System.out.printf(
-                        "%d:ErrorItemMessage: inherited actor %s not found%n",
-                        actorDec.getParentName().getLine(),
-                        actorDec.getParentName().getName()
-                );
-                correct = false;
-            }
-            if (inheritanceService.hasCycle(actorDec)) {
-                System.out.printf(
-                        "%d:ErrorItemMessage: Cyclic inheritance involving actor %s%n",
-                        actorDec.getParentName().getLine(),
-                        actorDec.getParentName().getName()
-                );
-                correct = false;
-            }
+        if (actorDec.getParentName() != null && inheritanceService.hasCycle(actorDec)) {
+            System.out.printf(
+                    "Line:%d:Cyclic inheritance involving actor %s%n",
+                    actorDec.getLine(),
+                    actorDec.getName().getName()
+            );
+            correct = false;
         }
 
         if (actorDec.getQueueSize() == 0) {
             System.out.printf(
-                    "%d:ErrorItemMessage: Queue size must be positive%n",
-                    actorDec.getName().getLine()
+                    "Line:%d:Queue size must be positive%n",
+                    actorDec.getLine()
             );
             correct = false;
 
@@ -77,11 +72,12 @@ public class NameAnalyserVisitor implements Visitor<Boolean> {
         if (ForceSymbolTablePusher.isUnified(name)) {
             name = ForceSymbolTablePusher.strip(name);
             System.out.printf(
-                    "%d:ErrorItemMessage: Redefinition of variable %s%n",
-                    varDeclaration.getIdentifier().getLine(), name
+                    "Line:%d:Redefinition of variable %s%n",
+                    varDeclaration.getLine(), name
             );
             correct = false;
         }
+        correct &= varDeclaration.getType().accept(this);
         return correct;
     }
 
@@ -117,8 +113,7 @@ public class NameAnalyserVisitor implements Visitor<Boolean> {
     @Override
     public Boolean visit(ArrayCall arrayCall) {
         return arrayCall.getArrayInstance().accept(this) &&
-                arrayCall.getIndex().accept(this) &&
-                (!(arrayCall.getIndex() instanceof IntValue) || ((IntValue) arrayCall.getIndex()).getConstant() > 0);
+                arrayCall.getIndex().accept(this);
     }
 
     @Override
@@ -182,10 +177,12 @@ public class NameAnalyserVisitor implements Visitor<Boolean> {
             correct = loop.getInitialize().accept(this);
         }
         if (loop.getCondition() != null) {
-            correct&= loop.getCondition().accept(this);
+            correct &= loop.getCondition().accept(this);
         }
-        assert loop.getUpdate() != null;
-        correct &= loop.getUpdate().accept(this);
+
+        if (loop.getUpdate() != null) {
+            correct &= loop.getUpdate().accept(this);
+        }
         correct &= loop.getBody().accept(this);
         return correct;
     }
@@ -219,5 +216,33 @@ public class NameAnalyserVisitor implements Visitor<Boolean> {
         return assign.getlValue().accept(this) && assign.getrValue().accept(this);
     }
 
+    @Override
+    public Boolean visit(ArrayType arrayType) {
+        if (arrayType.getSize() == 0){
+            System.out.printf("Line:%d:Array size must be positive%n", arrayType.getLine());
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public Boolean visit(ActorType actorType) {
+        return true;
+    }
+
+    @Override
+    public Boolean visit(StringType stringType) {
+        return true;
+    }
+
+    @Override
+    public Boolean visit(IntType intType) {
+        return true;
+    }
+
+    @Override
+    public Boolean visit(BooleanType booleanType) {
+        return true;
+    }
 
 }

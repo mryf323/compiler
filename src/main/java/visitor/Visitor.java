@@ -10,6 +10,11 @@ import ast.node.expression.values.BooleanValue;
 import ast.node.expression.values.IntValue;
 import ast.node.expression.values.StringValue;
 import ast.node.statement.*;
+import ast.type.actorType.ActorType;
+import ast.type.arrayType.ArrayType;
+import ast.type.primitiveType.BooleanType;
+import ast.type.primitiveType.IntType;
+import ast.type.primitiveType.StringType;
 
 public interface Visitor<T> {
 
@@ -45,4 +50,11 @@ public interface Visitor<T> {
     T visit(MsgHandlerCall msgHandlerCall);
     T visit(Print print);
     T visit(Assign assign);
+
+    //Types
+    T visit(ArrayType arrayType);
+    T visit(ActorType actorType);
+    T visit(StringType stringType);
+    T visit(IntType intType);
+    T visit(BooleanType booleanType);
 }

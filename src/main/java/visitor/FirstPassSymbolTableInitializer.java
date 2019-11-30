@@ -11,19 +11,26 @@ import ast.node.expression.values.BooleanValue;
 import ast.node.expression.values.IntValue;
 import ast.node.expression.values.StringValue;
 import ast.node.statement.*;
+import ast.type.actorType.ActorType;
+import ast.type.arrayType.ArrayType;
+import ast.type.primitiveType.BooleanType;
+import ast.type.primitiveType.IntType;
+import ast.type.primitiveType.StringType;
 import symbolTable.SymbolTable;
 import symbolTable.SymbolTableActorItem;
 import symbolTable.SymbolTableHandlerItem;
 import symbolTable.SymbolTableMainItem;
 import symbolTable.symbolTableVariableItem.*;
 
-public class FirstPassSymbolTableInitializer implements Visitor<Object> {
+public class FirstPassSymbolTableInitializer implements Visitor<Void> {
 
     private VariableDeclarationZone variableDeclarationZone;
 
+    private int latestActorSequenceNumber = 0;
+
 
     @Override
-    public Object visit(Program program) {
+    public Void visit(Program program) {
 
 
         SymbolTable.push(new SymbolTable());
@@ -35,8 +42,9 @@ public class FirstPassSymbolTableInitializer implements Visitor<Object> {
     }
 
     @Override
-    public Object visit(ActorDeclaration actorDeclaration) {
+    public Void visit(ActorDeclaration actorDeclaration) {
 
+        actorDeclaration.setSequenceNumber(latestActorSequenceNumber ++);
         SymbolTableActorItem item = new ForceSymbolTablePusher<SymbolTableActorItem>() {
 
             @Override
@@ -70,7 +78,7 @@ public class FirstPassSymbolTableInitializer implements Visitor<Object> {
     }
 
     @Override
-    public Object visit(HandlerDeclaration handlerDeclaration) {
+    public Void visit(HandlerDeclaration handlerDeclaration) {
 
         SymbolTableHandlerItem item = new ForceSymbolTablePusher<SymbolTableHandlerItem>() {
             @Override
@@ -99,7 +107,7 @@ public class FirstPassSymbolTableInitializer implements Visitor<Object> {
     }
 
     @Override
-    public Object visit(VarDeclaration varDeclaration) {
+    public Void visit(VarDeclaration varDeclaration) {
         new ForceSymbolTablePusher<SymbolTableVariableItem>() {
             private SymbolTableVariableItem nodeToItem(VarDeclaration declaration) {
                 switch (variableDeclarationZone) {
@@ -131,7 +139,7 @@ public class FirstPassSymbolTableInitializer implements Visitor<Object> {
     }
 
     @Override
-    public Object visit(Main mainActors) {
+    public Void visit(Main mainActors) {
 
         SymbolTableMainItem item = new ForceSymbolTablePusher<SymbolTableMainItem>() {
             @Override
@@ -154,7 +162,7 @@ public class FirstPassSymbolTableInitializer implements Visitor<Object> {
     }
 
     @Override
-    public Object visit(ActorInstantiation actorInstantiation) {
+    public Void visit(ActorInstantiation actorInstantiation) {
 
         new ForceSymbolTablePusher<SymbolTableLocalVariableItem>() {
 
@@ -173,92 +181,117 @@ public class FirstPassSymbolTableInitializer implements Visitor<Object> {
     }
 
     @Override
-    public Object visit(UnaryExpression unaryExpression) {
+    public Void visit(UnaryExpression unaryExpression) {
         return null;
     }
 
     @Override
-    public Object visit(BinaryExpression binaryExpression) {
+    public Void visit(BinaryExpression binaryExpression) {
         return null;
     }
 
     @Override
-    public Object visit(ArrayCall arrayCall) {
+    public Void visit(ArrayCall arrayCall) {
         return null;
     }
 
     @Override
-    public Object visit(ActorVarAccess actorVarAccess) {
+    public Void visit(ActorVarAccess actorVarAccess) {
         return null;
     }
 
     @Override
-    public Object visit(Identifier identifier) {
+    public Void visit(Identifier identifier) {
         return null;
     }
 
     @Override
-    public Object visit(Self self) {
+    public Void visit(Self self) {
         return null;
     }
 
     @Override
-    public Object visit(Sender sender) {
+    public Void visit(Sender sender) {
         return null;
     }
 
     @Override
-    public Object visit(BooleanValue value) {
+    public Void visit(BooleanValue value) {
         return null;
     }
 
     @Override
-    public Object visit(IntValue value) {
+    public Void visit(IntValue value) {
         return null;
     }
 
     @Override
-    public Object visit(StringValue value) {
+    public Void visit(StringValue value) {
         return null;
     }
 
     @Override
-    public Object visit(Block block) {
+    public Void visit(Block block) {
         return null;
     }
 
     @Override
-    public Object visit(Conditional conditional) {
+    public Void visit(Conditional conditional) {
         return null;
     }
 
     @Override
-    public Object visit(For loop) {
+    public Void visit(For loop) {
         return null;
     }
 
     @Override
-    public Object visit(Break breakLoop) {
+    public Void visit(Break breakLoop) {
         return null;
     }
 
     @Override
-    public Object visit(Continue continueLoop) {
+    public Void visit(Continue continueLoop) {
         return null;
     }
 
     @Override
-    public Object visit(MsgHandlerCall msgHandlerCall) {
+    public Void visit(MsgHandlerCall msgHandlerCall) {
         return null;
     }
 
     @Override
-    public Object visit(Print print) {
+    public Void visit(Print print) {
         return null;
     }
 
     @Override
-    public Object visit(Assign assign) {
+    public Void visit(Assign assign) {
+        return null;
+    }
+
+    @Override
+    public Void visit(ArrayType arrayType) {
+        return null;
+    }
+
+    @Override
+    public Void visit(ActorType actorType) {
+        return null;
+    }
+
+    @Override
+    public Void visit(StringType stringType) {
+        return null;
+    }
+
+    @Override
+    public Void visit(IntType intType) {
+        return null;
+    }
+
+    @Override
+    public Void visit(BooleanType booleanType) {
         return null;
     }
 }

@@ -50,8 +50,8 @@ public class NameAnalyserSymbolTableItemVisitor implements SymbolTableItemVisito
             correct = false;
         if (!correct)
             System.out.printf(
-                    "%d:ErrorItemMessage: Redefinition of msghandler %s%n",
-                    item.getHandlerDeclaration().getName().getLine(), name
+                    "Line:%d:Redefinition of msghandler %s%n",
+                    item.getHandlerDeclaration().getLine(), name
             );
 
         SymbolTable.push(item.getHandlerSymbolTable());
@@ -91,9 +91,10 @@ public class NameAnalyserSymbolTableItemVisitor implements SymbolTableItemVisito
         }
         if (!correct)
             System.out.printf(
-                    "%d:ErrorItemMessage: Redefinition of variable %s%n",
-                    varDec.getIdentifier().getLine(), name
+                    "Line:%d:Redefinition of variable %s%n",
+                    varDec.getLine(), name
             );
+        correct &= varDec.getType().accept(astVisitor);
         return correct;
     }
 

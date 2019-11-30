@@ -306,7 +306,7 @@ public class actonParser extends Parser {
 			match(RPAREN);
 
 			            _localctx.synAst.setQueueSize((((ActorDeclarationContext)_localctx).queue!=null?Integer.valueOf(((ActorDeclarationContext)_localctx).queue.getText()):0));
-			            _localctx.synAst.setLine(((ActorDeclarationContext)_localctx).ACTOR.getLine());
+			            _localctx.synAst.setLine((((ActorDeclarationContext)_localctx).ACTOR!=null?((ActorDeclarationContext)_localctx).ACTOR.getLine():0));
 			        
 			setState(96);
 			match(LBRACE);
@@ -328,7 +328,9 @@ public class actonParser extends Parser {
 				setState(101);
 				match(SEMICOLON);
 
-				                    _localctx.synAst.addKnownActor(new VarDeclaration(((ActorDeclarationContext)_localctx).actorName.synAst, new ActorType(((ActorDeclarationContext)_localctx).actorType.synAst)));
+				                    VarDeclaration known = new VarDeclaration(((ActorDeclarationContext)_localctx).actorName.synAst, new ActorType(((ActorDeclarationContext)_localctx).actorType.synAst));
+				                    known.setLine((((ActorDeclarationContext)_localctx).actorType!=null?(((ActorDeclarationContext)_localctx).actorType.start):null).getLine());
+				                    _localctx.synAst.addKnownActor(known);
 				                
 				}
 				}
@@ -427,7 +429,7 @@ public class actonParser extends Parser {
 			{
 			setState(132);
 			((MainDeclarationContext)_localctx).MAIN = match(MAIN);
-			((MainDeclarationContext)_localctx).synAst =  new Main(); _localctx.synAst.setLine(((MainDeclarationContext)_localctx).MAIN.getLine());
+			((MainDeclarationContext)_localctx).synAst =  new Main(); _localctx.synAst.setLine((((MainDeclarationContext)_localctx).MAIN!=null?((MainDeclarationContext)_localctx).MAIN.getLine():0));
 			setState(134);
 			match(LBRACE);
 			setState(140);
@@ -567,7 +569,7 @@ public class actonParser extends Parser {
 
 
 			        _localctx.synAst.setInitArgs(((ActorInstantiationContext)_localctx).expressionList.synAst);
-			        _localctx.synAst.setLine(((ActorInstantiationContext)_localctx).LPAREN.getLine());
+			        _localctx.synAst.setLine((((ActorInstantiationContext)_localctx).LPAREN!=null?((ActorInstantiationContext)_localctx).LPAREN.getLine():0));
 			     	
 			}
 		}
@@ -641,7 +643,7 @@ public class actonParser extends Parser {
 
 			        ((InitHandlerDeclarationContext)_localctx).synAst = new InitHandlerDeclaration(new Identifier((((InitHandlerDeclarationContext)_localctx).INITIAL!=null?((InitHandlerDeclarationContext)_localctx).INITIAL.getText():null)));
 			        _localctx.synAst.setArgs(((InitHandlerDeclarationContext)_localctx).args.synAst);
-			        _localctx.synAst.setLine(((InitHandlerDeclarationContext)_localctx).MSGHANDLER.getLine());
+			        _localctx.synAst.setLine((((InitHandlerDeclarationContext)_localctx).MSGHANDLER!=null?((InitHandlerDeclarationContext)_localctx).MSGHANDLER.getLine():0));
 			        
 			setState(177);
 			match(LBRACE);
@@ -739,7 +741,7 @@ public class actonParser extends Parser {
 
 			            ((MsgHandlerDeclarationContext)_localctx).synAst =  new MsgHandlerDeclaration(((MsgHandlerDeclarationContext)_localctx).identifier.synAst);
 			            _localctx.synAst.setArgs(((MsgHandlerDeclarationContext)_localctx).args.synAst);
-			            _localctx.synAst.setLine(((MsgHandlerDeclarationContext)_localctx).MSGHANDLER.getLine());
+			            _localctx.synAst.setLine((((MsgHandlerDeclarationContext)_localctx).MSGHANDLER!=null?((MsgHandlerDeclarationContext)_localctx).MSGHANDLER.getLine():0));
 			        
 			setState(196);
 			match(LBRACE);
@@ -927,7 +929,10 @@ public class actonParser extends Parser {
 
 	public static class VarDeclarationContext extends ParserRuleContext {
 		public VarDeclaration synAst;
+		public Token INT;
 		public IdentifierContext identifier;
+		public Token STRING;
+		public Token BOOLEAN;
 		public Token INTVAL;
 		public TerminalNode INT() { return getToken(actonParser.INT, 0); }
 		public IdentifierContext identifier() {
@@ -963,11 +968,12 @@ public class actonParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(234);
-				match(INT);
+				((VarDeclarationContext)_localctx).INT = match(INT);
 				setState(235);
 				((VarDeclarationContext)_localctx).identifier = identifier();
 
 				                ((VarDeclarationContext)_localctx).synAst =  new VarDeclaration(((VarDeclarationContext)_localctx).identifier.synAst, new IntType());
+				                _localctx.synAst.setLine((((VarDeclarationContext)_localctx).INT!=null?((VarDeclarationContext)_localctx).INT.getLine():0));
 				            
 				}
 				break;
@@ -975,11 +981,12 @@ public class actonParser extends Parser {
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(238);
-				match(STRING);
+				((VarDeclarationContext)_localctx).STRING = match(STRING);
 				setState(239);
 				((VarDeclarationContext)_localctx).identifier = identifier();
 
 				                ((VarDeclarationContext)_localctx).synAst =  new VarDeclaration(((VarDeclarationContext)_localctx).identifier.synAst, new StringType());
+				                _localctx.synAst.setLine((((VarDeclarationContext)_localctx).STRING!=null?((VarDeclarationContext)_localctx).STRING.getLine():0));
 				            
 				}
 				break;
@@ -987,11 +994,12 @@ public class actonParser extends Parser {
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(242);
-				match(BOOLEAN);
+				((VarDeclarationContext)_localctx).BOOLEAN = match(BOOLEAN);
 				setState(243);
 				((VarDeclarationContext)_localctx).identifier = identifier();
 
 				                ((VarDeclarationContext)_localctx).synAst =  new VarDeclaration(((VarDeclarationContext)_localctx).identifier.synAst, new BooleanType());
+				                _localctx.synAst.setLine((((VarDeclarationContext)_localctx).BOOLEAN!=null?((VarDeclarationContext)_localctx).BOOLEAN.getLine():0));
 				            
 				}
 				break;
@@ -999,7 +1007,7 @@ public class actonParser extends Parser {
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(246);
-				match(INT);
+				((VarDeclarationContext)_localctx).INT = match(INT);
 				setState(247);
 				((VarDeclarationContext)_localctx).identifier = identifier();
 				setState(248);
@@ -1010,7 +1018,9 @@ public class actonParser extends Parser {
 				match(RBRACKET);
 
 				                ArrayType type = new ArrayType((((VarDeclarationContext)_localctx).INTVAL!=null?Integer.valueOf(((VarDeclarationContext)_localctx).INTVAL.getText()):0));
+				                type.setLine((((VarDeclarationContext)_localctx).INT!=null?((VarDeclarationContext)_localctx).INT.getLine():0));
 				                ((VarDeclarationContext)_localctx).synAst =  new VarDeclaration(((VarDeclarationContext)_localctx).identifier.synAst, type);
+				                _localctx.synAst.setLine((((VarDeclarationContext)_localctx).INT!=null?((VarDeclarationContext)_localctx).INT.getLine():0));
 				            
 				}
 				break;
@@ -1214,7 +1224,7 @@ public class actonParser extends Parser {
 			match(RBRACE);
 
 
-			        _localctx.synAst.setLine(((BlockStmtContext)_localctx).LBRACE.getLine());
+			        _localctx.synAst.setLine((((BlockStmtContext)_localctx).LBRACE!=null?((BlockStmtContext)_localctx).LBRACE.getLine():0));
 			        
 			}
 		}
@@ -1272,7 +1282,7 @@ public class actonParser extends Parser {
 			match(SEMICOLON);
 
 			        ((PrintStmtContext)_localctx).synAst =  new Print(((PrintStmtContext)_localctx).expression.synAst);
-			        _localctx.synAst.setLine(((PrintStmtContext)_localctx).PRINT.getLine());
+			        _localctx.synAst.setLine((((PrintStmtContext)_localctx).PRINT!=null?((PrintStmtContext)_localctx).PRINT.getLine():0));
 			        
 			}
 		}
@@ -1369,7 +1379,10 @@ public class actonParser extends Parser {
 			match(ASSIGN);
 			setState(307);
 			((AssignmentContext)_localctx).expression = expression();
-			((AssignmentContext)_localctx).synAst =  new Assign(((AssignmentContext)_localctx).orExpression.synAst, ((AssignmentContext)_localctx).expression.synAst); _localctx.synAst.setLine(((AssignmentContext)_localctx).orExpression.synAst.getLine());
+
+			        ((AssignmentContext)_localctx).synAst =  new Assign(((AssignmentContext)_localctx).orExpression.synAst, ((AssignmentContext)_localctx).expression.synAst);
+			        _localctx.synAst.setLine((((AssignmentContext)_localctx).orExpression!=null?(((AssignmentContext)_localctx).orExpression.start):null).getLine());
+			    
 			}
 		}
 		catch (RecognitionException re) {
@@ -1478,7 +1491,7 @@ public class actonParser extends Parser {
 			((ForStmtContext)_localctx).body = statement();
 
 			        _localctx.synAst.setBody(((ForStmtContext)_localctx).body.synAst);
-			        _localctx.synAst.setLine(((ForStmtContext)_localctx).FOR.getLine());
+			        _localctx.synAst.setLine((((ForStmtContext)_localctx).FOR!=null?((ForStmtContext)_localctx).FOR.getLine():0));
 			        
 			}
 		}
@@ -1647,7 +1660,7 @@ public class actonParser extends Parser {
 			match(SEMICOLON);
 
 			        ((ContinueStmtContext)_localctx).synAst =  new Continue();
-			        _localctx.synAst.setLine(((ContinueStmtContext)_localctx).CONTINUE.getLine());
+			        _localctx.synAst.setLine((((ContinueStmtContext)_localctx).CONTINUE!=null?((ContinueStmtContext)_localctx).CONTINUE.getLine():0));
 			        
 			}
 		}
@@ -1693,7 +1706,7 @@ public class actonParser extends Parser {
 			match(SEMICOLON);
 
 			        ((BreakStmtContext)_localctx).synAst =  new Break();
-			        _localctx.synAst.setLine(((BreakStmtContext)_localctx).BREAK.getLine());
+			        _localctx.synAst.setLine((((BreakStmtContext)_localctx).BREAK!=null?((BreakStmtContext)_localctx).BREAK.getLine():0));
 			        
 			}
 		}
@@ -1758,21 +1771,21 @@ public class actonParser extends Parser {
 				{
 				setState(358);
 				((MsgHandlerCallContext)_localctx).identifier = identifier();
-				ins = ((MsgHandlerCallContext)_localctx).identifier.synAst; ins.setLine(((MsgHandlerCallContext)_localctx).identifier.synAst.getLine());
+				ins = ((MsgHandlerCallContext)_localctx).identifier.synAst; 
 				}
 				break;
 			case SELF:
 				{
 				setState(361);
 				((MsgHandlerCallContext)_localctx).SELF = match(SELF);
-				ins = new Self(); ins.setLine(((MsgHandlerCallContext)_localctx).SELF.getLine());
+				ins = new Self(); ins.setLine((((MsgHandlerCallContext)_localctx).SELF!=null?((MsgHandlerCallContext)_localctx).SELF.getLine():0));
 				}
 				break;
 			case SENDER:
 				{
 				setState(363);
 				((MsgHandlerCallContext)_localctx).SENDER = match(SENDER);
-				ins = new Sender(); ins.setLine(((MsgHandlerCallContext)_localctx).SENDER.getLine());
+				ins = new Sender(); ins.setLine((((MsgHandlerCallContext)_localctx).SENDER!=null?((MsgHandlerCallContext)_localctx).SENDER.getLine():0));
 				}
 				break;
 			default:
@@ -1793,7 +1806,7 @@ public class actonParser extends Parser {
 
 			            ((MsgHandlerCallContext)_localctx).synAst =  new MsgHandlerCall(ins, ((MsgHandlerCallContext)_localctx).name.synAst);
 			            _localctx.synAst.setArgs(((MsgHandlerCallContext)_localctx).expressionList.synAst);
-			            _localctx.synAst.setLine(ins.getLine());
+			            _localctx.synAst.setLine((((MsgHandlerCallContext)_localctx).identifier!=null?(((MsgHandlerCallContext)_localctx).identifier.start):null).getLine());
 			        
 			}
 		}
@@ -1917,7 +1930,7 @@ public class actonParser extends Parser {
 				BinaryOperator op = null; int line;
 				setState(386);
 				((OrExpressionContext)_localctx).OR = match(OR);
-				op = BinaryOperator.or; line = ((OrExpressionContext)_localctx).OR.getLine();
+				op = BinaryOperator.or; line = (((OrExpressionContext)_localctx).OR!=null?((OrExpressionContext)_localctx).OR.getLine():0);
 				setState(388);
 				((OrExpressionContext)_localctx).right = andExpression();
 
@@ -1991,7 +2004,7 @@ public class actonParser extends Parser {
 				BinaryOperator op = null; int line;
 				setState(399);
 				((AndExpressionContext)_localctx).AND = match(AND);
-				op = BinaryOperator.and; line = ((AndExpressionContext)_localctx).AND.getLine();
+				op = BinaryOperator.and; line = (((AndExpressionContext)_localctx).AND!=null?((AndExpressionContext)_localctx).AND.getLine():0);
 				setState(401);
 				((AndExpressionContext)_localctx).right = equalityExpression();
 
@@ -2075,14 +2088,14 @@ public class actonParser extends Parser {
 					{
 					setState(412);
 					((EqualityExpressionContext)_localctx).EQ = match(EQ);
-					op = BinaryOperator.eq; line = ((EqualityExpressionContext)_localctx).EQ.getLine();
+					op = BinaryOperator.eq; line = (((EqualityExpressionContext)_localctx).EQ!=null?((EqualityExpressionContext)_localctx).EQ.getLine():0);
 					}
 					break;
 				case NEQ:
 					{
 					setState(414);
 					((EqualityExpressionContext)_localctx).NEQ = match(NEQ);
-					op = BinaryOperator.neq; line = ((EqualityExpressionContext)_localctx).NEQ.getLine();
+					op = BinaryOperator.neq; line = (((EqualityExpressionContext)_localctx).NEQ!=null?((EqualityExpressionContext)_localctx).NEQ.getLine():0);
 					}
 					break;
 				default:
@@ -2171,14 +2184,14 @@ public class actonParser extends Parser {
 					{
 					setState(429);
 					((RelationalExpressionContext)_localctx).LT = match(LT);
-					op = BinaryOperator.lt; line = ((RelationalExpressionContext)_localctx).LT.getLine();
+					op = BinaryOperator.lt; line = (((RelationalExpressionContext)_localctx).LT!=null?((RelationalExpressionContext)_localctx).LT.getLine():0);
 					}
 					break;
 				case GT:
 					{
 					setState(431);
 					((RelationalExpressionContext)_localctx).GT = match(GT);
-					op = BinaryOperator.gt; line = ((RelationalExpressionContext)_localctx).GT.getLine();
+					op = BinaryOperator.gt; line = (((RelationalExpressionContext)_localctx).GT!=null?((RelationalExpressionContext)_localctx).GT.getLine():0);
 					}
 					break;
 				default:
@@ -2267,14 +2280,14 @@ public class actonParser extends Parser {
 					{
 					setState(446);
 					((AdditiveExpressionContext)_localctx).PLUS = match(PLUS);
-					op = BinaryOperator.add; line = ((AdditiveExpressionContext)_localctx).PLUS.getLine();
+					op = BinaryOperator.add; line = (((AdditiveExpressionContext)_localctx).PLUS!=null?((AdditiveExpressionContext)_localctx).PLUS.getLine():0);
 					}
 					break;
 				case MINUS:
 					{
 					setState(448);
 					((AdditiveExpressionContext)_localctx).MINUS = match(MINUS);
-					op = BinaryOperator.sub; line = ((AdditiveExpressionContext)_localctx).MINUS.getLine();
+					op = BinaryOperator.sub; line = (((AdditiveExpressionContext)_localctx).MINUS!=null?((AdditiveExpressionContext)_localctx).MINUS.getLine():0);
 					}
 					break;
 				default:
@@ -2368,21 +2381,21 @@ public class actonParser extends Parser {
 					{
 					setState(463);
 					((MultiplicativeExpressionContext)_localctx).MULT = match(MULT);
-					op = BinaryOperator.mult; line = ((MultiplicativeExpressionContext)_localctx).MULT.getLine();
+					op = BinaryOperator.mult; line = (((MultiplicativeExpressionContext)_localctx).MULT!=null?((MultiplicativeExpressionContext)_localctx).MULT.getLine():0);
 					}
 					break;
 				case DIV:
 					{
 					setState(465);
 					((MultiplicativeExpressionContext)_localctx).DIV = match(DIV);
-					op = BinaryOperator.div; line = ((MultiplicativeExpressionContext)_localctx).DIV.getLine();
+					op = BinaryOperator.div; line = (((MultiplicativeExpressionContext)_localctx).DIV!=null?((MultiplicativeExpressionContext)_localctx).DIV.getLine():0);
 					}
 					break;
 				case PERCENT:
 					{
 					setState(467);
 					((MultiplicativeExpressionContext)_localctx).PERCENT = match(PERCENT);
-					op = BinaryOperator.mod; line = ((MultiplicativeExpressionContext)_localctx).PERCENT.getLine();
+					op = BinaryOperator.mod; line = (((MultiplicativeExpressionContext)_localctx).PERCENT!=null?((MultiplicativeExpressionContext)_localctx).PERCENT.getLine():0);
 					}
 					break;
 				default:
@@ -2461,7 +2474,7 @@ public class actonParser extends Parser {
 				((PreUnaryExpressionContext)_localctx).uExpr1 = preUnaryExpression();
 
 				            ((PreUnaryExpressionContext)_localctx).synAst =  new UnaryExpression(UnaryOperator.not, ((PreUnaryExpressionContext)_localctx).uExpr1.synAst);
-				            _localctx.synAst.setLine(((PreUnaryExpressionContext)_localctx).val.getLine());
+				            _localctx.synAst.setLine((((PreUnaryExpressionContext)_localctx).val!=null?((PreUnaryExpressionContext)_localctx).val.getLine():0));
 				        
 				}
 				break;
@@ -2474,7 +2487,7 @@ public class actonParser extends Parser {
 				((PreUnaryExpressionContext)_localctx).uExpr2 = preUnaryExpression();
 
 				            ((PreUnaryExpressionContext)_localctx).synAst =  new UnaryExpression(UnaryOperator.minus, ((PreUnaryExpressionContext)_localctx).uExpr2.synAst);
-				            _localctx.synAst.setLine(((PreUnaryExpressionContext)_localctx).val.getLine());
+				            _localctx.synAst.setLine((((PreUnaryExpressionContext)_localctx).val!=null?((PreUnaryExpressionContext)_localctx).val.getLine():0));
 				        
 				}
 				break;
@@ -2487,7 +2500,7 @@ public class actonParser extends Parser {
 				((PreUnaryExpressionContext)_localctx).uExpr3 = preUnaryExpression();
 
 				            ((PreUnaryExpressionContext)_localctx).synAst =  new UnaryExpression(UnaryOperator.preinc, ((PreUnaryExpressionContext)_localctx).uExpr3.synAst);
-				            _localctx.synAst.setLine(((PreUnaryExpressionContext)_localctx).val.getLine());
+				            _localctx.synAst.setLine((((PreUnaryExpressionContext)_localctx).val!=null?((PreUnaryExpressionContext)_localctx).val.getLine():0));
 				        
 				}
 				break;
@@ -2500,7 +2513,7 @@ public class actonParser extends Parser {
 				((PreUnaryExpressionContext)_localctx).uExpr4 = preUnaryExpression();
 
 				            ((PreUnaryExpressionContext)_localctx).synAst =  new UnaryExpression(UnaryOperator.predec, ((PreUnaryExpressionContext)_localctx).uExpr4.synAst);
-				            _localctx.synAst.setLine(((PreUnaryExpressionContext)_localctx).val.getLine());
+				            _localctx.synAst.setLine((((PreUnaryExpressionContext)_localctx).val!=null?((PreUnaryExpressionContext)_localctx).val.getLine():0));
 				        
 				}
 				break;
@@ -2752,7 +2765,7 @@ public class actonParser extends Parser {
 				{
 				setState(532);
 				((OtherExpressionContext)_localctx).SENDER = match(SENDER);
-				((OtherExpressionContext)_localctx).synAst =  new Sender(); _localctx.synAst.setLine(((OtherExpressionContext)_localctx).SENDER.getLine()); 
+				((OtherExpressionContext)_localctx).synAst =  new Sender(); _localctx.synAst.setLine((((OtherExpressionContext)_localctx).SENDER!=null?((OtherExpressionContext)_localctx).SENDER.getLine():0)); 
 				}
 				break;
 			}
@@ -3012,7 +3025,7 @@ public class actonParser extends Parser {
 			{
 			setState(570);
 			((IdentifierContext)_localctx).IDENTIFIER = match(IDENTIFIER);
-			((IdentifierContext)_localctx).synAst =  new Identifier((((IdentifierContext)_localctx).IDENTIFIER!=null?((IdentifierContext)_localctx).IDENTIFIER.getText():null));
+			((IdentifierContext)_localctx).synAst =  new Identifier((((IdentifierContext)_localctx).IDENTIFIER!=null?((IdentifierContext)_localctx).IDENTIFIER.getText():null)); _localctx.synAst.setLine((((IdentifierContext)_localctx).IDENTIFIER!=null?((IdentifierContext)_localctx).IDENTIFIER.getLine():0));
 			}
 		}
 		catch (RecognitionException re) {
@@ -3062,7 +3075,7 @@ public class actonParser extends Parser {
 				{
 				setState(573);
 				((ValueContext)_localctx).INTVAL = match(INTVAL);
-				((ValueContext)_localctx).synAst =  new IntValue((((ValueContext)_localctx).INTVAL!=null?Integer.valueOf(((ValueContext)_localctx).INTVAL.getText()):0), new IntType()); _localctx.synAst.setLine(((ValueContext)_localctx).INTVAL.getLine());
+				((ValueContext)_localctx).synAst =  new IntValue((((ValueContext)_localctx).INTVAL!=null?Integer.valueOf(((ValueContext)_localctx).INTVAL.getText()):0), new IntType()); _localctx.synAst.setLine((((ValueContext)_localctx).INTVAL!=null?((ValueContext)_localctx).INTVAL.getLine():0));
 				}
 				break;
 			case STRINGVAL:
@@ -3070,7 +3083,7 @@ public class actonParser extends Parser {
 				{
 				setState(575);
 				((ValueContext)_localctx).STRINGVAL = match(STRINGVAL);
-				((ValueContext)_localctx).synAst =  new StringValue((((ValueContext)_localctx).STRINGVAL!=null?((ValueContext)_localctx).STRINGVAL.getText():null), new StringType()); _localctx.synAst.setLine(((ValueContext)_localctx).STRINGVAL.getLine());
+				((ValueContext)_localctx).synAst =  new StringValue((((ValueContext)_localctx).STRINGVAL!=null?((ValueContext)_localctx).STRINGVAL.getText():null), new StringType()); _localctx.synAst.setLine((((ValueContext)_localctx).STRINGVAL!=null?((ValueContext)_localctx).STRINGVAL.getLine():0));
 				}
 				break;
 			case TRUE:
@@ -3078,7 +3091,7 @@ public class actonParser extends Parser {
 				{
 				setState(577);
 				((ValueContext)_localctx).TRUE = match(TRUE);
-				((ValueContext)_localctx).synAst =  new BooleanValue(true, new BooleanType()); _localctx.synAst.setLine(((ValueContext)_localctx).TRUE.getLine());
+				((ValueContext)_localctx).synAst =  new BooleanValue(true, new BooleanType()); _localctx.synAst.setLine((((ValueContext)_localctx).TRUE!=null?((ValueContext)_localctx).TRUE.getLine():0));
 				}
 				break;
 			case FALSE:
@@ -3086,7 +3099,7 @@ public class actonParser extends Parser {
 				{
 				setState(579);
 				((ValueContext)_localctx).FALSE = match(FALSE);
-				((ValueContext)_localctx).synAst =  new BooleanValue(false, new BooleanType()); _localctx.synAst.setLine(((ValueContext)_localctx).FALSE.getLine());
+				((ValueContext)_localctx).synAst =  new BooleanValue(false, new BooleanType()); _localctx.synAst.setLine((((ValueContext)_localctx).FALSE!=null?((ValueContext)_localctx).FALSE.getLine():0));
 				}
 				break;
 			default:

@@ -3,6 +3,7 @@ package ast.type.actorType;
 import ast.type.Type;
 import ast.node.declaration.ActorDeclaration;
 import ast.node.expression.Identifier;
+import visitor.Visitor;
 
 public class ActorType extends Type {
     private ActorDeclaration actorDeclaration;
@@ -32,5 +33,10 @@ public class ActorType extends Type {
     public String toString() {
         //return classDeclaration.getName().getName();
         return this.name.getName();
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

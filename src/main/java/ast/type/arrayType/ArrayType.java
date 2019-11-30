@@ -1,6 +1,7 @@
 package ast.type.arrayType;
 
 import ast.type.Type;
+import visitor.Visitor;
 
 public class ArrayType extends Type {
     private int size;
@@ -22,5 +23,8 @@ public class ArrayType extends Type {
         return "int[]";
     }
 
-    
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }

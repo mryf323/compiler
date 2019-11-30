@@ -3,6 +3,7 @@ import org.antlr.v4.runtime.*;
 import parsers.*;
 import symbolTable.SymbolTable;
 import visitor.FirstPassSymbolTableInitializer;
+import visitor.nameAnalysis.AstPrinter;
 import visitor.nameAnalysis.NameAnalyser;
 
 import java.io.IOException;
@@ -19,5 +20,7 @@ public class Acton {
         Program program = parser.program().p; /* assuming that the name of the Program ast node that the program rule returns is p */
         new FirstPassSymbolTableInitializer().visit(program);
         boolean success = new NameAnalyser().analyse(SymbolTable.top);
+        if(success)
+            new AstPrinter().visit(program);
     }
 }

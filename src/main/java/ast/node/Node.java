@@ -14,5 +14,5 @@ public abstract class Node {
         return this.line;
     }
 
-    public <T> T accept(Visitor<T> visitor) {return null;}
+    public abstract  <T> T accept(Visitor<T> visitor);
 }

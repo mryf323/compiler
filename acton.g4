@@ -21,7 +21,9 @@ import parsers.actonLexer;
 import parsers.actonParser;
 }
 program returns [Program p]
-    : {$p = new Program();} (dec = actorDeclaration { $p.addActor($dec.synAst); })+ main = mainDeclaration {$p.setMain($main.synAst);}
+    : {$p = new Program();}
+      (dec = actorDeclaration { $p.addActor($dec.synAst); })+
+      main = mainDeclaration {$p.setMain($main.synAst);}
     ;
 
 actorDeclaration returns [ActorDeclaration synAst]
@@ -31,7 +33,7 @@ actorDeclaration returns [ActorDeclaration synAst]
         (EXTENDS parent = identifier {$synAst.setParentName($parent.synAst);})? LPAREN queue = INTVAL RPAREN
         {
             $synAst.setQueueSize($queue.int);
-            $synAst.setLine($ACTOR.getLine());
+            $synAst.setLine($ACTOR.line);
         }
         LBRACE
 
@@ -40,7 +42,9 @@ actorDeclaration returns [ActorDeclaration synAst]
             (
                 actorType = identifier actorName = identifier SEMICOLON
                 {
-                    $synAst.addKnownActor(new VarDeclaration($actorName.synAst, new ActorType($actorType.synAst)));
+                    VarDeclaration known = new VarDeclaration($actorName.synAst, new ActorType($actorType.synAst));
+                    known.setLine($actorType.start.getLine());
+                    $synAst.addKnownActor(known);
                 }
             )*
         RBRACE)
@@ -58,7 +62,7 @@ actorDeclaration returns [ActorDeclaration synAst]
 
 mainDeclaration returns [Main synAst]
     :   MAIN
-        {$synAst = new Main(); $synAst.setLine($MAIN.getLine());}
+        {$synAst = new Main(); $synAst.setLine($MAIN.line);}
     	LBRACE
         (actorInstantiation{$synAst.addActorInstantiation($actorInstantiation.synAst);})*
     	RBRACE
@@ -74,7 +78,7 @@ actorInstantiation returns [ActorInstantiation synAst]
      	{
 
         $synAst.setInitArgs($expressionList.synAst);
-        $synAst.setLine($LPAREN.getLine());
+        $synAst.setLine($LPAREN.line);
      	}
     ;
 
@@ -83,7 +87,7 @@ initHandlerDeclaration returns [InitHandlerDeclaration synAst]
         {
         $synAst=new InitHandlerDeclaration(new Identifier($INITIAL.text));
         $synAst.setArgs($args.synAst);
-        $synAst.setLine($MSGHANDLER.getLine());
+        $synAst.setLine($MSGHANDLER.line);
         }
      	LBRACE
      	varDeclarations {$synAst.setLocalVars($varDeclarations.synAst);}
@@ -96,7 +100,7 @@ msgHandlerDeclaration returns [MsgHandlerDeclaration synAst]
         {
             $synAst = new MsgHandlerDeclaration($identifier.synAst);
             $synAst.setArgs($args.synAst);
-            $synAst.setLine($MSGHANDLER.getLine());
+            $synAst.setLine($MSGHANDLER.line);
         }
        	LBRACE
        	varDeclarations {$synAst.setLocalVars($varDeclarations.synAst);}
@@ -119,19 +123,24 @@ varDeclaration returns [VarDeclaration synAst]
     :	INT identifier
             {
                 $synAst = new VarDeclaration($identifier.synAst, new IntType());
+                $synAst.setLine($INT.line);
             }
     |   STRING identifier
             {
                 $synAst = new VarDeclaration($identifier.synAst, new StringType());
+                $synAst.setLine($STRING.line);
             }
     |   BOOLEAN identifier
             {
                 $synAst = new VarDeclaration($identifier.synAst, new BooleanType());
+                $synAst.setLine($BOOLEAN.line);
             }
     |   INT identifier LBRACKET INTVAL RBRACKET
             {
                 ArrayType type = new ArrayType($INTVAL.int);
+                type.setLine($INT.line);
                 $synAst = new VarDeclaration($identifier.synAst, type);
+                $synAst.setLine($INT.line);
             }
     ;
 
@@ -152,7 +161,7 @@ blockStmt returns [Block synAst]
     :   { $synAst = new Block();} 	LBRACE (statement {$synAst.addStatement($statement.synAst);})* RBRACE
         {
 
-        $synAst.setLine($LBRACE.getLine());
+        $synAst.setLine($LBRACE.line);
         }
     ;
 
@@ -160,7 +169,7 @@ printStmt returns [Print synAst]
     : 	PRINT LPAREN expression RPAREN SEMICOLON
         {
         $synAst = new Print($expression.synAst);
-        $synAst.setLine($PRINT.getLine());
+        $synAst.setLine($PRINT.line);
         }
     ;
 
@@ -169,7 +178,11 @@ assignStmt returns [Assign synAst]
     ;
 
 assignment returns [Assign synAst]
-    :   orExpression ASSIGN expression {$synAst = new Assign($orExpression.synAst, $expression.synAst); $synAst.setLine($orExpression.synAst.getLine());}
+    :   orExpression ASSIGN expression
+    {
+        $synAst = new Assign($orExpression.synAst, $expression.synAst);
+        $synAst.setLine($orExpression.start.getLine());
+    }
     ;
 
 forStmt returns [For synAst]
@@ -181,7 +194,7 @@ forStmt returns [For synAst]
         RPAREN body= statement
         {
         $synAst.setBody($body.synAst);
-        $synAst.setLine($FOR.getLine());
+        $synAst.setLine($FOR.line);
         }
     ;
 
@@ -201,7 +214,7 @@ continueStmt returns [Continue synAst]
     : 	CONTINUE SEMICOLON
         {
         $synAst = new Continue();
-        $synAst.setLine($CONTINUE.getLine());
+        $synAst.setLine($CONTINUE.line);
         }
     ;
 
@@ -209,22 +222,22 @@ breakStmt returns [Break synAst]
     : 	BREAK SEMICOLON
         {
         $synAst = new Break();
-        $synAst.setLine($BREAK.getLine());
+        $synAst.setLine($BREAK.line);
         }
     ;
 
 msgHandlerCall returns [MsgHandlerCall synAst]
     :   {Expression ins = null;}
     (
-    identifier {ins = $identifier.synAst; ins.setLine($identifier.synAst.getLine());} |
-        SELF {ins = new Self(); ins.setLine($SELF.getLine());} |
-        SENDER {ins = new Sender(); ins.setLine($SENDER.getLine());}
+    identifier {ins = $identifier.synAst; } |
+        SELF {ins = new Self(); ins.setLine($SELF.line);} |
+        SENDER {ins = new Sender(); ins.setLine($SENDER.line);}
     ) DOT
         name = identifier LPAREN expressionList RPAREN SEMICOLON
         {
             $synAst = new MsgHandlerCall(ins, $name.synAst);
             $synAst.setArgs($expressionList.synAst);
-            $synAst.setLine(ins.getLine());
+            $synAst.setLine($identifier.start.getLine());
         }
     ;
 
@@ -237,7 +250,7 @@ orExpression returns [Expression synAst]
     :	left = andExpression {$synAst = $left.synAst;}
      (
      {BinaryOperator op = null; int line;}
-     OR {op = BinaryOperator.or; line = $OR.getLine();}
+     OR {op = BinaryOperator.or; line = $OR.line;}
      right = andExpression
         {
              $synAst = new BinaryExpression($left.synAst,$right.synAst,op);
@@ -250,7 +263,7 @@ andExpression returns [Expression synAst]
     :	left =  equalityExpression {$synAst = $left.synAst;}
     (
     {BinaryOperator op = null; int line;}
-    AND {op = BinaryOperator.and; line = $AND.getLine();}
+    AND {op = BinaryOperator.and; line = $AND.line;}
     right = equalityExpression
         {
              $synAst = new BinaryExpression($left.synAst,$right.synAst,op);
@@ -263,8 +276,8 @@ equalityExpression returns [Expression synAst]
     :	left = relationalExpression {$synAst = $left.synAst;} (
      {BinaryOperator op = null; int line;}
      (
-            EQ {op = BinaryOperator.eq; line = $EQ.getLine();}|
-           NEQ {op = BinaryOperator.neq; line = $NEQ.getLine();}
+            EQ {op = BinaryOperator.eq; line = $EQ.line;}|
+           NEQ {op = BinaryOperator.neq; line = $NEQ.line;}
      )
        right =  relationalExpression
         {
@@ -278,8 +291,8 @@ relationalExpression returns [Expression synAst]
     : left = additiveExpression {$synAst = $left.synAst;} (
         {BinaryOperator op = null; int line;}
         (
-            LT {op = BinaryOperator.lt; line = $LT.getLine();}
-            | GT {op = BinaryOperator.gt; line = $GT.getLine();}
+            LT {op = BinaryOperator.lt; line = $LT.line;}
+            | GT {op = BinaryOperator.gt; line = $GT.line;}
         )
         right = additiveExpression
                     {
@@ -293,8 +306,8 @@ additiveExpression returns [Expression synAst]
     : left = multiplicativeExpression {$synAst = $left.synAst;} (
     {BinaryOperator op = null; int line;}
     (
-        PLUS {op = BinaryOperator.add; line = $PLUS.getLine();}
-        | MINUS {op = BinaryOperator.sub; line = $MINUS.getLine();}
+        PLUS {op = BinaryOperator.add; line = $PLUS.line;}
+        | MINUS {op = BinaryOperator.sub; line = $MINUS.line;}
     )
     right = multiplicativeExpression
             {
@@ -309,9 +322,9 @@ multiplicativeExpression returns [Expression synAst]
     (
         {BinaryOperator op = null; int line;}
         (
-            MULT {op = BinaryOperator.mult; line = $MULT.getLine();} |
-            DIV {op = BinaryOperator.div; line = $DIV.getLine();} |
-            PERCENT {op = BinaryOperator.mod; line = $PERCENT.getLine();}
+            MULT {op = BinaryOperator.mult; line = $MULT.line;} |
+            DIV {op = BinaryOperator.div; line = $DIV.line;} |
+            PERCENT {op = BinaryOperator.mod; line = $PERCENT.line;}
         )
          right = preUnaryExpression
         {
@@ -325,22 +338,22 @@ preUnaryExpression returns [Expression synAst]
     :   val = NOT uExpr1 =  preUnaryExpression
         {
             $synAst = new UnaryExpression(UnaryOperator.not, $uExpr1.synAst);
-            $synAst.setLine($val.getLine());
+            $synAst.setLine($val.line);
         }
     |   val = MINUS uExpr2 = preUnaryExpression
         {
             $synAst = new UnaryExpression(UnaryOperator.minus, $uExpr2.synAst);
-            $synAst.setLine($val.getLine());
+            $synAst.setLine($val.line);
         }
     |   val = PLUSPLUS uExpr3 = preUnaryExpression
         {
             $synAst = new UnaryExpression(UnaryOperator.preinc, $uExpr3.synAst);
-            $synAst.setLine($val.getLine());
+            $synAst.setLine($val.line);
         }
     |   val = MINUSMINUS uExpr4 = preUnaryExpression
         {
             $synAst = new UnaryExpression(UnaryOperator.predec, $uExpr4.synAst);
-            $synAst.setLine($val.getLine());
+            $synAst.setLine($val.line);
         }
     |   postUnaryExpression
     {
@@ -369,7 +382,7 @@ otherExpression returns [Expression synAst]
     |    arrayCall {$synAst = $arrayCall.synAst; }
     |    actorVarAccess {$synAst = $actorVarAccess.synAst; }
     |    value {$synAst = $value.synAst; }
-    |    SENDER {$synAst= new Sender(); $synAst.setLine($SENDER.getLine()); }
+    |    SENDER {$synAst= new Sender(); $synAst.setLine($SENDER.line); }
     ;
 
 arrayCall returns [ArrayCall synAst]
@@ -385,14 +398,14 @@ expressionList returns [ArrayList<Expression> synAst]
     ;
 
 identifier returns [Identifier synAst]
-    :   IDENTIFIER {$synAst = new Identifier($IDENTIFIER.text);}
+    :   IDENTIFIER {$synAst = new Identifier($IDENTIFIER.text); $synAst.setLine($IDENTIFIER.line);}
     ;
 
 value returns [Value synAst]
-    :   INTVAL {$synAst = new IntValue($INTVAL.int, new IntType()); $synAst.setLine($INTVAL.getLine());}
-     | STRINGVAL {$synAst = new StringValue($STRINGVAL.text, new StringType()); $synAst.setLine($STRINGVAL.getLine());}
-     | TRUE {$synAst = new BooleanValue(true, new BooleanType()); $synAst.setLine($TRUE.getLine());}
-     | FALSE {$synAst = new BooleanValue(false, new BooleanType()); $synAst.setLine($FALSE.getLine());}
+    :   INTVAL {$synAst = new IntValue($INTVAL.int, new IntType()); $synAst.setLine($INTVAL.line);}
+     | STRINGVAL {$synAst = new StringValue($STRINGVAL.text, new StringType()); $synAst.setLine($STRINGVAL.line);}
+     | TRUE {$synAst = new BooleanValue(true, new BooleanType()); $synAst.setLine($TRUE.line);}
+     | FALSE {$synAst = new BooleanValue(false, new BooleanType()); $synAst.setLine($FALSE.line);}
     ;
 
 // values
