@@ -55,7 +55,7 @@ public class NameAnalyserSymbolTableItemVisitor implements SymbolTableItemVisito
             );
 
         SymbolTable.push(item.getHandlerSymbolTable());
-        correct = mapReduceSymbolTable(SymbolTable.top, correct);
+        correct &= mapReduceSymbolTable(SymbolTable.top, correct);
         correct &= item.getHandlerDeclaration().getBody().stream()
                 .map(i -> i.accept(astVisitor))
                 .reduce(correct, (i, j) -> i && j);
