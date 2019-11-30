@@ -20,6 +20,13 @@ public class SymbolTable {
 		top = symbolTable;
 	}
 
+	public boolean containsKey(String key) {
+		SymbolTableItem item = items.get(key);
+		if (item == null && pre != null)
+			return pre.containsKey(key);
+		else return item != null;
+	}
+
 	// Use it in scope ends
 	public static void pop() {
 		top = stack.pop();
@@ -38,7 +45,7 @@ public class SymbolTable {
 
 	public SymbolTable(SymbolTable pre, String name) {
 		this.pre = pre;
-		this.items = new HashMap<String, SymbolTableItem>();
+		this.items = new LinkedHashMap<>();
 		this.lastUsedIndex = 1;
 		this.name = name;
 	}

@@ -34,7 +34,8 @@ public class VarDeclaration extends Declaration {
         return "VarDeclaration";
     }
 
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

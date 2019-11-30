@@ -50,7 +50,7 @@ public class MsgHandlerCall extends Statement {
          return "MsgHandlerCall";
     }
 
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-}
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
+    }}

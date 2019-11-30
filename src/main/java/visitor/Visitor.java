@@ -11,38 +11,38 @@ import ast.node.expression.values.IntValue;
 import ast.node.expression.values.StringValue;
 import ast.node.statement.*;
 
-public interface Visitor {
+public interface Visitor<T> {
 
-    void visit (Program program);
+    T visit (Program program);
 
     //Declarations
-    void visit (ActorDeclaration actorDeclaration);
-    void visit (HandlerDeclaration handlerDeclaration);
-    void visit (VarDeclaration varDeclaration);
+    T visit (ActorDeclaration actorDeclaration);
+    T visit (HandlerDeclaration handlerDeclaration);
+    T visit (VarDeclaration varDeclaration);
 
     //main
-    void visit(Main mainActors);
-    void visit(ActorInstantiation actorInstantiation);
+    T visit(Main mainActors);
+    T visit(ActorInstantiation actorInstantiation);
 
     //Expressions
-    void visit(UnaryExpression unaryExpression);
-    void visit(BinaryExpression binaryExpression);
-    void visit(ArrayCall arrayCall);
-    void visit(ActorVarAccess actorVarAccess);
-    void visit(Identifier identifier);
-    void visit(Self self);
-    void visit(Sender sender);
-    void visit(BooleanValue value);
-    void visit(IntValue value);
-    void visit(StringValue value);
+    T visit(UnaryExpression unaryExpression);
+    T visit(BinaryExpression binaryExpression);
+    T visit(ArrayCall arrayCall);
+    T visit(ActorVarAccess actorVarAccess);
+    T visit(Identifier identifier);
+    T visit(Self self);
+    T visit(Sender sender);
+    T visit(BooleanValue value);
+    T visit(IntValue value);
+    T visit(StringValue value);
 
     //Statements
-    void visit(Block block);
-    void visit(Conditional conditional);
-    void visit(For loop);
-    void visit(Break breakLoop);
-    void visit(Continue continueLoop);
-    void visit(MsgHandlerCall msgHandlerCall);
-    void visit(Print print);
-    void visit(Assign assign);
+    T visit(Block block);
+    T visit(Conditional conditional);
+    T visit(For loop);
+    T visit(Break breakLoop);
+    T visit(Continue continueLoop);
+    T visit(MsgHandlerCall msgHandlerCall);
+    T visit(Print print);
+    T visit(Assign assign);
 }

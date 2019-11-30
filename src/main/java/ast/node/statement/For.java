@@ -46,8 +46,8 @@ public class For extends Statement {
          return "For";
     }
 
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
-
 }

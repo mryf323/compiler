@@ -21,7 +21,7 @@ public class Block extends Statement
         return "Block";
     }
 
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-}
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
+    }}

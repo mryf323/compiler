@@ -1,6 +1,7 @@
 package symbolTable;
 
 import ast.node.Main;
+import visitor.SymbolTableItemVisitor;
 
 public class SymbolTableMainItem extends SymbolTableItem {
         
@@ -33,5 +34,10 @@ public class SymbolTableMainItem extends SymbolTableItem {
     public String getKey()
     {
         return SymbolTableMainItem.STARTKEY + this.name;
+    }
+
+    @Override
+    public <T> T accept(SymbolTableItemVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

@@ -2,6 +2,7 @@ package symbolTable.symbolTableVariableItem;
 
 import ast.type.Type;
 import ast.node.declaration.VarDeclaration;
+import visitor.SymbolTableItemVisitor;
 
 public class SymbolTableLocalVariableItem extends SymbolTableVariableItem {
     
@@ -13,5 +14,10 @@ public class SymbolTableLocalVariableItem extends SymbolTableVariableItem {
     public SymbolTableLocalVariableItem(VarDeclaration localVar)
     {
         super(localVar);
+    }
+
+    @Override
+    public <T> T accept(SymbolTableItemVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

@@ -19,6 +19,10 @@ public class ActorDeclaration extends Declaration {
         this.name = name;
     }
 
+    public void setName(Identifier name) {
+        this.name = name;
+    }
+
     public ArrayList<VarDeclaration> getKnownActors() {
         return knownActors;
     }
@@ -80,8 +84,9 @@ public class ActorDeclaration extends Declaration {
         return "ActorDeclaration";
     }
 
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 
 }
