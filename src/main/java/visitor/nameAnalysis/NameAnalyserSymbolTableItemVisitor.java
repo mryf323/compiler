@@ -31,7 +31,7 @@ public class NameAnalyserSymbolTableItemVisitor implements SymbolTableItemVisito
         boolean correct = item.getActorDeclaration().accept(astVisitor);
         SymbolTable.push(item.getActorSymbolTable());
         actor = item;
-        correct = mapReduceSymbolTable(SymbolTable.top, correct);
+        correct &= mapReduceSymbolTable(SymbolTable.top, correct);
         SymbolTable.pop();
         return correct;
     }
@@ -56,7 +56,7 @@ public class NameAnalyserSymbolTableItemVisitor implements SymbolTableItemVisito
 
         SymbolTable.push(item.getHandlerSymbolTable());
         correct = mapReduceSymbolTable(SymbolTable.top, correct);
-        correct = item.getHandlerDeclaration().getBody().stream()
+        correct &= item.getHandlerDeclaration().getBody().stream()
                 .map(i -> i.accept(astVisitor))
                 .reduce(correct, (i, j) -> i && j);
         SymbolTable.pop();
@@ -68,7 +68,7 @@ public class NameAnalyserSymbolTableItemVisitor implements SymbolTableItemVisito
 
         boolean correct = item.getProgramMain().accept(astVisitor);
         SymbolTable.push(item.getMainSymbolTable());
-        correct = item.getProgramMain().getMainActors().stream()
+        correct &= item.getProgramMain().getMainActors().stream()
                 .map(ins -> ins.accept(astVisitor))
                 .reduce(correct, (i, j) -> i && j);
         SymbolTable.pop();
@@ -94,7 +94,7 @@ public class NameAnalyserSymbolTableItemVisitor implements SymbolTableItemVisito
                     "%d:ErrorItemMessage: Redefinition of variable %s%n",
                     varDec.getIdentifier().getLine(), name
             );
-        return correct && varDec.accept(astVisitor);
+        return correct;
     }
 
     @Override

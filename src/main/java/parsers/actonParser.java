@@ -2414,7 +2414,7 @@ public class actonParser extends Parser {
 	}
 
 	public static class PreUnaryExpressionContext extends ParserRuleContext {
-		public UnaryExpression synAst;
+		public Expression synAst;
 		public Token val;
 		public PreUnaryExpressionContext uExpr1;
 		public PreUnaryExpressionContext uExpr2;
@@ -2517,8 +2517,8 @@ public class actonParser extends Parser {
 				setState(495);
 				((PreUnaryExpressionContext)_localctx).postUnaryExpression = postUnaryExpression();
 
-				                                        ((PreUnaryExpressionContext)_localctx).synAst =  ((PreUnaryExpressionContext)_localctx).postUnaryExpression.synAst;
-				                                    
+				        ((PreUnaryExpressionContext)_localctx).synAst =  ((PreUnaryExpressionContext)_localctx).postUnaryExpression.synAst;
+				    
 				}
 				break;
 			default:
@@ -2537,7 +2537,7 @@ public class actonParser extends Parser {
 	}
 
 	public static class PostUnaryExpressionContext extends ParserRuleContext {
-		public UnaryExpression synAst;
+		public Expression synAst;
 		public OtherExpressionContext operand;
 		public PostUnaryOpContext postUnaryOp;
 		public OtherExpressionContext otherExpression() {
@@ -2581,7 +2581,12 @@ public class actonParser extends Parser {
 				}
 			}
 
-			((PostUnaryExpressionContext)_localctx).synAst =  new UnaryExpression(op, ((PostUnaryExpressionContext)_localctx).operand.synAst);
+
+			            if (op != null)
+			                ((PostUnaryExpressionContext)_localctx).synAst =  new UnaryExpression(op, ((PostUnaryExpressionContext)_localctx).operand.synAst);
+			            else
+			                ((PostUnaryExpressionContext)_localctx).synAst =  ((PostUnaryExpressionContext)_localctx).operand.synAst;
+			        
 			}
 		}
 		catch (RecognitionException re) {

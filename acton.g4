@@ -321,7 +321,7 @@ multiplicativeExpression returns [Expression synAst]
     )*
     ;
 
-preUnaryExpression returns [UnaryExpression synAst]
+preUnaryExpression returns [Expression synAst]
     :   val = NOT uExpr1 =  preUnaryExpression
         {
             $synAst = new UnaryExpression(UnaryOperator.not, $uExpr1.synAst);
@@ -342,20 +342,25 @@ preUnaryExpression returns [UnaryExpression synAst]
             $synAst = new UnaryExpression(UnaryOperator.predec, $uExpr4.synAst);
             $synAst.setLine($val.getLine());
         }
-    |   postUnaryExpression         {
-                                        $synAst = $postUnaryExpression.synAst;
-                                    }
+    |   postUnaryExpression
+    {
+        $synAst = $postUnaryExpression.synAst;
+    }
     ;
 
-postUnaryExpression returns [UnaryExpression synAst]
+postUnaryExpression returns [Expression synAst]
     :   operand = otherExpression {UnaryOperator op = null;} (postUnaryOp {op = $postUnaryOp.synAst;})?
-        {$synAst = new UnaryExpression(op, $operand.synAst);}
+        {
+            if (op != null)
+                $synAst = new UnaryExpression(op, $operand.synAst);
+            else
+                $synAst = $operand.synAst;
+        }
     ;
 
 postUnaryOp returns[UnaryOperator synAst]
-    :  	PLUSPLUS  {$synAst=UnaryOperator.postinc;}
-
-    | MINUSMINUS {$synAst=UnaryOperator.postdec;}
+    :  	PLUSPLUS  {$synAst=UnaryOperator.postinc;} |
+        MINUSMINUS {$synAst=UnaryOperator.postdec;}
     ;
 
 otherExpression returns [Expression synAst]

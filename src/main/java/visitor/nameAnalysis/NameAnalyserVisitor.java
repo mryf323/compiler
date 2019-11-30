@@ -73,8 +73,17 @@ public class NameAnalyserVisitor implements Visitor<Boolean> {
 
     @Override
     public Boolean visit(VarDeclaration varDeclaration) {
-        return varDeclaration.getType().accept(this) &&
-                !SymbolTable.top.containsKey(SymbolTableVariableItem.STARTKEY + varDeclaration.getIdentifier().getName());
+        boolean correct = true;
+        String name = varDeclaration.getIdentifier().getName();
+        if (ForceSymbolTablePusher.isUnified(name)) {
+            name = ForceSymbolTablePusher.strip(name);
+            System.out.printf(
+                    "%d:ErrorItemMessage: Redefinition of variable %s%n",
+                    varDeclaration.getIdentifier().getLine(), name
+            );
+            correct = false;
+        }
+        return correct;
     }
 
     @Override
