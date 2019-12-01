@@ -8,11 +8,9 @@ actor A(5){
             boolean odd;
        }
        msghandler initial(int i2){
-            x = a++ ? a*2 ? x-- : e : (c ? ("Bruh") : x + --w);
+
        }
-
 }
-
 main {
     A a():();
     B b(b1):("SkrattarDuForlorarDu", 2, -2);

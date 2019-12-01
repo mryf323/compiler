@@ -1,0 +1,63 @@
+Program
+ActorDeclaration
+Identifier A
+VarDeclaration
+A
+Identifier A
+Identifier a
+VarDeclaration
+int
+Identifier i
+VarDeclaration
+boolean
+Identifier odd
+InitHandlerDeclaration
+Identifier initial
+VarDeclaration
+int
+Identifier i2
+Assign
+Identifier i
+Identifier i2
+Assign
+Identifier even
+BooleanValue true
+MsgHandlerDeclaration
+Identifier foo
+Conditional
+BinaryExpression eq
+Identifier odd
+BooleanValue true
+Block
+Print
+BinaryExpression add
+BinaryExpression mult
+Identifier i
+Identifier i
+Identifier i
+Assign
+Identifier odd
+UnaryExpression not
+Identifier odd
+Assign
+Identifier i
+UnaryExpression postinc
+Identifier i
+MsgHandlerDeclaration
+Identifier bar
+MsgHandlerCall
+Identifier a
+Identifier foo
+Main
+ActorInstantiation
+A
+Identifier A
+Identifier a1
+Identifier a2
+IntValue 0
+ActorInstantiation
+A
+Identifier A
+Identifier a2
+Identifier a1
+IntValue 1
