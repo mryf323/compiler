@@ -44,7 +44,6 @@ public class FirstPassSymbolTableInitializer implements Visitor<SymbolTable> {
     @Override
     public SymbolTable visit(ActorDeclaration actorDeclaration) {
 
-        actorDeclaration.setSequenceNumber(latestActorSequenceNumber ++);
         SymbolTableActorItem item = new ForceSymbolTablePusher<SymbolTableActorItem>() {
 
             @Override

@@ -21,16 +21,6 @@ public class ActorDeclaration extends Declaration {
     private Identifier parentName;
     private int queueSize;
 
-    private int sequenceNumber;
-
-    public void setSequenceNumber(int sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-
-    public int getSequenceNumber() {
-        return sequenceNumber;
-    }
-
     public ActorDeclaration(Identifier name){
         this.name = name;
     }

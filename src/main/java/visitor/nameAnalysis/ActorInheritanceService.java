@@ -47,7 +47,7 @@ public class ActorInheritanceService {
                     if (visited.contains(parent.getName())) {
                         if (parent.getName().equals(actor.getName()) &&
                                 result.stream().allMatch(
-                                        p -> p.getActorDeclaration().getSequenceNumber() > actor.getSequenceNumber()
+                                        p -> p.getActorDeclaration().getLine() > actor.getLine()
                                 )
                         ) {
                             cyclicActors.add(actor.getName());
