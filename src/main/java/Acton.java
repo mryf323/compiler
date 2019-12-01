@@ -1,10 +1,13 @@
 import ast.node.Program;
-import org.antlr.v4.runtime.*;
-import parsers.*;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import parsers.actonLexer;
+import parsers.actonParser;
 import symbolTable.SymbolTable;
 import visitor.FirstPassSymbolTableInitializer;
 import visitor.nameAnalysis.AstPrinter;
-import visitor.nameAnalysis.NameAnalyser;
+import visitor.nameAnalysis.NameAnalyserVisitor;
 
 import java.io.IOException;
 
@@ -18,8 +21,8 @@ public class Acton {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         actonParser parser = new actonParser(tokens);
         Program program = parser.program().p; /* assuming that the name of the Program ast node that the program rule returns is p */
-        new FirstPassSymbolTableInitializer().visit(program);
-        boolean success = new NameAnalyser().analyse(SymbolTable.top);
+        SymbolTable global = new FirstPassSymbolTableInitializer().visit(program);
+        boolean success = new NameAnalyserVisitor(global).visit(program);
         if(success)
             new AstPrinter().visit(program);
     }

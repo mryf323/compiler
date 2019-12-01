@@ -1,10 +1,11 @@
 package visitor;
 
-import ast.node.*;
+import ast.node.Main;
 import ast.node.Program;
-import ast.node.declaration.*;
-import ast.node.declaration.handler.HandlerDeclaration;
+import ast.node.declaration.ActorDeclaration;
+import ast.node.declaration.ActorInstantiation;
 import ast.node.declaration.VarDeclaration;
+import ast.node.declaration.handler.HandlerDeclaration;
 import ast.node.expression.*;
 import ast.node.expression.values.BooleanValue;
 import ast.node.expression.values.IntValue;

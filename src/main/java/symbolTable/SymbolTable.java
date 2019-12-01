@@ -3,7 +3,8 @@ package symbolTable;
 import symbolTable.itemException.ItemAlreadyExistsException;
 import symbolTable.itemException.ItemNotFoundException;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class SymbolTable {
 
@@ -28,8 +29,10 @@ public class SymbolTable {
 	}
 
 	// Use it in scope ends
-	public static void pop() {
+	public static SymbolTable pop() {
+		SymbolTable oldTop = top;
 		top = stack.pop();
+		return oldTop;
 	}
 
 	// End of static members region

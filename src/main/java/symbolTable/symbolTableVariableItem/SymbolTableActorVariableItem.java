@@ -1,8 +1,7 @@
 package symbolTable.symbolTableVariableItem;
 
-import ast.type.Type;
 import ast.node.declaration.VarDeclaration;
-import visitor.SymbolTableItemVisitor;
+import ast.type.Type;
 
 public class SymbolTableActorVariableItem extends SymbolTableVariableItem{
     
@@ -16,8 +15,4 @@ public class SymbolTableActorVariableItem extends SymbolTableVariableItem{
         super(actorVar);
     }
 
-    @Override
-    public <T> T accept(SymbolTableItemVisitor<T> visitor) {
-        return visitor.visit(this);
-    }
 }

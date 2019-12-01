@@ -1,0 +1,78 @@
+Program
+ActorDeclaration
+Identifier calculator
+VarDeclaration
+Taylor
+Identifier Taylor
+Identifier t
+VarDeclaration
+int
+Identifier latest_fact
+InitHandlerDeclaration
+Identifier initial
+Assign
+Identifier latest_fact
+IntValue 0
+MsgHandlerDeclaration
+Identifier factorial
+VarDeclaration
+int
+Identifier n
+VarDeclaration
+int
+Identifier temp
+Assign
+Identifier temp
+IntValue 1
+For
+Block
+Conditional
+BinaryExpression eq
+Identifier n
+IntValue 0
+Break
+Assign
+Identifier temp
+BinaryExpression mult
+Identifier temp
+Identifier n
+Assign
+Identifier n
+BinaryExpression sub
+Identifier n
+IntValue 1
+Assign
+Identifier latest_fact
+Identifier temp
+MsgHandlerDeclaration
+Identifier get_fact
+VarDeclaration
+int
+Identifier n
+MsgHandlerCall
+Self
+Identifier factorial
+Identifier n
+Conditional
+BinaryExpression eq
+Sender
+Identifier t
+MsgHandlerCall
+Sender
+Identifier pass
+ActorVarAccess
+Self
+Identifier latest_fact
+Print
+StringValue "can't send msg to known actor"
+Main
+ActorInstantiation
+Calculator
+Identifier Calculator
+Identifier c
+Identifier t
+ActorInstantiation
+Taylor
+Identifier Taylor
+Identifier t
+Identifier c

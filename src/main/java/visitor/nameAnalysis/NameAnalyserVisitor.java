@@ -17,20 +17,47 @@ import ast.type.primitiveType.BooleanType;
 import ast.type.primitiveType.IntType;
 import ast.type.primitiveType.StringType;
 import symbolTable.SymbolTable;
+import symbolTable.SymbolTableActorItem;
+import symbolTable.SymbolTableHandlerItem;
+import symbolTable.SymbolTableMainItem;
+import symbolTable.itemException.ItemNotFoundException;
+import symbolTable.symbolTableVariableItem.SymbolTableVariableItem;
 import visitor.ForceSymbolTablePusher;
+import visitor.VariableDeclarationZone;
 import visitor.Visitor;
+
+import java.util.stream.Stream;
+
+import static java.util.function.Function.identity;
 
 public class NameAnalyserVisitor implements Visitor<Boolean> {
 
-    private ActorInheritanceService inheritanceService = ActorInheritanceService.getInstance();
+    private VariableDeclarationZone variableDeclarationZone;
 
-    @Override
-    public Boolean visit(Program program) {
-        return true;
+    private ActorInheritanceService inheritanceService = ActorInheritanceService.getInstance();
+    private final SymbolTable global;
+    private ActorDeclaration currentActor;
+
+    public NameAnalyserVisitor(SymbolTable global) {
+        this.global = global;
+    }
+
+    @SafeVarargs
+    private final boolean eval(Stream<Boolean>... streams) {
+        return Stream.of(streams).flatMap(identity()).reduce(Boolean::logicalAnd).orElse(true);
     }
 
     @Override
-    public Boolean visit(ActorDeclaration actorDec) {
+    public Boolean visit(Program program) {
+        SymbolTable.push(this.global);
+        boolean correct = eval(program.getActors().stream().map(i -> i.accept(this)));
+        correct &= program.getMain().accept(this);
+        SymbolTable.pop();
+        return correct;
+    }
+
+    @Override
+    public Boolean visit(ActorDeclaration actorDec) {try{
 
         boolean correct = true;
         String name = actorDec.getName().getName();
@@ -55,48 +82,107 @@ public class NameAnalyserVisitor implements Visitor<Boolean> {
                     actorDec.getLine()
             );
             correct = false;
-
         }
+
+        SymbolTableActorItem symbolTable = (SymbolTableActorItem)
+                SymbolTable.top.get(SymbolTableActorItem.STARTKEY + actorDec.getName().getName());
+        SymbolTable.push(symbolTable.getActorSymbolTable());
+        this.currentActor = actorDec;
+
+        variableDeclarationZone = VariableDeclarationZone.KNOWN_ACTOR;
+        correct &= eval(actorDec.getKnownActors().stream().map(i -> i.accept(this)));
+
+        variableDeclarationZone = VariableDeclarationZone.ACTOR_VAR;
+        correct &= eval(actorDec.getActorVars().stream().map(i -> i.accept(this)));
+
+
+        if (actorDec.getInitHandler() != null) {
+            correct &= actorDec.getInitHandler().accept(this);
+        }
+        correct &= eval(actorDec.getMsgHandlers().stream().map(i -> i.accept(this)));
+        SymbolTable.pop();
         return correct;
-    }
+    }catch (ItemNotFoundException ignored){}return null;}
 
     @Override
-    public Boolean visit(HandlerDeclaration handlerDec) {
-        return true;
-    }
+    public Boolean visit(HandlerDeclaration handlerDec) {try{
 
-    @Override
-    public Boolean visit(VarDeclaration varDeclaration) {
         boolean correct = true;
-        String name = varDeclaration.getIdentifier().getName();
+        String name = handlerDec.getName().getName();
         if (ForceSymbolTablePusher.isUnified(name)) {
             name = ForceSymbolTablePusher.strip(name);
-            System.out.printf(
-                    "Line:%d:Redefinition of variable %s%n",
-                    varDeclaration.getLine(), name
-            );
             correct = false;
         }
-        correct &= varDeclaration.getType().accept(this);
+        if (!name.equals("initial"))
+            correct &= inheritanceService.transitiveParents(currentActor)
+                    .stream().noneMatch(p ->
+                            p.getActorSymbolTable().containsKey(SymbolTableHandlerItem.STARTKEY + handlerDec.getName().getName())
+                    );
+
+        if (!correct)
+            System.out.printf(
+                    "Line:%d:Redefinition of msghandler %s%n",
+                    handlerDec.getLine(), name
+            );
+
+        SymbolTableHandlerItem symbolTable = (SymbolTableHandlerItem)
+                SymbolTable.top.get(SymbolTableHandlerItem.STARTKEY + handlerDec.getName().getName());
+        SymbolTable.push(symbolTable.getHandlerSymbolTable());
+
+        variableDeclarationZone = VariableDeclarationZone.HANDLER_ARG;
+        correct &= eval(handlerDec.getArgs().stream().map(i -> i.accept(this)));
+
+        variableDeclarationZone = VariableDeclarationZone.LOCAL;
+        correct &= eval(
+                handlerDec.getLocalVars().stream().map(i -> i.accept(this)),
+                handlerDec.getBody().stream().map(i -> i.accept(this))
+        );
+        SymbolTable.pop();
+        return correct;
+    }catch (ItemNotFoundException ignored){}return null;}
+
+    @Override
+    public Boolean visit(VarDeclaration varDec) {
+
+        boolean correct = true;
+        String name = varDec.getIdentifier().getName();
+        if (ForceSymbolTablePusher.isUnified(name)) {
+            name = ForceSymbolTablePusher.strip(name);
+            correct = false;
+        }
+        if (
+                variableDeclarationZone == VariableDeclarationZone.KNOWN_ACTOR ||
+                variableDeclarationZone == VariableDeclarationZone.ACTOR_VAR
+        )
+            correct &= inheritanceService.transitiveParents(currentActor)
+                    .stream().noneMatch(p -> p.getActorSymbolTable()
+                            .containsKey(SymbolTableVariableItem.STARTKEY + varDec.getIdentifier().getName()));
+        if (!correct)
+            System.out.printf(
+                    "Line:%d:Redefinition of variable %s%n",
+                    varDec.getLine(), name
+            );
+        correct &= varDec.getType().accept(this);
         return correct;
     }
 
     @Override
-    public Boolean visit(Main mainActors) {
-        return true;
-    }
+    public Boolean visit(Main mainActors) {try{
+        SymbolTableMainItem symbolTable = (SymbolTableMainItem)
+                SymbolTable.top.get(SymbolTableMainItem.STARTKEY+SymbolTableMainItem.NAME);
+        SymbolTable.push(symbolTable.getMainSymbolTable());
+        boolean correct = eval(mainActors.getMainActors().stream().map(ins -> ins.accept(this)));
+        SymbolTable.pop();
+        return correct;
+    }catch (ItemNotFoundException ignored){}return null;}
 
     @Override
     public Boolean visit(ActorInstantiation actorInstantiation) {
 
-        return visit((VarDeclaration) actorInstantiation) &&
-                actorInstantiation.getKnownActors().stream()
-                        .map(i -> i.accept(this))
-                        .reduce(true, (i, j) -> i && j) &&
-                actorInstantiation.getInitArgs().stream()
-                        .map(i -> i.accept(this))
-                        .reduce(true, (i, j) -> i && j);
-
+        return visit((VarDeclaration) actorInstantiation) && eval(
+                actorInstantiation.getKnownActors().stream().map(i -> i.accept(this)),
+                actorInstantiation.getInitArgs().stream().map(i -> i.accept(this))
+        );
     }
 
     @Override
@@ -218,7 +304,7 @@ public class NameAnalyserVisitor implements Visitor<Boolean> {
 
     @Override
     public Boolean visit(ArrayType arrayType) {
-        if (arrayType.getSize() == 0){
+        if (arrayType.getSize() == 0) {
             System.out.printf("Line:%d:Array size must be positive%n", arrayType.getLine());
             return false;
         }

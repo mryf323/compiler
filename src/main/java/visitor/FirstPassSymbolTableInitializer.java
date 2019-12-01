@@ -22,7 +22,7 @@ import symbolTable.SymbolTableHandlerItem;
 import symbolTable.SymbolTableMainItem;
 import symbolTable.symbolTableVariableItem.*;
 
-public class FirstPassSymbolTableInitializer implements Visitor<Void> {
+public class FirstPassSymbolTableInitializer implements Visitor<SymbolTable> {
 
     private VariableDeclarationZone variableDeclarationZone;
 
@@ -30,7 +30,7 @@ public class FirstPassSymbolTableInitializer implements Visitor<Void> {
 
 
     @Override
-    public Void visit(Program program) {
+    public SymbolTable visit(Program program) {
 
 
         SymbolTable.push(new SymbolTable());
@@ -38,11 +38,11 @@ public class FirstPassSymbolTableInitializer implements Visitor<Void> {
         program.getActors().forEach(i -> i.accept(this));
 
         program.getMain().accept(this);
-        return null;
+        return SymbolTable.pop();
     }
 
     @Override
-    public Void visit(ActorDeclaration actorDeclaration) {
+    public SymbolTable visit(ActorDeclaration actorDeclaration) {
 
         actorDeclaration.setSequenceNumber(latestActorSequenceNumber ++);
         SymbolTableActorItem item = new ForceSymbolTablePusher<SymbolTableActorItem>() {
@@ -73,12 +73,11 @@ public class FirstPassSymbolTableInitializer implements Visitor<Void> {
             actorDeclaration.getInitHandler().accept(this);
         }
         actorDeclaration.getMsgHandlers().forEach(i -> i.accept(this));
-        SymbolTable.pop();
-        return null;
+        return SymbolTable.pop();
     }
 
     @Override
-    public Void visit(HandlerDeclaration handlerDeclaration) {
+    public SymbolTable visit(HandlerDeclaration handlerDeclaration) {
 
         SymbolTableHandlerItem item = new ForceSymbolTablePusher<SymbolTableHandlerItem>() {
             @Override
@@ -101,13 +100,12 @@ public class FirstPassSymbolTableInitializer implements Visitor<Void> {
 
         variableDeclarationZone = VariableDeclarationZone.LOCAL;
         handlerDeclaration.getLocalVars().forEach(local -> local.accept(this));
-
-        SymbolTable.pop();
-        return null;
+        
+        return SymbolTable.pop();
     }
 
     @Override
-    public Void visit(VarDeclaration varDeclaration) {
+    public SymbolTable visit(VarDeclaration varDeclaration) {
         new ForceSymbolTablePusher<SymbolTableVariableItem>() {
             private SymbolTableVariableItem nodeToItem(VarDeclaration declaration) {
                 switch (variableDeclarationZone) {
@@ -135,11 +133,11 @@ public class FirstPassSymbolTableInitializer implements Visitor<Void> {
                 return nodeToItem(varDeclaration);
             }
         }.forcePush(SymbolTable.top);
-        return null;
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(Main mainActors) {
+    public SymbolTable visit(Main mainActors) {
 
         SymbolTableMainItem item = new ForceSymbolTablePusher<SymbolTableMainItem>() {
             @Override
@@ -158,11 +156,11 @@ public class FirstPassSymbolTableInitializer implements Visitor<Void> {
         item.setMainSymbolTable(symbolTable);
         mainActors.getMainActors().forEach(ins -> ins.accept(this));
         SymbolTable.pop();
-        return null;
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(ActorInstantiation actorInstantiation) {
+    public SymbolTable visit(ActorInstantiation actorInstantiation) {
 
         new ForceSymbolTablePusher<SymbolTableLocalVariableItem>() {
 
@@ -177,122 +175,122 @@ public class FirstPassSymbolTableInitializer implements Visitor<Void> {
                 return new SymbolTableLocalVariableItem(actorInstantiation);
             }
         }.forcePush(SymbolTable.top);
-        return null;
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(UnaryExpression unaryExpression) {
-        return null;
+    public SymbolTable visit(UnaryExpression unaryExpression) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(BinaryExpression binaryExpression) {
-        return null;
+    public SymbolTable visit(BinaryExpression binaryExpression) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(ArrayCall arrayCall) {
-        return null;
+    public SymbolTable visit(ArrayCall arrayCall) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(ActorVarAccess actorVarAccess) {
-        return null;
+    public SymbolTable visit(ActorVarAccess actorVarAccess) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(Identifier identifier) {
-        return null;
+    public SymbolTable visit(Identifier identifier) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(Self self) {
-        return null;
+    public SymbolTable visit(Self self) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(Sender sender) {
-        return null;
+    public SymbolTable visit(Sender sender) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(BooleanValue value) {
-        return null;
+    public SymbolTable visit(BooleanValue value) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(IntValue value) {
-        return null;
+    public SymbolTable visit(IntValue value) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(StringValue value) {
-        return null;
+    public SymbolTable visit(StringValue value) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(Block block) {
-        return null;
+    public SymbolTable visit(Block block) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(Conditional conditional) {
-        return null;
+    public SymbolTable visit(Conditional conditional) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(For loop) {
-        return null;
+    public SymbolTable visit(For loop) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(Break breakLoop) {
-        return null;
+    public SymbolTable visit(Break breakLoop) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(Continue continueLoop) {
-        return null;
+    public SymbolTable visit(Continue continueLoop) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(MsgHandlerCall msgHandlerCall) {
-        return null;
+    public SymbolTable visit(MsgHandlerCall msgHandlerCall) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(Print print) {
-        return null;
+    public SymbolTable visit(Print print) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(Assign assign) {
-        return null;
+    public SymbolTable visit(Assign assign) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(ArrayType arrayType) {
-        return null;
+    public SymbolTable visit(ArrayType arrayType) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(ActorType actorType) {
-        return null;
+    public SymbolTable visit(ActorType actorType) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(StringType stringType) {
-        return null;
+    public SymbolTable visit(StringType stringType) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(IntType intType) {
-        return null;
+    public SymbolTable visit(IntType intType) {
+        return SymbolTable.top;
     }
 
     @Override
-    public Void visit(BooleanType booleanType) {
-        return null;
+    public SymbolTable visit(BooleanType booleanType) {
+        return SymbolTable.top;
     }
 }
 

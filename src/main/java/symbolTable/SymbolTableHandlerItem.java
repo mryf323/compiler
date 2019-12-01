@@ -1,12 +1,12 @@
 package symbolTable;
 
-import ast.type.Type;
-import ast.node.declaration.handler.*;
 import ast.node.declaration.VarDeclaration;
-import visitor.SymbolTableItemVisitor;
+import ast.node.declaration.handler.HandlerDeclaration;
+import ast.type.Type;
+
+import java.util.ArrayList;
 
 // import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 public class SymbolTableHandlerItem extends SymbolTableItem {
 
@@ -66,8 +66,4 @@ public class SymbolTableHandlerItem extends SymbolTableItem {
         return SymbolTableHandlerItem.STARTKEY + this.name;
     }
 
-    @Override
-    public <T> T accept(SymbolTableItemVisitor<T> visitor) {
-        return visitor.visit(this);
-    }
 }

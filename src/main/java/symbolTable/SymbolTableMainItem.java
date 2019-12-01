@@ -1,17 +1,18 @@
 package symbolTable;
 
 import ast.node.Main;
-import visitor.SymbolTableItemVisitor;
 
 public class SymbolTableMainItem extends SymbolTableItem {
         
     protected SymbolTable mainSymbolTable;
     protected Main programMain;
     public static final String STARTKEY = "Main_";
+    public static String NAME = "src/main";
+
 
     public SymbolTableMainItem(Main programMain)
     {
-        this.name = "src/main";
+        this.name = NAME;
         this.programMain = programMain;
     }
     
@@ -30,14 +31,11 @@ public class SymbolTableMainItem extends SymbolTableItem {
         return programMain;
     }
 
+
+
     @Override
     public String getKey()
     {
         return SymbolTableMainItem.STARTKEY + this.name;
-    }
-
-    @Override
-    public <T> T accept(SymbolTableItemVisitor<T> visitor) {
-        return visitor.visit(this);
     }
 }
