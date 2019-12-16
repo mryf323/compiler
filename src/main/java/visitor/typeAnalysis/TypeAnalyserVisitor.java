@@ -67,7 +67,6 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
                     .get(SymbolTableActorItem.STARTKEY + identifier.getName());
             return new AnalysedType<>(new ActorType(item.getActorDeclaration()), true);
         } catch (ItemNotFoundException e) {
-            System.out.printf(UNDECLARED_VAR, identifier.getLine(), identifier.getName());
             return AnalysedType.NO_TYPE;
         }
     }
@@ -169,6 +168,7 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
                         Collections.reverse(l);
                         return l;
                     }));
+            parents.add(actorDeclaration);
 
             List<AnalysedType> expectedKnownActors = parents.stream()
                     .flatMap(p -> p.getKnownActors().stream())
@@ -179,8 +179,15 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
                     .stream().map(i -> i.accept(this))
                     .collect(Collectors.toList());
 
-            if(checkArgs(expectedKnownActors, actualKnownActors))
+            if(checkKnownActorArgs(expectedKnownActors, actualKnownActors))
                 System.out.printf(KNOWN_ACTOR_MISMATCH, actorInstantiation.getLine());
+
+            if (actorDeclaration.getInitHandler() != null) {
+                MsgHandlerCall call = new MsgHandlerCall(actorInstantiation.getIdentifier(), new Identifier("initial"));
+                actorInstantiation.getInitArgs().forEach(call::addArg);
+                call.accept(this);
+            } else if (actorInstantiation.getInitArgs().size() > 0)
+                System.out.printf(UNDECLARED_HANDLER, actorInstantiation.getLine(), "initial", actorDeclaration.getName().getName());
 
         }
         return null;
@@ -239,9 +246,7 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
         AnalysedType instanceType = arrayCall.getArrayInstance().accept(this);
         AnalysedType indexType = arrayCall.getIndex().accept(this);
 
-        if (instanceType.getType() instanceof NoType || indexType.getType() instanceof NoType)
-            return AnalysedType.NO_TYPE;
-        if (instanceType.getType() instanceof ArrayType)
+        if (instanceType.getType() instanceof ArrayType && indexType.getType() instanceof IntType)
             return new AnalysedType<>(new IntType(), instanceType.islValue());
 
         return AnalysedType.NO_TYPE;
@@ -260,6 +265,7 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
                     .get(SymbolTableVariableItem.STARTKEY + identifier.getName());
             return new AnalysedType<>(item.getType(), true);
         } catch (ItemNotFoundException ignored) {
+            System.out.printf(UNDECLARED_VAR, identifier.getLine(), identifier.getName());
             return AnalysedType.NO_TYPE;
         }
     }
@@ -349,17 +355,35 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
         return null;
     }
 
-    private boolean checkArgs(List<AnalysedType> expectedArgs, List<AnalysedType> actualArgs){
+    private boolean checkKnownActorArgs(List<AnalysedType> expectedArgs, List<AnalysedType> actualArgs) {
 
         boolean match = actualArgs.size() == expectedArgs.size();
+        if (!match)
+            return false;
         for (int i = 0; i < expectedArgs.size(); i++) {
             Type lhsType = expectedArgs.get(i).getType();
             Type rhsType = actualArgs.get(i).getType();
 
             if (lhsType instanceof ActorType && rhsType instanceof ActorType) {
                     match &= inheritanceService.isAssignable((ActorType) lhsType, (ActorType) rhsType);
-            } else if (!rhsType.getClass().isAssignableFrom(lhsType.getClass()))
-                if (!(lhsType instanceof NoType) && !(rhsType instanceof NoType))
+            } else if (!(rhsType instanceof NoType) && !(lhsType instanceof NoType))
+                match = false;
+        }
+        return match;
+    }
+    private boolean checkMsgHandlerArgs(List<AnalysedType> expectedArgs, List<AnalysedType> actualArgs) {
+
+        boolean match = actualArgs.size() == expectedArgs.size();
+        if (!match)
+            return false;
+        for (int i = 0; i < expectedArgs.size(); i++) {
+            Type lhsType = expectedArgs.get(i).getType();
+            Type rhsType = actualArgs.get(i).getType();
+
+            if (lhsType instanceof ActorType || rhsType instanceof ActorType)
+                match = false;
+            else if (!rhsType.getClass().isAssignableFrom(lhsType.getClass()))
+                if (!(lhsType instanceof NoType) &&!(rhsType instanceof NoType))
                     match = false;
         }
         return match;
@@ -391,7 +415,7 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
                             .stream().map(arg -> new AnalysedType<>(arg.getType(), true))
                             .collect(Collectors.toList());
 
-                handlerIsAvailable = checkArgs(expectedArgs, actualArgs);
+                handlerIsAvailable = checkMsgHandlerArgs(expectedArgs, actualArgs);
             } catch (ItemNotFoundException e) {
                 handlerIsAvailable = false;
             }
