@@ -1,8 +1,8 @@
 package ast.type.actorType;
 
-import ast.type.Type;
 import ast.node.declaration.ActorDeclaration;
 import ast.node.expression.Identifier;
+import ast.type.Type;
 import visitor.Visitor;
 
 public class ActorType extends Type {
@@ -11,6 +11,11 @@ public class ActorType extends Type {
 
     public ActorType(Identifier name) {
         this.name = name;
+    }
+
+    public ActorType(ActorDeclaration actorDeclaration) {
+        this.actorDeclaration = actorDeclaration;
+        this.name = actorDeclaration.getName();
     }
 
     public ActorDeclaration getActorDeclaration() {

@@ -11,6 +11,7 @@ import ast.node.expression.values.BooleanValue;
 import ast.node.expression.values.IntValue;
 import ast.node.expression.values.StringValue;
 import ast.node.statement.*;
+import ast.type.NoType;
 import ast.type.actorType.ActorType;
 import ast.type.arrayType.ArrayType;
 import ast.type.primitiveType.BooleanType;
@@ -58,4 +59,5 @@ public interface Visitor<T> {
     T visit(StringType stringType);
     T visit(IntType intType);
     T visit(BooleanType booleanType);
+    T visit(NoType noType);
 }

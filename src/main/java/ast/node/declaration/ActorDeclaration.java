@@ -8,6 +8,7 @@ import visitor.Visitor;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ActorDeclaration extends Declaration {
     private ArrayList<VarDeclaration> knownActors = new ArrayList<>();
@@ -29,7 +30,7 @@ public class ActorDeclaration extends Declaration {
         this.name = name;
     }
 
-    public ArrayList<VarDeclaration> getKnownActors() {
+    public List<VarDeclaration> getKnownActors() {
         return knownActors;
     }
 

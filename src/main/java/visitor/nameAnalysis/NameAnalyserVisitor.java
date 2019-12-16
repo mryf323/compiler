@@ -11,6 +11,7 @@ import ast.node.expression.values.BooleanValue;
 import ast.node.expression.values.IntValue;
 import ast.node.expression.values.StringValue;
 import ast.node.statement.*;
+import ast.type.NoType;
 import ast.type.actorType.ActorType;
 import ast.type.arrayType.ArrayType;
 import ast.type.primitiveType.BooleanType;
@@ -329,6 +330,11 @@ public class NameAnalyserVisitor implements Visitor<Boolean> {
     @Override
     public Boolean visit(BooleanType booleanType) {
         return true;
+    }
+
+    @Override
+    public Boolean visit(NoType noType) {
+        return null;
     }
 
 }
