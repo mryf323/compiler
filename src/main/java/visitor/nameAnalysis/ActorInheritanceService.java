@@ -2,6 +2,7 @@ package visitor.nameAnalysis;
 
 import ast.node.declaration.ActorDeclaration;
 import ast.node.expression.Identifier;
+import ast.type.actorType.ActorType;
 import symbolTable.SymbolTable;
 import symbolTable.SymbolTableActorItem;
 import symbolTable.itemException.ItemNotFoundException;
@@ -80,4 +81,15 @@ public class ActorInheritanceService {
         return cyclicActors.contains(actor.getName());
     }
 
+    public boolean isAssignable(ActorType lhs, ActorType rhs) {
+        try {
+            SymbolTableActorItem rhsItem = (SymbolTableActorItem) SymbolTable.top.get(SymbolTableActorItem.STARTKEY +
+                    rhs.getName().getName());
+            return lhs.getName().equals(rhs.getName()) ||
+                    transitiveParents(rhsItem.getActorDeclaration())
+                            .stream().map(p -> p.getActorDeclaration().getName()).anyMatch(p -> lhs.getName().equals(p));
+        } catch (ItemNotFoundException e) {
+            return true;
+        }
+    }
 }

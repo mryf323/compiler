@@ -6,6 +6,7 @@ import ast.node.expression.Identifier;
 import ast.node.statement.Statement;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class HandlerDeclaration extends Declaration {
     Identifier name;
@@ -21,7 +22,7 @@ public abstract class HandlerDeclaration extends Declaration {
         this.name = name;
     }
 
-    public void setArgs(ArrayList<VarDeclaration> args) {
+    public void setArgs(List<VarDeclaration> args) {
         this.args = new ArrayList<VarDeclaration>(args);
     }
 

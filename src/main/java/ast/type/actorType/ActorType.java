@@ -1,24 +1,19 @@
 package ast.type.actorType;
 
-import ast.type.Type;
 import ast.node.declaration.ActorDeclaration;
 import ast.node.expression.Identifier;
+import ast.type.Type;
 import visitor.Visitor;
 
 public class ActorType extends Type {
-    private ActorDeclaration actorDeclaration;
     private Identifier name;
 
     public ActorType(Identifier name) {
         this.name = name;
     }
 
-    public ActorDeclaration getActorDeclaration() {
-        return actorDeclaration;
-    }
-
-    public void setActorDeclaration(ActorDeclaration actorDeclaration) {
-        this.actorDeclaration = actorDeclaration;
+    public ActorType(ActorDeclaration actorDeclaration) {
+        this.name = actorDeclaration.getName();
     }
 
     public Identifier getName() {

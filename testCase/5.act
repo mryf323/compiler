@@ -1,8 +1,0 @@
-actor A(5){
-   knownactors{
-   }
-   actorvars{
-   }
-}
-main {
-}

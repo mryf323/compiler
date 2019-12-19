@@ -13,4 +13,9 @@ public class IntType extends Type {
     public <T> T accept(Visitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof IntType;
+    }
 }

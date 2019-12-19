@@ -11,6 +11,7 @@ import ast.node.expression.values.BooleanValue;
 import ast.node.expression.values.IntValue;
 import ast.node.expression.values.StringValue;
 import ast.node.statement.*;
+import ast.type.NoType;
 import ast.type.actorType.ActorType;
 import ast.type.arrayType.ArrayType;
 import ast.type.primitiveType.BooleanType;
@@ -25,9 +26,6 @@ import symbolTable.symbolTableVariableItem.*;
 public class FirstPassSymbolTableInitializer implements Visitor<SymbolTable> {
 
     private VariableDeclarationZone variableDeclarationZone;
-
-    private int latestActorSequenceNumber = 0;
-
 
     @Override
     public SymbolTable visit(Program program) {
@@ -290,6 +288,11 @@ public class FirstPassSymbolTableInitializer implements Visitor<SymbolTable> {
     @Override
     public SymbolTable visit(BooleanType booleanType) {
         return SymbolTable.top;
+    }
+
+    @Override
+    public SymbolTable visit(NoType noType) {
+        return null;
     }
 }
 
