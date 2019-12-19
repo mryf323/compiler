@@ -243,7 +243,13 @@ msgHandlerCall returns [MsgHandlerCall synAst]
 
 expression returns [Expression synAst]
     :	orExpression {$synAst = $orExpression.synAst;}
-    (ASSIGN expression {$synAst = new BinaryExpression($orExpression.synAst, $expression.synAst, BinaryOperator.assign);})?
+    (
+        ASSIGN expression
+        {
+            $synAst = new BinaryExpression($orExpression.synAst, $expression.synAst, BinaryOperator.assign);
+            $synAst.setLine($ASSIGN.line);
+        }
+    )?
     ;
 
 orExpression returns [Expression synAst]
@@ -364,9 +370,10 @@ preUnaryExpression returns [Expression synAst]
 postUnaryExpression returns [Expression synAst]
     :   operand = otherExpression {UnaryOperator op = null;} (postUnaryOp {op = $postUnaryOp.synAst;})?
         {
-            if (op != null)
+            if (op != null) {
                 $synAst = new UnaryExpression(op, $operand.synAst);
-            else
+                $synAst.setLine($operand.start.getLine());
+            } else
                 $synAst = $operand.synAst;
         }
     ;

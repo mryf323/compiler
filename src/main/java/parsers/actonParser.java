@@ -1,32 +1,38 @@
 // Generated from /home/mryf/IdeaProjects/compiler/acton.g4 by ANTLR 4.7.2
 
 package parsers;
-import ast.node.declaration.handler.*;
-import ast.node.*;
-import ast.*;
+
+import ast.node.Main;
+import ast.node.Program;
+import ast.node.declaration.ActorDeclaration;
+import ast.node.declaration.ActorInstantiation;
+import ast.node.declaration.VarDeclaration;
+import ast.node.declaration.handler.InitHandlerDeclaration;
+import ast.node.declaration.handler.MsgHandlerDeclaration;
 import ast.node.expression.*;
-import ast.node.expression.values.*;
-import ast.node.statement.*;
-import ast.node.declaration.*;
-import ast.type.*;
-import ast.type.arrayType.*;
-import ast.type.primitiveType.*;
 import ast.node.expression.operators.BinaryOperator;
 import ast.node.expression.operators.UnaryOperator;
-import ast.node.expression.Identifier;
-import ast.type.actorType.*;
-import java.util.*;
-import parsers.actonLexer;
-import parsers.actonParser;
-
-import org.antlr.v4.runtime.atn.*;
-import org.antlr.v4.runtime.dfa.DFA;
+import ast.node.expression.values.BooleanValue;
+import ast.node.expression.values.IntValue;
+import ast.node.expression.values.StringValue;
+import ast.node.expression.values.Value;
+import ast.node.statement.*;
+import ast.type.actorType.ActorType;
+import ast.type.arrayType.ArrayType;
+import ast.type.primitiveType.BooleanType;
+import ast.type.primitiveType.IntType;
+import ast.type.primitiveType.StringType;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
-import org.antlr.v4.runtime.tree.*;
-import java.util.List;
-import java.util.Iterator;
+import org.antlr.v4.runtime.atn.ATN;
+import org.antlr.v4.runtime.atn.ATNDeserializer;
+import org.antlr.v4.runtime.atn.ParserATNSimulator;
+import org.antlr.v4.runtime.atn.PredictionContextCache;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class actonParser extends Parser {
@@ -1824,6 +1830,7 @@ public class actonParser extends Parser {
 	public static class ExpressionContext extends ParserRuleContext {
 		public Expression synAst;
 		public OrExpressionContext orExpression;
+		public Token ASSIGN;
 		public ExpressionContext expression;
 		public OrExpressionContext orExpression() {
 			return getRuleContext(OrExpressionContext.class,0);
@@ -1862,10 +1869,13 @@ public class actonParser extends Parser {
 			if (_la==ASSIGN) {
 				{
 				setState(377);
-				match(ASSIGN);
+				((ExpressionContext)_localctx).ASSIGN = match(ASSIGN);
 				setState(378);
 				((ExpressionContext)_localctx).expression = expression();
-				((ExpressionContext)_localctx).synAst =  new BinaryExpression(((ExpressionContext)_localctx).orExpression.synAst, ((ExpressionContext)_localctx).expression.synAst, BinaryOperator.assign);
+
+				            ((ExpressionContext)_localctx).synAst =  new BinaryExpression(((ExpressionContext)_localctx).orExpression.synAst, ((ExpressionContext)_localctx).expression.synAst, BinaryOperator.assign);
+				            _localctx.synAst.setLine((((ExpressionContext)_localctx).ASSIGN!=null?((ExpressionContext)_localctx).ASSIGN.getLine():0));
+				        
 				}
 			}
 
@@ -2595,9 +2605,10 @@ public class actonParser extends Parser {
 			}
 
 
-			            if (op != null)
+			            if (op != null) {
 			                ((PostUnaryExpressionContext)_localctx).synAst =  new UnaryExpression(op, ((PostUnaryExpressionContext)_localctx).operand.synAst);
-			            else
+			                _localctx.synAst.setLine((((PostUnaryExpressionContext)_localctx).operand!=null?(((PostUnaryExpressionContext)_localctx).operand.start):null).getLine());
+			            } else
 			                ((PostUnaryExpressionContext)_localctx).synAst =  ((PostUnaryExpressionContext)_localctx).operand.synAst;
 			        
 			}

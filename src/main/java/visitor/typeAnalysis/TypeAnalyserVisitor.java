@@ -19,7 +19,10 @@ import ast.type.arrayType.ArrayType;
 import ast.type.primitiveType.BooleanType;
 import ast.type.primitiveType.IntType;
 import ast.type.primitiveType.StringType;
-import symbolTable.*;
+import symbolTable.SymbolTable;
+import symbolTable.SymbolTableActorItem;
+import symbolTable.SymbolTableHandlerItem;
+import symbolTable.SymbolTableMainItem;
 import symbolTable.itemException.ItemNotFoundException;
 import symbolTable.symbolTableVariableItem.SymbolTableVariableItem;
 import visitor.Visitor;
@@ -29,9 +32,7 @@ import visitor.typeAnalysis.rule.unary.MinusRule;
 import visitor.typeAnalysis.rule.unary.MutatorOperatorRule;
 import visitor.typeAnalysis.rule.unary.NotRule;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static visitor.typeAnalysis.TypeAnalyserMessageSource.*;
@@ -72,7 +73,7 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
     }
 
     @Override
-    public AnalysedType visit(ActorDeclaration actorDec) {try {
+    public AnalysedType visit(ActorDeclaration actorDec) { try {
 
         if (actorDec.getParentName() != null) {
             AnalysedType parentType = visitActorId(actorDec.getParentName());
@@ -84,18 +85,6 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
 
         SymbolTable symbolTable = ((SymbolTableActorItem)
                 SymbolTable.top.get(SymbolTableActorItem.STARTKEY + actorDec.getName().getName())).getActorSymbolTable();
-
-        Map<String, SymbolTableItem> transitiveItems = inheritanceService.transitiveParents(actorDec)
-                .stream().flatMap(parent ->
-                        parent.getActorSymbolTable().getSymbolTableItems().entrySet().stream()
-                                .filter(item ->
-                                        !(item.getValue() instanceof SymbolTableHandlerItem) ||
-                                        !((SymbolTableHandlerItem) item.getValue())
-                                                .getHandlerDeclaration().getName().getName().equals("initial")
-                                )
-                ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-        symbolTable.getSymbolTableItems().putAll(transitiveItems);
 
         SymbolTable.push(symbolTable);
         this.currentActor = actorDec;
@@ -113,7 +102,7 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
         SymbolTable.pop();
         this.currentActor = null;
         return null;
-    }catch (ItemNotFoundException ignored){}return null;}
+    } catch (ItemNotFoundException ignored) {} return null;}
 
     @Override
     public AnalysedType visit(HandlerDeclaration handlerDec) {try{
@@ -135,8 +124,8 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
     public AnalysedType visit(VarDeclaration varDec) {
 
         AnalysedType varType = varDec.getType().accept(this);
-        if (varDec.getType().getClass().equals(ActorType.class) && varType.getType() instanceof NoType)
-            System.out.printf(UNDECLARED_ACTOR, varDec.getType().getLine(),
+        if (varDec.getType()instanceof ActorType && varType.getType() instanceof NoType)
+            System.out.printf(UNDECLARED_ACTOR, varDec.getLine(),
                     ((ActorType)varDec.getType()).getName().getName()
             );
 
@@ -159,10 +148,11 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
 
         AnalysedType type = visit((VarDeclaration) actorInstantiation);
 
-        if (type.getType() instanceof ActorType) {
-
-            ActorDeclaration actorDeclaration = ((ActorType) type.getType()).getActorDeclaration();
-            List<ActorDeclaration> parents = inheritanceService.transitiveParents(actorDeclaration)
+        if (type.getType() instanceof ActorType) { try {
+            SymbolTableActorItem actorItem = (SymbolTableActorItem) SymbolTable.top.get(SymbolTableActorItem.STARTKEY +
+                    ((ActorType) type.getType()).getName().getName());
+            ActorDeclaration actorDeclaration = actorItem.getActorDeclaration();
+/*            List<ActorDeclaration> parents = inheritanceService.transitiveParents(actorDeclaration)
                     .stream().map(SymbolTableActorItem::getActorDeclaration)
                     .collect(Collectors.collectingAndThen(Collectors.toList(), l -> {
                         Collections.reverse(l);
@@ -173,23 +163,28 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
             List<AnalysedType> expectedKnownActors = parents.stream()
                     .flatMap(p -> p.getKnownActors().stream())
                     .map(dec -> new AnalysedType<>(dec.getType(), true))
+                    .collect(Collectors.toList());*/
+
+            List<AnalysedType> expectedKnownActors = actorDeclaration.getKnownActors()
+                    .stream().map(dec -> new AnalysedType<>(dec.getType(), true))
                     .collect(Collectors.toList());
 
             List<AnalysedType> actualKnownActors = actorInstantiation.getKnownActors()
                     .stream().map(i -> i.accept(this))
                     .collect(Collectors.toList());
 
-            if(checkKnownActorArgs(expectedKnownActors, actualKnownActors))
+            if(!checkKnownActorArgs(expectedKnownActors, actualKnownActors))
                 System.out.printf(KNOWN_ACTOR_MISMATCH, actorInstantiation.getLine());
 
             if (actorDeclaration.getInitHandler() != null) {
                 MsgHandlerCall call = new MsgHandlerCall(actorInstantiation.getIdentifier(), new Identifier("initial"));
                 actorInstantiation.getInitArgs().forEach(call::addArg);
                 call.accept(this);
-            } else if (actorInstantiation.getInitArgs().size() > 0)
-                System.out.printf(UNDECLARED_HANDLER, actorInstantiation.getLine(), "initial", actorDeclaration.getName().getName());
-
-        }
+            } else if (actorInstantiation.getInitArgs().size() > 0) {
+                actorInstantiation.getInitArgs().forEach(arg -> arg.accept(this));
+                System.out.printf(MSG_HANDLER_ARG_MATCH, actorInstantiation.getLine());
+            }
+        }catch(ItemNotFoundException ignored){}}
         return null;
 
     }
@@ -254,6 +249,9 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
 
     @Override
     public AnalysedType visit(ActorVarAccess actorVarAccess) {
+        AnalysedType analysedType = actorVarAccess.getSelf().accept(this);
+        if (analysedType.getType() instanceof NoType)
+            return analysedType;
         return actorVarAccess.getVariable().accept(this);
     }
 
@@ -272,14 +270,18 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
 
     @Override
     public AnalysedType visit(Self self) {
-        return new AnalysedType<>(new ActorType(currentActor), false);
+        if (currentActor != null)
+            return new AnalysedType<>(new ActorType(currentActor), false);
+
+        System.out.printf(SELF_OUT_OF_ACTOR, self.getLine());
+        return AnalysedType.NO_TYPE;
     }
 
     @Override
     public AnalysedType visit(Sender sender) {
         if (inInitHandler)
             System.out.printf(NO_SENDER_IN_INITIAL, sender.getLine());
-        return AnalysedType.NO_TYPE;
+        return new AnalysedType<>(new ActorType(new Identifier("sender")), false);
     }
 
     @Override
@@ -308,7 +310,7 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
 
         AnalysedType type = conditional.getExpression().accept(this);
 
-        if (!type.getType().getClass().equals(BooleanType.class))
+        if (!(type.getType() instanceof NoType) && !(type.getType() instanceof BooleanType))
             System.out.printf(BOOL_CONDITION, conditional.getExpression().getLine());
 
         conditional.getThenBody().accept(this);
@@ -327,7 +329,7 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
 
         if (loop.getCondition() != null) {
             AnalysedType type = loop.getCondition().accept(this);
-            if (!type.getType().getClass().equals(BooleanType.class))
+            if (!(type.getType() instanceof NoType) && !(type.getType() instanceof BooleanType))
                 System.out.printf(BOOL_CONDITION, loop.getCondition().getLine());
         }
 
@@ -395,17 +397,18 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
 
         Expression ins = msgHandlerCall.getInstance();
         Type instanceType = ins.accept(this).getType();
-
-        if (!(instanceType instanceof NoType) && !(instanceType instanceof ActorType))
+        if (!(instanceType instanceof NoType) && !(instanceType instanceof ActorType)) {
             if (ins instanceof Identifier)
-                System.out.printf(NON_CALLABLE_VAR, ins.getLine(),((Identifier) ins).getName());
+                System.out.printf(NON_CALLABLE_VAR, ins.getLine(), ((Identifier) ins).getName());
             else
                 System.out.printf(NON_CALLABLE_VAR, ins.getLine(), "AN_EXPR");
 
-        else if (instanceType instanceof ActorType){
-            boolean handlerIsAvailable;
+        } else if (instanceType instanceof ActorType) {
             try {
-                SymbolTableHandlerItem handler = (SymbolTableHandlerItem) SymbolTable.top.get(
+                SymbolTableActorItem actorItem = (SymbolTableActorItem) SymbolTable.top.get(SymbolTableActorItem.STARTKEY +
+                        ((ActorType) instanceType).getName().getName());
+
+                SymbolTableHandlerItem handler = (SymbolTableHandlerItem) actorItem.getActorSymbolTable().get(
                         SymbolTableHandlerItem.STARTKEY + msgHandlerCall.getMsgHandlerName().getName()
                 );
                 List<AnalysedType> actualArgs = msgHandlerCall.getArgs()
@@ -415,17 +418,16 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
                             .stream().map(arg -> new AnalysedType<>(arg.getType(), true))
                             .collect(Collectors.toList());
 
-                handlerIsAvailable = checkMsgHandlerArgs(expectedArgs, actualArgs);
+                boolean argMatch = checkMsgHandlerArgs(expectedArgs, actualArgs);
+                if (!argMatch)
+                    System.out.printf(MSG_HANDLER_ARG_MATCH, msgHandlerCall.getLine());
             } catch (ItemNotFoundException e) {
-                handlerIsAvailable = false;
-            }
-
-            if (! handlerIsAvailable)
                 System.out.printf(
                         UNDECLARED_HANDLER,
                         msgHandlerCall.getLine(), msgHandlerCall.getMsgHandlerName().getName(),
                         ((ActorType) instanceType).getName().getName()
                 );
+            }
 
         }
         return null;
@@ -443,9 +445,13 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
     public AnalysedType visit(Assign assign) {
         AnalysedType lType = assign.getlValue().accept(this);
         AnalysedType rType = assign.getrValue().accept(this);
-        return new AssignmentRule(
-                new BinaryExpression(assign.getlValue(), assign.getrValue(), BinaryOperator.assign)
-        ).apply(lType, rType);
+        BinaryExpression assignExpr = new BinaryExpression(
+                assign.getlValue(),
+                assign.getrValue(),
+                BinaryOperator.assign
+        );
+        assignExpr.setLine(assign.getLine());
+        return new AssignmentRule(assignExpr).apply(lType, rType);
     }
 
     @Override

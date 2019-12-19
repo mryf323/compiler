@@ -6,8 +6,9 @@ import parsers.actonLexer;
 import parsers.actonParser;
 import symbolTable.SymbolTable;
 import visitor.FirstPassSymbolTableInitializer;
-import visitor.nameAnalysis.AstPrinter;
 import visitor.nameAnalysis.NameAnalyserVisitor;
+import visitor.typeAnalysis.InheritedSymbolTableFiller;
+import visitor.typeAnalysis.TypeAnalyserVisitor;
 
 import java.io.IOException;
 
@@ -22,8 +23,10 @@ public class Acton {
         actonParser parser = new actonParser(tokens);
         Program program = parser.program().p; /* assuming that the name of the Program ast node that the program rule returns is p */
         SymbolTable global = new FirstPassSymbolTableInitializer().visit(program);
+        new InheritedSymbolTableFiller(global).fill(program.getActors());
         boolean success = new NameAnalyserVisitor(global).visit(program);
-        if(success)
-            new AstPrinter().visit(program);
+        /*if(success)
+            new AstPrinter().visit(program);*/
+        new TypeAnalyserVisitor(global).visit(program);
     }
 }

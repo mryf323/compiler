@@ -6,7 +6,6 @@ import ast.type.Type;
 import visitor.Visitor;
 
 public class ActorType extends Type {
-    private ActorDeclaration actorDeclaration;
     private Identifier name;
 
     public ActorType(Identifier name) {
@@ -14,16 +13,7 @@ public class ActorType extends Type {
     }
 
     public ActorType(ActorDeclaration actorDeclaration) {
-        this.actorDeclaration = actorDeclaration;
         this.name = actorDeclaration.getName();
-    }
-
-    public ActorDeclaration getActorDeclaration() {
-        return actorDeclaration;
-    }
-
-    public void setActorDeclaration(ActorDeclaration actorDeclaration) {
-        this.actorDeclaration = actorDeclaration;
     }
 
     public Identifier getName() {

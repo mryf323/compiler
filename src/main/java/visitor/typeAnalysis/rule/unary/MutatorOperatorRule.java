@@ -21,9 +21,11 @@ public class MutatorOperatorRule extends IntConsumer {
                 case preinc:
                 case postinc:
                     System.out.printf(INC_ON_RVALUE, expression.getLine());
+                    break;
                 case predec:
                 case postdec:
                     System.out.printf(DEC_ON_RVALUE, expression.getLine());
+                    break;
             }
             return AnalysedType.NO_TYPE;
         }

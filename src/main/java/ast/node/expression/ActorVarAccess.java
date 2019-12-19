@@ -12,6 +12,7 @@ public class ActorVarAccess extends Expression {
     public ActorVarAccess(@Nonnull Identifier variableName) {
         this.variableName = variableName;
         this.self = new Self();
+        this.self.setLine(variableName.getLine());
     }
 
     public Identifier getVariable() {

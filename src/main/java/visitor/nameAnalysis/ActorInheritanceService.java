@@ -82,8 +82,14 @@ public class ActorInheritanceService {
     }
 
     public boolean isAssignable(ActorType lhs, ActorType rhs) {
-        return lhs.getName().equals(rhs.getName()) ||
-        transitiveParents(rhs.getActorDeclaration())
-                .stream().map(p -> p.getActorDeclaration().getName()).anyMatch(p -> lhs.getName().equals(p));
+        try {
+            SymbolTableActorItem rhsItem = (SymbolTableActorItem) SymbolTable.top.get(SymbolTableActorItem.STARTKEY +
+                    rhs.getName().getName());
+            return lhs.getName().equals(rhs.getName()) ||
+                    transitiveParents(rhsItem.getActorDeclaration())
+                            .stream().map(p -> p.getActorDeclaration().getName()).anyMatch(p -> lhs.getName().equals(p));
+        } catch (ItemNotFoundException e) {
+            return true;
+        }
     }
 }

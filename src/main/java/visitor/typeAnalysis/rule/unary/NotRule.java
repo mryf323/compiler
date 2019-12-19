@@ -1,6 +1,7 @@
 package visitor.typeAnalysis.rule.unary;
 
 import ast.node.expression.UnaryExpression;
+import ast.type.NoType;
 import ast.type.primitiveType.BooleanType;
 import visitor.typeAnalysis.AnalysedType;
 
@@ -13,10 +14,11 @@ public class NotRule extends UnaryConsumer {
     }
 
     @Override
-    protected AnalysedType consume(AnalysedType operand) {
+    public AnalysedType apply(AnalysedType operand) {
         if (operand.getType() instanceof BooleanType)
             return new AnalysedType<>(new BooleanType(), false);
-        System.out.printf(UNSUPPORTED_OPERATOR, expression.getLine(), expression.getUnaryOperator());
+        else if (!(operand.getType() instanceof NoType))
+            System.out.printf(UNSUPPORTED_OPERATOR, expression.getLine(), expression.getUnaryOperator());
         return AnalysedType.NO_TYPE;
     }
 }

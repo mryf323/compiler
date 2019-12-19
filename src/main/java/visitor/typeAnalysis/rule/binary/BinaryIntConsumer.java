@@ -1,9 +1,11 @@
 package visitor.typeAnalysis.rule.binary;
 
 import ast.node.expression.BinaryExpression;
-import ast.type.Type;
+import ast.type.NoType;
 import ast.type.primitiveType.IntType;
 import visitor.typeAnalysis.AnalysedType;
+
+import java.util.stream.Stream;
 
 import static visitor.typeAnalysis.TypeAnalyserMessageSource.UNSUPPORTED_OPERATOR;
 
@@ -16,15 +18,19 @@ public abstract class BinaryIntConsumer extends BinaryConsumer {
 
     protected abstract AnalysedType consumeInt(AnalysedType lhs, AnalysedType rhs);
 
-    public final AnalysedType consume(AnalysedType lhs, AnalysedType rhs){
+    public final AnalysedType apply(AnalysedType lhs, AnalysedType rhs){
 
-        Type lhsType = lhs.getType();
-        Type rhsType = rhs.getType();
-        if (!(lhsType instanceof IntType) || !(rhsType instanceof IntType)) {
+
+        boolean unsupportedType = Stream.of(lhs.getType(), rhs.getType())
+                .anyMatch(operand -> !(operand instanceof NoType) && !(operand instanceof IntType));
+        if (unsupportedType)
             System.out.printf(UNSUPPORTED_OPERATOR, expression.getLine(), expression.getBinaryOperator());
-            return AnalysedType.NO_TYPE;
-        } else
+
+        if (lhs.getType() instanceof IntType && rhs.getType() instanceof IntType)
             return consumeInt(lhs, rhs);
+
+        return AnalysedType.NO_TYPE;
+
 
     }
 }
