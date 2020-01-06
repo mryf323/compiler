@@ -24,6 +24,7 @@ import symbolTable.SymbolTableActorItem;
 import symbolTable.SymbolTableHandlerItem;
 import symbolTable.SymbolTableMainItem;
 import symbolTable.itemException.ItemNotFoundException;
+import symbolTable.symbolTableVariableItem.SymbolTableActorVariableItem;
 import symbolTable.symbolTableVariableItem.SymbolTableVariableItem;
 import visitor.Visitor;
 import visitor.nameAnalysis.ActorInheritanceService;
@@ -195,15 +196,22 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
         AnalysedType analysedType = unaryExpression.getOperand().accept(this);
         switch (unaryExpression.getUnaryOperator()) {
             case not:
-                return new NotRule(unaryExpression).apply(analysedType);
+                AnalysedType apply = new NotRule(unaryExpression).apply(analysedType);
+                unaryExpression.setType(apply.getType());
+                return apply;
             case minus:
-                return new MinusRule(unaryExpression).apply(analysedType);
+                AnalysedType apply1 = new MinusRule(unaryExpression).apply(analysedType);
+                unaryExpression.setType(apply1.getType());
+                return apply1;
             case postdec:
             case predec:
             case postinc:
             case preinc:
-                return new MutatorOperatorRule(unaryExpression).apply(analysedType);
+                AnalysedType apply2 = new MutatorOperatorRule(unaryExpression).apply(analysedType);
+                unaryExpression.setType(apply2.getType());
+                return apply2;
         }
+        unaryExpression.setType(new NoType());
         return AnalysedType.NO_TYPE;
     }
 
@@ -212,27 +220,35 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
 
         AnalysedType left = binaryExpression.getLeft().accept(this);
         AnalysedType right = binaryExpression.getRight().accept(this);
-
+        AnalysedType result;
         switch (binaryExpression.getBinaryOperator()){
             case assign:
-                return new AssignmentRule(binaryExpression).apply(left, right);
+                result = new AssignmentRule(binaryExpression).apply(left, right);
+                break;
             case eq:
             case neq:
-                return new EqualityRule(binaryExpression).apply(left, right);
+                result = new EqualityRule(binaryExpression).apply(left, right);
+                break;
             case and:
             case or:
-                return new AndOrRule(binaryExpression).apply(left, right);
+                result = new AndOrRule(binaryExpression).apply(left, right);
+                break;
             case gt:
             case lt:
-                return new GtLtRule(binaryExpression).apply(left, right);
+                 result = new GtLtRule(binaryExpression).apply(left, right);
+                 break;
             case sub:
             case add:
             case mult:
             case div:
             case mod:
-                return new ArithmeticRule(binaryExpression).apply(left, right);
+                result = new ArithmeticRule(binaryExpression).apply(left, right);
+                break;
+            default:
+                result = AnalysedType.NO_TYPE;
         }
-        return AnalysedType.NO_TYPE;
+        binaryExpression.setType(result.getType());
+        return result;
     }
 
     @Override
@@ -241,18 +257,34 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
         AnalysedType instanceType = arrayCall.getArrayInstance().accept(this);
         AnalysedType indexType = arrayCall.getIndex().accept(this);
 
-        if (instanceType.getType() instanceof ArrayType && indexType.getType() instanceof IntType)
+        if (instanceType.getType() instanceof ArrayType && indexType.getType() instanceof IntType) {
+            arrayCall.setType(new IntType());
             return new AnalysedType<>(new IntType(), instanceType.islValue());
-
+        }
+        arrayCall.setType(new NoType());
         return AnalysedType.NO_TYPE;
     }
 
     @Override
     public AnalysedType visit(ActorVarAccess actorVarAccess) {
         AnalysedType analysedType = actorVarAccess.getSelf().accept(this);
-        if (analysedType.getType() instanceof NoType)
+        if (analysedType.getType() instanceof NoType) {
+            actorVarAccess.setType(analysedType.getType());
             return analysedType;
-        return actorVarAccess.getVariable().accept(this);
+        }
+        String var = actorVarAccess.getVariable().getName();
+        try {
+            SymbolTableVariableItem item = (SymbolTableVariableItem) SymbolTable.top.getPreSymbolTable()
+                    .get(SymbolTableActorVariableItem.STARTKEY + var);
+            actorVarAccess.setType(item.getType());
+            actorVarAccess.getVariable().setType(item.getType());
+            return new AnalysedType<>(item.getType(), true);
+        } catch (ItemNotFoundException ignored) {
+            System.out.printf(UNDECLARED_VAR, actorVarAccess.getLine(), var);
+            actorVarAccess.getVariable().setType(new NoType());
+            actorVarAccess.setType(new NoType());
+            return AnalysedType.NO_TYPE;
+        }
     }
 
     @Override
@@ -261,19 +293,23 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
         try {
             SymbolTableVariableItem item = (SymbolTableVariableItem) SymbolTable.top
                     .get(SymbolTableVariableItem.STARTKEY + identifier.getName());
+            identifier.setType(item.getType());
             return new AnalysedType<>(item.getType(), true);
         } catch (ItemNotFoundException ignored) {
             System.out.printf(UNDECLARED_VAR, identifier.getLine(), identifier.getName());
+            identifier.setType(new NoType());
             return AnalysedType.NO_TYPE;
         }
     }
 
     @Override
     public AnalysedType visit(Self self) {
-        if (currentActor != null)
+        if (currentActor != null) {
+            self.setType(new ActorType(currentActor));
             return new AnalysedType<>(new ActorType(currentActor), false);
-
+        }
         System.out.printf(SELF_OUT_OF_ACTOR, self.getLine());
+        self.setType(new NoType());
         return AnalysedType.NO_TYPE;
     }
 
@@ -281,21 +317,26 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
     public AnalysedType visit(Sender sender) {
         if (inInitHandler)
             System.out.printf(NO_SENDER_IN_INITIAL, sender.getLine());
-        return new AnalysedType<>(new ActorType(new Identifier("sender")), false);
+        ActorType type = new ActorType(new Identifier("Actor"));
+        sender.setType(type);
+        return new AnalysedType<>(type, false);
     }
 
     @Override
     public AnalysedType visit(BooleanValue value) {
+        value.setType(new BooleanType());
         return new AnalysedType<>(new BooleanType(), false);
     }
 
     @Override
     public AnalysedType visit(IntValue value) {
+        value.setType(new IntType());
         return new AnalysedType<>(new IntType(), false);
     }
 
     @Override
     public AnalysedType visit(StringValue value) {
+        value.setType(new StringType());
         return new AnalysedType<>(new StringType(), false);
     }
 
