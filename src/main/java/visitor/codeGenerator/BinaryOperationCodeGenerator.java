@@ -65,10 +65,10 @@ public class BinaryOperationCodeGenerator {
         if (type instanceof BooleanType || type instanceof IntType)
             compareStatements("neq", "ne");
 
-        if (type instanceof StringType)
+        if (type instanceof StringType) {
             currentWriter.println("invokevirtual java/lang/String/equals(Ljava/lang/Object;)Z");
-        unaryOperatorCodeGenerator.notStatement();
-
+            unaryOperatorCodeGenerator.notStatement();
+        }
 
         if (type instanceof ActorType) {
             currentWriter.println("invokevirtual java/lang/Object/equals(Ljava/lang/Object;)Z");

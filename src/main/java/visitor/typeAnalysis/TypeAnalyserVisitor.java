@@ -445,30 +445,30 @@ public class TypeAnalyserVisitor implements Visitor<AnalysedType> {
                 System.out.printf(NON_CALLABLE_VAR, ins.getLine(), "AN_EXPR");
 
         } else if (instanceType instanceof ActorType) {
-            try {
-                SymbolTableActorItem actorItem = (SymbolTableActorItem) SymbolTable.top.get(SymbolTableActorItem.STARTKEY +
+            //try {
+                /*SymbolTableActorItem actorItem = (SymbolTableActorItem) SymbolTable.top.get(SymbolTableActorItem.STARTKEY +
                         ((ActorType) instanceType).getName().getName());
-
-                SymbolTableHandlerItem handler = (SymbolTableHandlerItem) actorItem.getActorSymbolTable().get(
+*/
+                /*SymbolTableHandlerItem handler = (SymbolTableHandlerItem) actorItem.getActorSymbolTable().get(
                         SymbolTableHandlerItem.STARTKEY + msgHandlerCall.getMsgHandlerName().getName()
-                );
+                );*/
                 List<AnalysedType> actualArgs = msgHandlerCall.getArgs()
                             .stream().map(arg -> arg.accept(this)).collect(Collectors.toList());
-
+                /*
                     List<AnalysedType> expectedArgs = handler.getHandlerDeclaration().getArgs()
                             .stream().map(arg -> new AnalysedType<>(arg.getType(), true))
                             .collect(Collectors.toList());
 
                 boolean argMatch = checkMsgHandlerArgs(expectedArgs, actualArgs);
                 if (!argMatch)
-                    System.out.printf(MSG_HANDLER_ARG_MATCH, msgHandlerCall.getLine());
-            } catch (ItemNotFoundException e) {
-                System.out.printf(
-                        UNDECLARED_HANDLER,
-                        msgHandlerCall.getLine(), msgHandlerCall.getMsgHandlerName().getName(),
-                        ((ActorType) instanceType).getName().getName()
-                );
-            }
+                    System.out.printf(MSG_HANDLER_ARG_MATCH, msgHandlerCall.getLine());*/
+//            } catch (ItemNotFoundException e) {
+//                System.out.printf(
+//                        UNDECLARED_HANDLER,
+//                        msgHandlerCall.getLine(), msgHandlerCall.getMsgHandlerName().getName(),
+//                        ((ActorType) instanceType).getName().getName()
+//                );
+//            }
 
         }
         return null;

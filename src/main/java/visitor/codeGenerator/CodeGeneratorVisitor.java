@@ -422,12 +422,14 @@ public class CodeGeneratorVisitor implements Visitor<Void> {
 
     @Override
     public Void visit(UnaryExpression unaryExpression) {
-        unaryExpression.getOperand().accept(this);
+
         switch (unaryExpression.getUnaryOperator()) {
             case not:
+                unaryExpression.getOperand().accept(this);
                 new UnaryOperatorCodeGenerator(currentWriter, labelCounter).notStatement();
                 break;
             case minus:
+                unaryExpression.getOperand().accept(this);
                 currentWriter.println("ineg");
                 break;
             case predec:
@@ -437,7 +439,7 @@ public class CodeGeneratorVisitor implements Visitor<Void> {
                                 new IntValue(1, new IntType()),
                                 BinaryOperator.sub
                         )
-                );
+                ).accept(this);
                 unaryExpression.getOperand().accept(this);
                 break;
             case postdec:
@@ -448,7 +450,7 @@ public class CodeGeneratorVisitor implements Visitor<Void> {
                                 new IntValue(1, new IntType())
                                 , BinaryOperator.sub
                         )
-                );
+                ).accept(this);
                 break;
             case preinc:
                 new Assign(unaryExpression.getOperand(),
@@ -457,7 +459,7 @@ public class CodeGeneratorVisitor implements Visitor<Void> {
                                 new IntValue(1, new IntType()),
                                 BinaryOperator.add
                         )
-                );
+                ).accept(this);
                 unaryExpression.getOperand().accept(this);
                 break;
             case postinc:
@@ -468,7 +470,7 @@ public class CodeGeneratorVisitor implements Visitor<Void> {
                                 new IntValue(1, new IntType())
                                 , BinaryOperator.add
                         )
-                );
+                ).accept(this);
                 break;
         }
 
@@ -664,18 +666,21 @@ public class CodeGeneratorVisitor implements Visitor<Void> {
             loop.getInitialize().accept(this);
 
         String prefix = "loop_" + labelCounter.getAndIncrement();
-        continueLabel.push(prefix + "_begin");
+        String start = prefix + "_begin";
+        continueLabel.push(prefix + "update");
         breakLabel.push(prefix + "_end");
-        currentWriter.println(continueLabel.peek() + ":");
+        currentWriter.println(start + ":");
         if (condition != null)
             condition.accept(this);
         else
             currentWriter.println("iconst_1");
         currentWriter.println("ifeq " + breakLabel.peek());
         body.accept(this);
-        if (loop.getUpdate() != null)
+        currentWriter.println(prefix + "update:");
+        if (loop.getUpdate() != null) {
             loop.getUpdate().accept(this);
-        currentWriter.println("goto " + continueLabel.peek());
+        }
+        currentWriter.println("goto " + start);
         currentWriter.println(breakLabel.peek() + ":");
         continueLabel.pop();
         breakLabel.pop();
@@ -714,46 +719,15 @@ public class CodeGeneratorVisitor implements Visitor<Void> {
         return null;
     }
 
-    private void print(String type) {
-        currentWriter.println("getstatic java/lang/System/out Ljava/io/PrintStream;");
-        currentWriter.println("invokevirtual java/io/PrintStream/print(" + type + ")V");
-    }
-
-    private void printArray(Identifier array) {
-        try {
-            SymbolTableVariableItem item = (SymbolTableVariableItem) SymbolTable.top.get(SymbolTableVariableItem.STARTKEY + array.getName());
-            int arraySize = ((ArrayType) (array.getType())).getSize();
-
-            currentWriter.println("ldc \"[\"");
-            print("Ljava/lang/String;");
-
-            for (int i = 0; i < arraySize; ++i) {
-                currentWriter.println("aload " + item.getIndex());
-                currentWriter.println("bipush " + Integer.toString(i));
-                currentWriter.println("iaload");
-                print("I");
-                if (i != (arraySize - 1))
-                    currentWriter.println("ldc \", \"");
-                else
-                    break;
-
-                print("Ljava/lang/String;");
-            }
-            currentWriter.println("\tldc \"]\n\"");
-
-            print("Ljava/lang/String;");
-        } catch (ItemNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public Void visit(Print print) {
         currentWriter.println("getstatic java/lang/System/out Ljava/io/PrintStream;");
         print.getArg().accept(this);
         Type type = print.getArg().getType();
-        if (type instanceof ArrayType)
-            printArray((Identifier) print.getArg());
+        if (type instanceof ArrayType) {
+            currentWriter.println("invokestatic java/util/Arrays/toString([I)Ljava/lang/String;");
+            currentWriter.println("invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V");
+        }
         else
             currentWriter.printf("invokevirtual java/io/PrintStream/println(%s)V%n", getJasminType(type));
         return null;
